@@ -1,0 +1,17 @@
+[
+    {
+        "setMenuName": "A套餐",
+        "setMenuPrice": 55,
+        "setMenuDescription": "一杯飲料"
+    },
+    {
+        "setMenuName": "B套餐",
+        "setMenuPrice": 70,
+        "setMenuDescription": "飲料與麵包"
+    },
+    {
+        "setMenuName": "C套餐",
+        "setMenuPrice": 110,
+        "setMenuDescription": "飲料、麵包與今日例湯"
+    }
+]
