@@ -1,8 +1,12 @@
 <template>
-  <div class="container" v-if="category">
+  <div class="container">
     <div class="row row-cols-1 row-cols-md-2 g-4 p-3">
       <div class="col" v-for="meal in mealsOfType" :key="meal.idMeal">
-        <div class="card bg-warning bg-gradient overflow-hidden" style="--bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0));">
+        <div class="card bg-warning bg-gradient overflow-hidden"
+          style="--bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0));"
+          data-bs-toggle="modal"
+          data-bs-target="#productModal"
+          @click="$emit('selectProduct', meal)">
           <div class="row g-0">
             <div class="col-4"><img :src="meal.strMealThumb" class="img-fluid shadow-sm" style="--bs-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);" :alt="meal.strMeal"></div>
             <div class="col-8">
@@ -16,7 +20,6 @@
       </div>
     </div>
   </div>
-  <p v-else class="h2 text-center py-4 text-light" style="height: 80vh; background-color: #888;">請選擇餐點類別</p>
 </template>
 
 <script>
@@ -40,5 +43,7 @@ export default {
 </script>
 
 <style scoped>
-
+.card[data-bs-toggle="modal"] {
+  cursor: pointer;
+}
 </style>

@@ -5,18 +5,32 @@
     </div>
   </div>
   <CategoryNav></CategoryNav>
-  <RouterView></RouterView>
+  <ProductWindow :mealPropped="mealProps"></ProductWindow>
+  <RouterView @selectProduct="selectProduct"></RouterView>
+  <div v-if="$route.fullPath === '/'" class="h2 text-center py-4 text-light" style="height: 80vh; background-color: #888;">請選擇餐點類別</div>
 </template>
 
 <script>
 import CategoryNav from '@/components/CategoryNav.vue'
+import ProductWindow from '@/components/ProductWindow.vue'
 
 export default {
   components: {
-    CategoryNav
+    CategoryNav,
+    ProductWindow
   },
   props: [
     'diningHours'
-  ]
+  ],
+  data () {
+    return {
+      mealProps: {}
+    }
+  },
+  methods: {
+    selectProduct (meal) {
+      this.mealProps = meal
+    }
+  }
 }
 </script>

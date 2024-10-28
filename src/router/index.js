@@ -6,19 +6,23 @@ const routes = [
   {
     path: '/',
     component: MenuPage,
+    redirect: '/Beef',
     children: [
       {
-        path: 'mealview/:category?',
-        // path: ':category?',
+        path: ':category?',
         component: MealView,
         props: (route) => {
-          console.log(route)
+          console.log('路由狀態：', route)
           return {
             category: route.params.category
           }
         }
       }
     ]
+  },
+  {
+    path: '/cart',
+    component: () => import('../views/CartPage.vue')
   }
 
 ]

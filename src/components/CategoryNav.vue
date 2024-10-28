@@ -2,10 +2,10 @@
   <ul class="nav nav-tabs flex-nowrap overflow-x-auto overflow-y-hidden" style="background-color: rgb(206 165 43);">
     <li class="nav-item" v-for="category in categoryList" :key="category">
       <RouterLink
-        :to="{path: `/mealview/${category}`}"
+        :to="{path: `/${category}`}"
         class="nav-link text-light"
         :class="{active: false}"
-        style="--bs-nav-tabs-link-active-bg: #666;">{{ category }}</RouterLink>
+      >{{ category }}</RouterLink>
     </li>
   </ul>
 </template>
@@ -19,3 +19,13 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.nav-link:hover {
+  background-color: #0002;
+}
+
+.nav-link.active {
+  background-color: #666;
+}
+</style>

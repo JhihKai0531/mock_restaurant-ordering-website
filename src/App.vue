@@ -1,44 +1,25 @@
 <template>
-  <nav class="navbar navbar-expand-lg bg-warning-subtle">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#"><span class="lead">肉之家</span><span class="fs-6" style="color: rgb(207 160 13);">異國料理</span></a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Features</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Pricing</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
+  <MainNavBar></MainNavBar>
   <router-view :diningHours="diningHours" />
 </template>
 
 <script>
 import setMenuJson from '@/assets/set_menu.json'
-import 'bootstrap'
+import MainNavBar from '@/components/MainNavBar.vue'
 
 export default {
+  components: {
+    MainNavBar
+  },
   data () {
     return {
       categoryList: [],
       mealList: [],
-      setMenuList: [],
+      setMenuList: setMenuJson,
       dateTime: '',
       tableNumber: '',
-      guestsCount: ''
+      guestsCount: '',
+      cartData: []
     }
   },
   computed: {
@@ -56,7 +37,7 @@ export default {
     return {
       categoryList: this.categoryList,
       mealList: this.mealList,
-      setMenuList: this.setMenuList
+      cartData: this.cartData
     }
   },
   methods: {
@@ -70,7 +51,6 @@ export default {
           jsonCategory.meals.forEach(category => {
             this.categoryList.push(category.strCategory)
           })
-          // console.log('list of categories:', this.categoryList)
           console.log('餐點類別建立完成。種類：', this.categoryList)
 
           // 依據每個種類，分別請求對應的食物清單
@@ -83,15 +63,7 @@ export default {
               this.mealList.push(mealObject)
             })
           }
-          // console.log('list of meals:', this.mealList)
           console.log('餐點清單建立完成。前十項：', this.mealList.slice(0, 10))
-
-          // 取得套餐資料，套餐資料為本地建立
-          setMenuJson.forEach(set => {
-            this.setMenuList.push(set)
-          })
-          // console.log('list of set menus:', this.setMenuList)
-          console.log('套餐列表建立完成。套餐：', this.setMenuList)
         } catch (err) {
           console.error(err)
         }
@@ -104,16 +76,15 @@ export default {
   created () {
     this.getData()
     this.calcDateTime()
+  },
+  updated () {
+    this.calcDateTime()
   }
 }
 </script>
 
 <style lang="scss">
-@import 'Bootstrap';
+// @import 'Bootstrap';
+@import "bootstrap/scss/bootstrap";
 
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
 </style>
