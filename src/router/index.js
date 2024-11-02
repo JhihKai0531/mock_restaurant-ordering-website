@@ -12,7 +12,7 @@ const routes = [
         path: ':category?',
         component: MealView,
         props: (route) => {
-          console.log('路由狀態：', route)
+          // console.log('路由狀態：', route)
           return {
             category: route.params.category
           }
@@ -23,8 +23,19 @@ const routes = [
   {
     path: '/cart',
     component: () => import('../views/CartPage.vue')
+  },
+  {
+    path: '/order-history',
+    component: () => import('../views/OrderHistoryPage.vue')
+  },
+  {
+    path: '/about-us',
+    component: () => import('../views/AboutUsPage.vue')
+  },
+  {
+    path: '/contact-us',
+    component: () => import('../views/ContactUsPage.vue')
   }
-
 ]
 
 const router = createRouter({

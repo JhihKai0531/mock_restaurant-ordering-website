@@ -17,9 +17,10 @@ export default {
       mealList: [],
       setMenuList: setMenuJson,
       dateTime: '',
-      tableNumber: '',
-      guestsCount: '',
-      cartData: []
+      tableNumber: { value: '' },
+      guestsCount: { value: 1 },
+      cartData: [],
+      orderHistory: []
     }
   },
   computed: {
@@ -37,7 +38,10 @@ export default {
     return {
       categoryList: this.categoryList,
       mealList: this.mealList,
-      cartData: this.cartData
+      cartData: this.cartData,
+      guestsCount: this.guestsCount,
+      tableNumber: this.tableNumber,
+      orderHistory: this.orderHistory
     }
   },
   methods: {
@@ -76,15 +80,16 @@ export default {
   created () {
     this.getData()
     this.calcDateTime()
-  },
-  updated () {
-    this.calcDateTime()
   }
 }
 </script>
 
 <style lang="scss">
-// @import 'Bootstrap';
-@import "bootstrap/scss/bootstrap";
+@import "~bootstrap/scss/bootstrap";
+$bootstrap-icons-font-dir: "~bootstrap-icons/font/fonts";
+@import "~bootstrap-icons/font/bootstrap-icons.scss";
 
+body:has(.fixed-bottom) {
+  padding-bottom: 60px;
+}
 </style>

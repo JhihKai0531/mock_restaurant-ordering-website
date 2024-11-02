@@ -6,9 +6,12 @@
           style="--bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0));"
           data-bs-toggle="modal"
           data-bs-target="#productModal"
-          @click="$emit('selectProduct', meal)">
+          @click="$emit('selectProduct', meal)"
+          :title="meal.strMeal">
           <div class="row g-0">
-            <div class="col-4"><img :src="meal.strMealThumb" class="img-fluid shadow-sm" style="--bs-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);" :alt="meal.strMeal"></div>
+            <div class="col-4">
+              <img :src="meal.strMealThumb" class="img-fluid shadow-sm" style="--bs-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);" :alt="meal.strMeal">
+            </div>
             <div class="col-8">
               <div class="card-body">
                 <h5 class="card-title">{{ meal.strMeal }}</h5>

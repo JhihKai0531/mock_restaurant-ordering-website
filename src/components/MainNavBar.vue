@@ -1,23 +1,20 @@
 <template>
-  <nav class="navbar navbar-expand-lg bg-warning-subtle">
+  <nav class="navbar navbar-expand-sm bg-warning-subtle">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#"><span class="lead">肉之家</span><span class="fs-6" style="color: rgb(207 160 13);">異國料理</span></a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <RouterLink class="navbar-brand" to="/" title="首頁">
+        <span class="lead">肉之家</span>
+        <span class="fs-6" style="color: rgb(207 160 13);">異國料理</span>
+      </RouterLink>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbarNav">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
+      <div class="collapse navbar-collapse" id="mainNavbarNav">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link active" href="#">Home</a>
+            <RouterLink to="/about-us" class="nav-link">關於我們</RouterLink>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Features</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Pricing</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled">Disabled</a>
+            <RouterLink to="/contact-us" class="nav-link">聯絡我們</RouterLink>
           </li>
         </ul>
       </div>
