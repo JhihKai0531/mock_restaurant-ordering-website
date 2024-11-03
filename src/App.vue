@@ -55,7 +55,7 @@ export default {
           jsonCategory.meals.forEach(category => {
             this.categoryList.push(category.strCategory)
           })
-          console.log('餐點類別建立完成。種類：', this.categoryList)
+          // console.log('餐點類別建立完成。種類：', this.categoryList)
 
           // 依據每個種類，分別請求對應的食物清單
           for (const category of this.categoryList) {
@@ -67,7 +67,7 @@ export default {
               this.mealList.push(mealObject)
             })
           }
-          console.log('餐點清單建立完成。前十項：', this.mealList.slice(0, 10))
+          // console.log('餐點清單建立完成。前十項：', this.mealList.slice(0, 10))
         } catch (err) {
           console.error(err)
         }

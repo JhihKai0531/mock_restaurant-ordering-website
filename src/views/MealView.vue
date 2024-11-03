@@ -35,12 +35,6 @@ export default {
         return item.category === this.category
       })
     }
-  },
-  methods: {
-
-  },
-  created () {
-
   }
 }
 </script>

@@ -40,8 +40,8 @@
         <RouterLink to="/" title="首頁" class="text-body-tertiary">點餐去</RouterLink>
       </p>
     </div>
-    <EditWindow :cartItemPropped="cartItemProps"></EditWindow>
-    <DeleteModal></DeleteModal>
+    <EditWindow :cartItemPropped="cartItemProps" ref="editModal"></EditWindow>
+    <DeleteModal ref="deleteModel"></DeleteModal>
     <div v-show="cartData.length">
       <!-- 購物車，以表格呈現。當中的插槽用來填入購物車金額小計。 -->
       <CartItemTable @editProduct="editProduct">
@@ -72,7 +72,7 @@ export default {
     cartData: {
       deep: true,
       handler (newValue, oldValue) {
-        console.log('頁面Watch偵測購物車，新值：', newValue)
+        // console.log('頁面Watch偵測購物車，新值：', newValue)
         this.calcCartSubtotal()
       }
     }
@@ -118,7 +118,7 @@ export default {
         result += item.subtotal
       })
       this.cartSubtotal = result
-      console.log('計算總和：', this.cartSubtotal)
+      // console.log('計算總和：', this.cartSubtotal)
     },
     editProduct (cartItem) {
       this.cartItemProps = cartItem
@@ -141,7 +141,7 @@ export default {
       const stringifiedData = JSON.stringify(confirmedData)
       const parsedData = JSON.parse(stringifiedData)
       this.orderHistory.push(parsedData)
-      console.log('送出訂單！', parsedData)
+      // console.log('送出訂單！', parsedData)
       // 清空陣列
       this.cartData.length = 0
       this.directToPage('/order-history')
@@ -149,10 +149,13 @@ export default {
   },
   created () {
     this.calcCartSubtotal()
+  },
+  beforeRouteLeave (to, from) {
+    if (document.getElementById('editModal').classList.contains('show') || document.getElementById('deleteModel').classList.contains('show')) {
+      this.$refs.editModal.modal.hide()
+      this.$refs.deleteModel.modal.hide()
+      return false
+    }
   }
 }
 </script>
-
-<style scoped>
-
-</style>

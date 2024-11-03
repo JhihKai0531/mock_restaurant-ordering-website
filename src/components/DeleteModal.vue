@@ -44,6 +44,7 @@ export default {
     this.modal = new Modal(this.$refs.modal)
   },
   beforeUnmount () {
+    this.modal.hide()
     this.emitter.off('deleteItem')
   }
 }

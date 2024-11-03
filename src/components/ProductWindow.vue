@@ -195,7 +195,7 @@ export default {
         dateTime
       }
       this.cartData.push(entireObject)
-      console.log('加入購物車：', entireObject)
+      // console.log('加入購物車：', entireObject)
       this.modal.hide()
       this.clearProductSettings()
     },
@@ -211,14 +211,14 @@ export default {
       this.isInvalidCount = false
     }
   },
-  created () {
-    // console.log(this.mealPropped)
-  },
   mounted () {
     this.modal = new Modal(this.$refs.modal, {
       backdrop: 'static',
       keyboard: false
     })
+  },
+  beforeUnmount () {
+    this.modal.hide()
   }
 }
 </script>
@@ -231,14 +231,9 @@ textarea {
 .modal {
   --custom-check-color: rgb(224, 156, 9);
 
-  /* .modal-header {
-    background-color: var(--custom-check-color);
-  } */
-
   .form-check-input:checked {
     background-color: var(--custom-check-color);
     border-color: var(--custom-check-color);
   }
 }
-
 </style>

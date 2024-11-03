@@ -99,11 +99,6 @@
 <script>
 export default {
   inject: ['orderHistory'],
-  data () {
-    return {
-
-    }
-  },
   computed: {
     totalAmount () {
       let result = 0

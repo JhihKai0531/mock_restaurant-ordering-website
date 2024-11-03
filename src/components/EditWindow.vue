@@ -207,7 +207,7 @@ export default {
           this.cartData.splice(index, 1, editedObject)
         }
       })
-      console.log('修改完成：', editedObject, '\n目前購物車', this.cartData)
+      // console.log('修改完成：', editedObject, '\n目前購物車', this.cartData)
       this.modal.hide()
       this.clearProductSettings()
     },
@@ -222,7 +222,7 @@ export default {
           this.cartData.splice(index, 1)
         }
       })
-      console.log('刪除一項餐點，目前購物車', this.cartData)
+      // console.log('刪除一項餐點，目前購物車', this.cartData)
     },
     // 將商品視窗的表單復原到預設值
     clearProductSettings () {
@@ -261,6 +261,7 @@ export default {
     })
   },
   beforeUnmount () {
+    this.modal.hide()
     this.emitter.off('cancelDeleting')
     this.emitter.off('confirmDeleting')
   }
@@ -275,14 +276,9 @@ textarea {
 .modal {
   --custom-check-color: rgb(224, 156, 9);
 
-  /* .modal-header {
-    background-color: var(--custom-check-color);
-  } */
-
   .form-check-input:checked {
     background-color: var(--custom-check-color);
     border-color: var(--custom-check-color);
   }
 }
-
 </style>

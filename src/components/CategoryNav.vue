@@ -12,11 +12,7 @@
 
 <script>
 export default {
-  props: [],
-  inject: ['categoryList'],
-  created () {
-
-  }
+  inject: ['categoryList']
 }
 </script>
 

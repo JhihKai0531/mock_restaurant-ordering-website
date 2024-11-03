@@ -5,10 +5,10 @@
     </div>
   </div>
   <CategoryNav></CategoryNav>
-  <ProductWindow :mealPropped="mealProps"></ProductWindow>
+  <ProductWindow :mealPropped="mealProps" ref="productModal"></ProductWindow>
   <BottomPanel></BottomPanel>
   <RouterView @selectProduct="selectProduct"></RouterView>
-  <div v-if="$route.fullPath === '/'" class="h2 text-center py-4 text-light" style="height: 80vh; background-color: #888;">請選擇餐點類別</div>
+  <div v-if="$route.fullPath === '/'" class="h2 text-center py-4 text-body-secondary" style="height: 80vh;">請選擇餐點類別</div>
 </template>
 
 <script>
@@ -35,12 +35,11 @@ export default {
       this.mealProps = meal
     }
   },
-  created () {
-
+  beforeRouteLeave (to, from) {
+    if (document.getElementById('productModal').classList.contains('show')) {
+      this.$refs.productModal.modal.hide()
+      return false
+    }
   }
 }
 </script>
-
-<style scoped>
-
-</style>
