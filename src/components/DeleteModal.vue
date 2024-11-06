@@ -3,7 +3,7 @@
   <div class="modal-dialog modal-dialog-centered modal-sm">
     <div class="modal-content">
       <div class="modal-body text-center" style="padding: 1.5rem 1.5rem 1rem;">
-        <h5>確定要刪除此品項嗎？</h5>
+        <h1 class="fs-5">確定要刪除此品項嗎？</h1>
         <p class="mb-0 text-body-secondary">{{ mealInfo.strMeal }}</p>
       </div>
       <div class="modal-footer justify-content-evenly border-top-0">
@@ -49,3 +49,11 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.modal-sm {
+  max-width: 300px;
+  margin-right: auto;
+  margin-left: auto;
+}
+</style>

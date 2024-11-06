@@ -9,4 +9,5 @@
 本專案使用Vue CLI來建構，並結合Vue Router進行前端的路由切換。在Vue的撰寫方式上使用Options API。樣式方面主要使用Bootstrap 5，搭配部分自訂的CSS。<br>
 目前還有許多需要學習之處，期許未來能夠在軟體開發能力上有更多的成長。
 
-所使用的TheMealDB.com網站連結：[https://www.themealdb.com](https://www.themealdb.com)
+所使用的TheMealDB.com網站連結：[https://www.themealdb.com](https://www.themealdb.com)<br>
+所使用的網站icon來源：[https://www.flaticon.com/free-icon/meal_3274099?term=meals&page=1&position=11&origin=search&related_id=3274099](https://www.flaticon.com/free-icon/meal_3274099?term=meals&page=1&position=11&origin=search&related_id=3274099)

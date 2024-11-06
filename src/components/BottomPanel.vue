@@ -6,6 +6,10 @@
 </template>
 
 <style scoped>
+.btn-group > .btn {
+  flex: 1 1 50%;
+}
+
 .btn {
   --bs-btn-padding-y: 0.625rem
 }

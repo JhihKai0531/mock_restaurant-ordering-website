@@ -237,8 +237,6 @@ export default {
     }
   },
   created () {
-    // console.log('created, cartItemPropped', this.cartItemPropped)
-    // console.log('created, productUserEditing', this.productUserEditing)
     this.emitter.on('cancelDeleting', () => {
       this.checkCount()
     })
@@ -247,12 +245,6 @@ export default {
   beforeUpdate () {
     this.setMealInfo()
     this.setEditingOptions()
-    // console.log('beforeUpdate, cartItemPropped', this.cartItemPropped)
-    // console.log('beforeUpdate, productUserEditing', this.productUserEditing)
-  },
-  updated () {
-    // console.log('updated, cartItemPropped', this.cartItemPropped)
-    // console.log('updated, productUserEditing', this.productUserEditing)
   },
   mounted () {
     this.modal = new Modal(this.$refs.modal, {

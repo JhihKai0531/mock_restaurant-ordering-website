@@ -20,17 +20,29 @@ export default {
       tableNumber: { value: '' },
       guestsCount: { value: 1 },
       cartData: [],
-      orderHistory: []
+      orderHistory: [],
+      paymentStatus: { value: '' },
+      diningFinished: { value: false }
     }
   },
   computed: {
     diningHours () {
       if (this.dateTime.getHours() >= 11 && this.dateTime.getHours() < 14) {
-        return '中午用餐時間：11:00~14:00'
+        return ['中午用餐時間：11:00~14:30', '最後點餐時間：14:00']
       } else if (this.dateTime.getHours() >= 17 && this.dateTime.getHours() < 21) {
-        return '晚上用餐時間：17:00~21:00'
+        return ['晚上用餐時間：17:00~21:00', '最後點餐時間：20:30']
       } else {
-        return '休息中'
+        return ['休息中', '']
+      }
+    }
+  },
+  watch: {
+    paymentStatus: {
+      deep: true,
+      handler (newValue, oldValue) {
+        if (newValue.value === 'payOnSite' || newValue.value === 'succeed') {
+          this.diningFinished.value = true
+        }
       }
     }
   },
@@ -41,7 +53,9 @@ export default {
       cartData: this.cartData,
       guestsCount: this.guestsCount,
       tableNumber: this.tableNumber,
-      orderHistory: this.orderHistory
+      orderHistory: this.orderHistory,
+      paymentStatus: this.paymentStatus,
+      diningFinished: this.diningFinished
     }
   },
   methods: {
@@ -63,7 +77,7 @@ export default {
             const jsonMeal = await responseMeal.json()
             jsonMeal.meals.forEach(mealObject => {
               mealObject.category = category
-              mealObject.price = Math.floor(Math.random() * (425 - 50)) + 50 // 因為API本身沒有食物單價，這裡手動生成隨機價錢。
+              mealObject.price = Math.floor(Math.random() * (320 - 45)) + 45 // 因為API本身沒有食物單價，這裡手動生成隨機價錢。
               this.mealList.push(mealObject)
             })
           }

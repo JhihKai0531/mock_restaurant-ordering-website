@@ -75,7 +75,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="clearProductSettings">取消</button>
-            <button type="button" class="btn btn-primary" @click="addToCart">加入購物車</button>
+            <button type="button" class="btn btn-primary" @click="addToCart" :disabled="diningFinished.value">加入購物車</button>
           </div>
         </form>
       </div>
@@ -88,7 +88,7 @@ import setMenuJson from '@/assets/set_menu.json'
 import { Modal } from 'bootstrap'
 export default {
   props: ['mealPropped'],
-  inject: ['cartData'],
+  inject: ['cartData', 'diningFinished'],
   data () {
     return {
       // Bootstrap互動視窗
@@ -216,6 +216,7 @@ export default {
       backdrop: 'static',
       keyboard: false
     })
+    console.log(this.diningFinished.value)
   },
   beforeUnmount () {
     this.modal.hide()

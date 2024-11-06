@@ -1,13 +1,14 @@
 <template>
   <div class="container px-4 py-3">
+    <p v-show="cartData.length" class="mb-2"><RouterLink to="/" class="text-success text-decoration-none">回菜單←</RouterLink></p>
     <form>
       <!-- 桌號 -->
-      <div class="row justify-content-between mb-3">
+      <div class="row mb-3 gx-0">
         <div class="col">
           <label for="tableNumberSelect" class="col-form-label">內用桌號</label>
         </div>
-        <div class="col">
-          <select id="tableNumberSelect" class="form-select" v-model="tableNumber.value" :class="{'is-invalid': isInvalidTableNumber}" @="{change: checkTableNumber}">
+        <div class="col col-lg-5">
+          <select id="tableNumberSelect" class="form-select" v-model="tableNumber.value" :class="{'is-invalid': isInvalidTableNumber}" @="{change: checkTableNumber}" :disabled="disabledTableNumber">
             <option value="" disabled>請選擇桌號</option>
             <option value="A1">A1</option>
             <option value="A2">A2</option>
@@ -23,12 +24,12 @@
         <div class="col">
           <label for="guestsCountInput" class="col-form-label">用餐人數</label>
         </div>
-        <div class="col-2 text-center"><button type="button" title="減少" class="btn border-0" @click="minusGuestsCount" :disabled="guestsCount.value <= 1"><i class="bi bi-dash-lg"></i></button></div>
+        <div class="col-2 text-center col-lg-1"><button type="button" title="減少" class="btn border-0" @click="minusGuestsCount" :disabled="guestsCount.value <= 1 || disabledGuestsCount"><i class="bi bi-dash-lg"></i></button></div>
         <div class="col-3">
-          <input type="number" min="1" id="guestsCountInput" class="form-control" :class="{'is-invalid': isInvalidGuestsCount}" v-model.number="guestsCount.value" @="{input: checkGuestsCount, focusout: checkGuestsCount}">
+          <input type="number" min="1" id="guestsCountInput" class="form-control" :class="{'is-invalid': isInvalidGuestsCount}" v-model.number="guestsCount.value" @="{input: checkGuestsCount, focusout: checkGuestsCount}" :disabled="disabledGuestsCount">
           <div class="invalid-feedback">請輸入有效人數</div>
         </div>
-        <div class="col-2 text-center"><button type="button" title="增加" class="btn" @click="plusGuestsCount"><i class="bi bi-plus-lg"></i></button></div>
+        <div class="col-2 text-center col-lg-1"><button type="button" title="增加" class="btn border-0" @click="plusGuestsCount" :disabled="disabledGuestsCount"><i class="bi bi-plus-lg"></i></button></div>
       </div>
     </form>
     <!-- 分隔線 -->
@@ -47,7 +48,7 @@
       <CartItemTable @editProduct="editProduct">
         {{ `NT$${cartSubtotal}` }}
       </CartItemTable>
-      <button type="button" class="btn btn-warning fixed-bottom btn-lg" @click="submitCartData">送出訂單</button>
+      <button type="button" class="btn btn-warning fixed-bottom btn-lg" @click="submitCartData" :disabled="diningFinished.value">送出訂單</button>
     </div>
   </div>
 </template>
@@ -58,14 +59,16 @@ import EditWindow from '@/components/EditWindow.vue'
 import DeleteModal from '@/components/DeleteModal.vue'
 
 export default {
-  inject: ['cartData', 'guestsCount', 'tableNumber', 'orderHistory'],
+  inject: ['cartData', 'guestsCount', 'tableNumber', 'orderHistory', 'diningFinished'],
   components: { CartItemTable, EditWindow, DeleteModal },
   data () {
     return {
       isInvalidTableNumber: false,
       isInvalidGuestsCount: false,
       cartItemProps: {},
-      cartSubtotal: 0
+      cartSubtotal: 0,
+      disabledTableNumber: false,
+      disabledGuestsCount: false
     }
   },
   watch: {
@@ -145,17 +148,31 @@ export default {
       // 清空陣列
       this.cartData.length = 0
       this.directToPage('/order-history')
+    },
+    toggleFormDisabled () {
+      this.disabledTableNumber = !!this.orderHistory.length
+      this.disabledGuestsCount = !!this.orderHistory.length
     }
   },
   created () {
+    this.toggleFormDisabled()
     this.calcCartSubtotal()
   },
   beforeRouteLeave (to, from) {
     if (document.getElementById('editModal').classList.contains('show') || document.getElementById('deleteModel').classList.contains('show')) {
       this.$refs.editModal.modal.hide()
       this.$refs.deleteModel.modal.hide()
+      this.$refs.editModal.clearProductSettings()
       return false
     }
   }
 }
 </script>
+
+<style scoped>
+.container {
+  @media screen and (min-width: 1200px) {
+    max-width: 960px;
+  }
+}
+</style>

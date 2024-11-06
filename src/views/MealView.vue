@@ -31,9 +31,13 @@ export default {
   inject: ['mealList'],
   computed: {
     mealsOfType () {
-      return this.mealList.filter(item => {
+      const filtered = this.mealList.filter(item => {
         return item.category === this.category
       })
+      if (!filtered.length) {
+        this.$router.replace('/Beef')
+      }
+      return filtered
     }
   }
 }
