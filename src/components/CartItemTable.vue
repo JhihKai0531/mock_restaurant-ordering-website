@@ -11,8 +11,8 @@
         <tr class="table-active">
           <th style="max-width: 20ch;">{{ item.mealObject.strMeal }}</th>
           <td colspan="2">
-            <button type="button" class="btn btn-secondary" @click="emitCartItem(item)" data-bs-toggle="modal"
-            data-bs-target="#editModal" :disabled="diningFinished.value">修改 / 刪除</button>
+            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#editModal"
+            :disabled="diningFinished.value" @click="emitCartItem(item)">修改 / 刪除</button>
           </td>
         </tr>
         <!-- 餐點數量及基本單價 -->

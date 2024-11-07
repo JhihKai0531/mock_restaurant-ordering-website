@@ -1,5 +1,5 @@
 <template>
-  <div class="modal fade" id="editModal" tabindex="-1" ref="modal">
+  <div id="editModal" ref="modal" class="modal fade" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -16,8 +16,8 @@
             <!-- 套餐 -->
             <fieldset>
               <legend class="col-form-label">套餐</legend>
-              <div class="form-check" v-for="set in setMenus" :key="set.setMenuId">
-                <input class="form-check-input" type="radio" :id="`${set.setMenuId}_E`" :value="set.setMenuId" v-model="productUserEditing.setMenuRadio">
+              <div v-for="set in setMenus" :key="set.setMenuId" class="form-check">
+                <input :id="`${set.setMenuId}_E`" v-model="productUserEditing.setMenuRadio" class="form-check-input" type="radio" :value="set.setMenuId">
                 <label class="form-check-label d-block" :for="`${set.setMenuId}_E`">
                   <div class="row">
                     <div class="col-8">{{ set.setMenuName }}</div>
@@ -32,8 +32,8 @@
             <!-- 辣度 -->
             <fieldset>
               <legend class="col-form-label">辣度</legend>
-              <div class="form-check form-check-inline" v-for="item in spicyArray" :key="item.value">
-                <input class="form-check-input" type="radio" :id="`${item.value}_E`" :value="item.value" v-model="productUserEditing.spicy">
+              <div v-for="item in spicyArray" :key="item.value" class="form-check form-check-inline">
+                <input :id="`${item.value}_E`" v-model="productUserEditing.spicy" class="form-check-input" type="radio" :value="item.value">
                 <label class="form-check-label" :for="`${item.value}_E`">
                   {{ item.name }}
                 </label>
@@ -43,7 +43,7 @@
             <fieldset>
               <legend class="col-form-label">加量</legend>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="extraCheckbox_E" v-model="productUserEditing.extra">
+                <input id="extraCheckbox_E" v-model="productUserEditing.extra" class="form-check-input" type="checkbox">
                 <label class="form-check-label d-block" for="extraCheckbox_E">
                   <div class="row">
                     <div class="col-8">是</div>
@@ -55,15 +55,15 @@
             <!-- 備註 -->
             <fieldset>
               <label for="notesText_E" class="col-form-label">備註</label>
-              <textarea class="form-control" id="notesText_E" rows="3" v-model.lazy="productUserEditing.notes"></textarea>
+              <textarea id="notesText_E" v-model.lazy="productUserEditing.notes" class="form-control" rows="3"></textarea>
             </fieldset>
             <!-- 數量 -->
             <fieldset>
               <label class="col-form-label" for="count_E">數量</label>
               <div class="row gx-0">
-                <div class="col-2 text-center"><button type="button" class="btn border-0" @click="minusCount" :disabled="productUserEditing.count <= 1"><i class="bi bi-dash-lg"></i></button></div>
+                <div class="col-2 text-center"><button type="button" class="btn border-0" :disabled="productUserEditing.count <= 1" @click="minusCount"><i class="bi bi-dash-lg"></i></button></div>
                 <div class="col-4">
-                  <input class="form-control" :class="{'is-invalid': isInvalidCount}" type="number" id="count_E" v-model.number="productUserEditing.count" min="1" @="{input: checkCount, focusout: checkCount}">
+                  <input id="count_E" v-model.number="productUserEditing.count" class="form-control" :class="{'is-invalid': isInvalidCount}" type="number" min="1" @="{input: checkCount, focusout: checkCount}">
                   <div class="invalid-feedback">請輸入正整數</div>
                 </div>
                 <div class="col-2 text-center"><button type="button" class="btn" @click="plusCount"><i class="bi bi-plus-lg"></i></button></div>

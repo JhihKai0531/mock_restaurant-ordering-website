@@ -1,5 +1,5 @@
 <template>
-  <div class="modal fade" id="deleteModel" tabindex="-1" ref="modal">
+  <div id="deleteModel" ref="modal" class="modal fade" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered modal-sm">
     <div class="modal-content">
       <div class="modal-body text-center" style="padding: 1.5rem 1.5rem 1rem;">

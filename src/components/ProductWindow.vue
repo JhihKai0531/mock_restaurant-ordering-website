@@ -1,5 +1,5 @@
 <template>
-  <div class="modal fade" id="productModal" tabindex="-1" ref="modal">
+  <div id="productModal" ref="modal" class="modal fade" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -16,8 +16,8 @@
             <!-- 套餐 -->
             <fieldset>
               <legend class="col-form-label">套餐</legend>
-              <div class="form-check" v-for="set in setMenus" :key="set.setMenuId">
-                <input class="form-check-input" type="radio" :id="set.setMenuId" :value="set.setMenuId" v-model="productUserSettings.setMenuRadio">
+              <div v-for="set in setMenus" :key="set.setMenuId" class="form-check">
+                <input :id="set.setMenuId" v-model="productUserSettings.setMenuRadio" class="form-check-input" type="radio" :value="set.setMenuId">
                 <label class="form-check-label d-block" :for="set.setMenuId">
                   <div class="row">
                     <div class="col-8">{{ set.setMenuName }}</div>
@@ -32,8 +32,8 @@
             <!-- 辣度 -->
             <fieldset>
               <legend class="col-form-label">辣度</legend>
-              <div class="form-check form-check-inline" v-for="item in spicyArray" :key="item.value">
-                <input class="form-check-input" type="radio" :id="item.value" :value="item.value" v-model="productUserSettings.spicy">
+              <div v-for="item in spicyArray" :key="item.value" class="form-check form-check-inline">
+                <input :id="item.value" v-model="productUserSettings.spicy" class="form-check-input" type="radio" :value="item.value">
                 <label class="form-check-label" :for="item.value">
                   {{ item.name }}
                 </label>
@@ -43,7 +43,7 @@
             <fieldset>
               <legend class="col-form-label">加量</legend>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="extraCheckbox" v-model="productUserSettings.extra">
+                <input id="extraCheckbox" v-model="productUserSettings.extra" class="form-check-input" type="checkbox">
                 <label class="form-check-label d-block" for="extraCheckbox">
                   <div class="row">
                     <div class="col-8">是</div>
@@ -55,15 +55,15 @@
             <!-- 備註 -->
             <fieldset>
               <label for="notesText" class="col-form-label">備註</label>
-              <textarea class="form-control" id="notesText" rows="3" v-model.lazy="productUserSettings.notes"></textarea>
+              <textarea id="notesText" v-model.lazy="productUserSettings.notes" class="form-control" rows="3"></textarea>
             </fieldset>
             <!-- 數量 -->
             <fieldset>
               <label class="col-form-label" for="count">數量</label>
               <div class="row gx-0">
-                <div class="col-2 text-center"><button type="button" class="btn border-0" @click="minusCount" :disabled="productUserSettings.count <= 1"><i class="bi bi-dash-lg"></i></button></div>
+                <div class="col-2 text-center"><button type="button" class="btn border-0" :disabled="productUserSettings.count <= 1" @click="minusCount"><i class="bi bi-dash-lg"></i></button></div>
                 <div class="col-4">
-                  <input class="form-control" :class="{'is-invalid': isInvalidCount}" type="number" id="count" v-model.number="productUserSettings.count" min="1" @="{input: checkCount, focusout: checkCount}">
+                  <input id="count" v-model.number="productUserSettings.count" class="form-control" :class="{'is-invalid': isInvalidCount}" type="number" min="1" @="{input: checkCount, focusout: checkCount}">
                   <div class="invalid-feedback">請輸入正整數</div>
                 </div>
                 <div class="col-2 text-center"><button type="button" class="btn" @click="plusCount"><i class="bi bi-plus-lg"></i></button></div>
@@ -75,7 +75,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="clearProductSettings">取消</button>
-            <button type="button" class="btn btn-primary" @click="addToCart" :disabled="diningFinished.value">加入購物車</button>
+            <button type="button" class="btn btn-primary" :disabled="diningFinished.value" @click="addToCart">加入購物車</button>
           </div>
         </form>
       </div>
@@ -216,7 +216,7 @@ export default {
       backdrop: 'static',
       keyboard: false
     })
-    console.log(this.diningFinished.value)
+    // console.log(this.diningFinished.value)
   },
   beforeUnmount () {
     this.modal.hide()

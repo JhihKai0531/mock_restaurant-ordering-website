@@ -1,5 +1,5 @@
 <template>
-  <div class="accordion" id="orderHistoryAccordion">
+  <div id="orderHistoryAccordion" class="accordion">
     <div v-for="(order, index) in orderHistory" :key="order.dateTime" class="accordion-item">
       <!-- 摺疊面板標題 -->
       <h2 class="accordion-header">

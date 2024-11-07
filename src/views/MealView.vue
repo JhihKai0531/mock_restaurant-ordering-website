@@ -1,13 +1,14 @@
 <template>
   <div class="container">
     <div class="row row-cols-1 row-cols-md-2 g-4 p-3">
-      <div class="col" v-for="meal in mealsOfType" :key="meal.idMeal">
+      <div v-for="meal in mealsOfType" :key="meal.idMeal" class="col">
         <div class="card bg-warning bg-gradient overflow-hidden"
           style="--bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0));"
           data-bs-toggle="modal"
           data-bs-target="#productModal"
+          :title="meal.strMeal"
           @click="$emit('selectProduct', meal)"
-          :title="meal.strMeal">
+        >
           <div class="row g-0">
             <div class="col-4">
               <img :src="meal.strMealThumb" class="img-fluid shadow-sm" style="--bs-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);" :alt="meal.strMeal">

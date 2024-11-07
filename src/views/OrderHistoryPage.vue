@@ -21,7 +21,7 @@
         <RouterLink to="/cart" title="購物車頁面" class="text-body-tertiary">前往購物車</RouterLink>
       </p>
     </div>
-    <PaySelectModal @processPayment="processPayment" ref="paySelectModal"></PaySelectModal>
+    <PaySelectModal ref="paySelectModal" @processPayment="processPayment"></PaySelectModal>
     <PayLoadingModal ref="payLoadingModal"></PayLoadingModal>
     <div v-if="orderHistory.length">
       <h5 class="float-end lh-sm">總金額 {{ `NT$ ${totalAmount} 元` }}</h5>

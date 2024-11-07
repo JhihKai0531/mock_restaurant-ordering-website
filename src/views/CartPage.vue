@@ -8,7 +8,7 @@
           <label for="tableNumberSelect" class="col-form-label">內用桌號</label>
         </div>
         <div class="col col-lg-5">
-          <select id="tableNumberSelect" class="form-select" v-model="tableNumber.value" :class="{'is-invalid': isInvalidTableNumber}" @="{change: checkTableNumber}" :disabled="disabledTableNumber">
+          <select id="tableNumberSelect" v-model="tableNumber.value" class="form-select" :class="{'is-invalid': isInvalidTableNumber}" @="{change: checkTableNumber}" :disabled="disabledTableNumber">
             <option value="" disabled>請選擇桌號</option>
             <option value="A1">A1</option>
             <option value="A2">A2</option>
@@ -24,12 +24,12 @@
         <div class="col">
           <label for="guestsCountInput" class="col-form-label">用餐人數</label>
         </div>
-        <div class="col-2 text-center col-lg-1"><button type="button" title="減少" class="btn border-0" @click="minusGuestsCount" :disabled="guestsCount.value <= 1 || disabledGuestsCount"><i class="bi bi-dash-lg"></i></button></div>
+        <div class="col-2 text-center col-lg-1"><button type="button" title="減少" class="btn border-0" :disabled="guestsCount.value <= 1 || disabledGuestsCount" @click="minusGuestsCount"><i class="bi bi-dash-lg"></i></button></div>
         <div class="col-3">
-          <input type="number" min="1" id="guestsCountInput" class="form-control" :class="{'is-invalid': isInvalidGuestsCount}" v-model.number="guestsCount.value" @="{input: checkGuestsCount, focusout: checkGuestsCount}" :disabled="disabledGuestsCount">
+          <input id="guestsCountInput" v-model.number="guestsCount.value" type="number" min="1" class="form-control" :class="{'is-invalid': isInvalidGuestsCount}" @="{input: checkGuestsCount, focusout: checkGuestsCount}" :disabled="disabledGuestsCount">
           <div class="invalid-feedback">請輸入有效人數</div>
         </div>
-        <div class="col-2 text-center col-lg-1"><button type="button" title="增加" class="btn border-0" @click="plusGuestsCount" :disabled="disabledGuestsCount"><i class="bi bi-plus-lg"></i></button></div>
+        <div class="col-2 text-center col-lg-1"><button type="button" title="增加" class="btn border-0" :disabled="disabledGuestsCount" @click="plusGuestsCount"><i class="bi bi-plus-lg"></i></button></div>
       </div>
     </form>
     <!-- 分隔線 -->
@@ -41,14 +41,14 @@
         <RouterLink to="/" title="首頁" class="text-body-tertiary">點餐去</RouterLink>
       </p>
     </div>
-    <EditWindow :cartItemPropped="cartItemProps" ref="editModal"></EditWindow>
+    <EditWindow ref="editModal" :cartItemPropped="cartItemProps"></EditWindow>
     <DeleteModal ref="deleteModel"></DeleteModal>
     <div v-show="cartData.length">
       <!-- 購物車，以表格呈現。當中的插槽用來填入購物車金額小計。 -->
       <CartItemTable @editProduct="editProduct">
         {{ `NT$${cartSubtotal}` }}
       </CartItemTable>
-      <button type="button" class="btn btn-warning fixed-bottom btn-lg" @click="submitCartData" :disabled="diningFinished.value">送出訂單</button>
+      <button type="button" class="btn btn-warning fixed-bottom btn-lg" :disabled="diningFinished.value" @click="submitCartData">送出訂單</button>
     </div>
   </div>
 </template>

@@ -1,5 +1,5 @@
 <template>
-  <div class="modal fade" id="paySelectModal" tabindex="-1" ref="modal">
+  <div id="paySelectModal" ref="modal" class="modal fade" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-body text-center">
@@ -7,7 +7,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
           <div class="row row-cols-2 gy-3 p-3">
             <div v-for="payment in paymentMethods" :key="payment.value" class="col">
-              <input type="radio" class="btn-check" :id="payment.value" v-model="paymentSelected" :value="payment.value">
+              <input :id="payment.value" v-model="paymentSelected" type="radio" class="btn-check" :value="payment.value">
               <label class="btn btn-outline-success" :for="payment.value">
                 <p>{{ payment.name }}</p>
                 <img :src="payment.imgURL" :alt="payment.name" width="50" height="50" class="img-fluid w-75">

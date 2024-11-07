@@ -5,7 +5,7 @@
     </div>
   </div>
   <CategoryNav></CategoryNav>
-  <ProductWindow :mealPropped="mealProps" ref="productModal"></ProductWindow>
+  <ProductWindow ref="productModal" :mealPropped="mealProps"></ProductWindow>
   <BottomPanel></BottomPanel>
   <RouterView @selectProduct="selectProduct"></RouterView>
 </template>
