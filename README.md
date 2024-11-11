@@ -5,8 +5,8 @@
 **網站連結**：[https://jhihkai0531.github.io/mock_restaurant-ordering-website/](https://jhihkai0531.github.io/mock_restaurant-ordering-website/)
 
 ### 網站畫面擷取
-<img src="./doc_images/menu.png" alt="菜單頁面截圖" width="200" height="434">
-<img src="./doc_images/order.png" alt="訂單紀錄頁面截圖" width="202" height="434">
+<img src="./doc_images/menu.png" alt="菜單頁面截圖" width="300">
+<img src="./doc_images/order.png" alt="訂單紀錄頁面截圖" width="300">
 
 ### 功能介紹
 顧客進入網站後，可以瀏覽完整菜單。
