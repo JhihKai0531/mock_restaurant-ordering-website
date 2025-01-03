@@ -4,7 +4,6 @@
 </template>
 
 <script>
-import setMenuJson from '@/assets/set_menu.json'
 import MainNavBar from '@/components/MainNavBar.vue'
 
 export default {
@@ -15,7 +14,6 @@ export default {
     return {
       categoryList: [],
       mealList: [],
-      setMenuList: setMenuJson,
       dateTime: '',
       tableNumber: { value: '' },
       guestsCount: { value: 1 },
@@ -71,14 +69,21 @@ export default {
           })
           // console.log('餐點類別建立完成。種類：', this.categoryList)
 
+          // 取得食物價格之模擬資料
+          const mealPriceData = await this.parseCSV()
+          let index = 0
+          // console.log('mealPriceData:', mealPriceData)
+
           // 依據每個種類，分別請求對應的食物清單
           for (const category of this.categoryList) {
             const responseMeal = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`)
             const jsonMeal = await responseMeal.json()
+
             jsonMeal.meals.forEach(mealObject => {
               mealObject.category = category
-              mealObject.price = Math.floor(Math.random() * (320 - 45)) + 45 // 因為API本身沒有食物單價，這裡手動生成隨機價錢。
+              mealObject.price = mealPriceData[index]
               this.mealList.push(mealObject)
+              index++
             })
           }
           // console.log('餐點清單建立完成。前十項：', this.mealList.slice(0, 10))
@@ -89,6 +94,12 @@ export default {
     },
     calcDateTime () {
       this.dateTime = new Date()
+    },
+    async parseCSV () {
+      const response = await fetch('/meal-price.csv')
+      const csvText = await response.text()
+      const rows = csvText.split('\n').map(row => Number(row))
+      return rows
     }
   },
   created () {
