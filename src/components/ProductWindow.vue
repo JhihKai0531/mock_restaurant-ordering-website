@@ -2,10 +2,12 @@
   <div id="productModal" ref="modal" class="modal fade" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
+
         <div class="modal-header">
           <h1 class="modal-title fs-5">餐點選項</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" @click="clearProductSettings"></button>
         </div>
+
         <form>
           <div class="modal-body">
             <!-- 該餐點資訊 -->
@@ -13,37 +15,57 @@
               <h2 class="col-8">{{ mealPropped.strMeal }}</h2>
               <div class="col-4 text-end">{{ `NT$ ${mealPropped.price}` }}</div>
             </div>
+
             <!-- 套餐 -->
             <fieldset>
               <legend class="col-form-label">套餐</legend>
               <div v-for="set in setMenus" :key="set.setMenuId" class="form-check">
-                <input :id="set.setMenuId" v-model="productUserSettings.setMenuRadio" class="form-check-input" type="radio" :value="set.setMenuId">
+                <input :id="set.setMenuId"
+                  v-model="productUserSettings.setMenuRadio"
+                  class="form-check-input"
+                  type="radio"
+                  :value="set.setMenuId"
+                >
+
                 <label class="form-check-label d-block" :for="set.setMenuId">
+                  <!-- label裡面有兩個row -->
                   <div class="row">
                     <div class="col-8">{{ set.setMenuName }}</div>
                     <div class="col-4 text-end">{{ `+ ${set.setMenuPrice} 元` }}</div>
                   </div>
+
                   <div class="row">
                     <div class="col">{{ set.setMenuDescription }}</div>
                   </div>
                 </label>
               </div>
             </fieldset>
+
             <!-- 辣度 -->
             <fieldset>
               <legend class="col-form-label">辣度</legend>
               <div v-for="item in spicyArray" :key="item.value" class="form-check form-check-inline">
-                <input :id="item.value" v-model="productUserSettings.spicy" class="form-check-input" type="radio" :value="item.value">
+                <input :id="item.value"
+                  v-model="productUserSettings.spicy"
+                  class="form-check-input"
+                  type="radio"
+                  :value="item.value"
+                >
                 <label class="form-check-label" :for="item.value">
                   {{ item.name }}
                 </label>
               </div>
             </fieldset>
+
             <!-- 加量 -->
             <fieldset>
               <legend class="col-form-label">加量</legend>
               <div class="form-check">
-                <input id="extraCheckbox" v-model="productUserSettings.extra" class="form-check-input" type="checkbox">
+                <input id="extraCheckbox"
+                  v-model="productUserSettings.extra"
+                  class="form-check-input"
+                  type="checkbox"
+                >
                 <label class="form-check-label d-block" for="extraCheckbox">
                   <div class="row">
                     <div class="col-8">是</div>
@@ -52,32 +74,63 @@
                 </label>
               </div>
             </fieldset>
+
             <!-- 備註 -->
             <fieldset>
               <label for="notesText" class="col-form-label">備註</label>
-              <textarea id="notesText" v-model.lazy="productUserSettings.notes" class="form-control" rows="3"></textarea>
+              <textarea id="notesText"
+                v-model.lazy="productUserSettings.notes"
+                class="form-control"
+                rows="3"
+              ></textarea>
             </fieldset>
+
             <!-- 數量 -->
             <fieldset>
               <label class="col-form-label" for="count">數量</label>
+              <!-- 用網格系統來擺放「減按鈕」、「數字框」、「加按鈕」 -->
               <div class="row gx-0">
-                <div class="col-2 text-center"><button type="button" class="btn border-0" :disabled="productUserSettings.count <= 1" @click="minusCount"><i class="bi bi-dash-lg"></i></button></div>
+                <div class="col-2 text-center">
+                  <button type="button" class="btn border-0" :disabled="productUserSettings.count <= 1" @click="minusCount">
+                    <i class="bi bi-dash-lg"></i>
+                  </button>
+                </div>
+
                 <div class="col-4">
-                  <input id="count" v-model.number="productUserSettings.count" class="form-control" :class="{'is-invalid': isInvalidCount}" type="number" min="1" @="{input: checkCount, focusout: checkCount}">
+                  <input id="count"
+                    v-model.number="productUserSettings.count"
+                    class="form-control"
+                    :class="{'is-invalid': isInvalidCount}"
+                    type="number"
+                    min="1"
+                    @="{input: checkCount, focusout: checkCount}"
+                  >
                   <div class="invalid-feedback">請輸入正整數</div>
                 </div>
-                <div class="col-2 text-center"><button type="button" class="btn" @click="plusCount"><i class="bi bi-plus-lg"></i></button></div>
+
+                <div class="col-2 text-center">
+                  <button type="button" class="btn" @click="plusCount">
+                    <i class="bi bi-plus-lg"></i>
+                  </button>
+                </div>
               </div>
             </fieldset>
+
             <p class="text-end h5 mt-3">
               {{ `小計：NT$ ${subtotal} 元` }}
             </p>
           </div>
+
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="clearProductSettings">取消</button>
-            <button type="button" class="btn btn-primary" :disabled="diningFinished.value" @click="addToCart">加入購物車</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="clearProductSettings">
+              取消
+            </button>
+            <button type="button" class="btn btn-primary" :disabled="diningFinished.value" @click="addToCart">
+              加入購物車
+            </button>
           </div>
         </form>
+
       </div>
     </div>
   </div>
@@ -121,14 +174,17 @@ export default {
     // 商品表單的價格小計
     subtotal () {
       const productPrice = this.mealPropped.price
+
       let setMenuPrice = 0
       this.setMenus.forEach(set => {
         if (set.setMenuId === this.productUserSettings.setMenuRadio) {
           setMenuPrice = set.setMenuPrice
         }
       })
+
       const extraPrice = this.productUserSettings.extra ? 25 : 0
       const count = this.productUserSettings.count
+
       return (productPrice + setMenuPrice + extraPrice) * count
     }
   },
@@ -162,28 +218,35 @@ export default {
     addToCart () {
       this.checkCount()
       if (this.isInvalidCount) { return }
+
       const mealObject = { ...this.mealPropped }
+
       let setMenuObject = {}
       this.setMenus.forEach(set => {
         if (set.setMenuId === this.productUserSettings.setMenuRadio) {
           setMenuObject = { ...set }
         }
       })
+
       let spicyObject = {}
       this.spicyArray.forEach(option => {
         if (option.value === this.productUserSettings.spicy) {
           spicyObject = { ...option }
         }
       })
+
       const extraObject = {
         value: this.productUserSettings.extra,
         price: this.productUserSettings.extra ? 25 : 0,
         name: this.productUserSettings.extra ? '加量' : ''
       }
+
       const notes = this.productUserSettings.notes
       const count = this.productUserSettings.count
+
       const subtotal = this.subtotal
       const dateTime = new Date().getTime()
+
       const entireObject = {
         mealObject,
         setMenuObject,
@@ -194,8 +257,10 @@ export default {
         subtotal,
         dateTime
       }
+
       this.cartData.push(entireObject)
       // console.log('加入購物車：', entireObject)
+
       this.modal.hide()
       this.clearProductSettings()
     },

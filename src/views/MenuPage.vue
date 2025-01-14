@@ -1,7 +1,10 @@
 <template>
   <div class="card w-75 mx-auto my-2">
     <div class="card-body">
-      <p class="text-center mb-0"><span>{{ diningHours[0] }}</span><span class="text-warning-emphasis"><br>{{ diningHours[1] }}</span></p>
+      <p class="text-center mb-0">
+        <span>{{ diningHours[0] }}</span>
+        <span class="text-warning-emphasis"><br>{{ diningHours[1] }}</span>
+      </p>
     </div>
   </div>
   <CategoryNav></CategoryNav>

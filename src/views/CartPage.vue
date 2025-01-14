@@ -1,14 +1,24 @@
 <template>
   <div class="container px-4 py-3">
-    <p v-show="cartData.length" class="mb-2"><RouterLink to="/" class="text-success text-decoration-none">回菜單←</RouterLink></p>
+    <p v-show="cartData.length" class="mb-2">
+      <RouterLink to="/" class="text-success text-decoration-none">回菜單←</RouterLink>
+    </p>
+
     <form>
       <!-- 桌號 -->
       <div class="row mb-3 gx-0">
         <div class="col">
           <label for="tableNumberSelect" class="col-form-label">內用桌號</label>
         </div>
+
         <div class="col col-lg-5">
-          <select id="tableNumberSelect" v-model="tableNumber.value" class="form-select" :class="{'is-invalid': isInvalidTableNumber}" @="{change: checkTableNumber}" :disabled="disabledTableNumber">
+          <select id="tableNumberSelect"
+            v-model="tableNumber.value"
+            class="form-select"
+            :class="{'is-invalid': isInvalidTableNumber}"
+            @="{change: checkTableNumber}"
+            :disabled="disabledTableNumber"
+          >
             <option value="" disabled>請選擇桌號</option>
             <option value="A1">A1</option>
             <option value="A2">A2</option>
@@ -19,21 +29,43 @@
           <div class="invalid-feedback">請選擇您的桌號。</div>
         </div>
       </div>
+
       <!-- 用餐人數 -->
       <div class="row gx-0">
         <div class="col">
           <label for="guestsCountInput" class="col-form-label">用餐人數</label>
         </div>
-        <div class="col-2 text-center col-lg-1"><button type="button" title="減少" class="btn border-0" :disabled="guestsCount.value <= 1 || disabledGuestsCount" @click="minusGuestsCount"><i class="bi bi-dash-lg"></i></button></div>
+
+        <div class="col-2 text-center col-lg-1">
+          <button type="button" title="減少" class="btn border-0" :disabled="guestsCount.value <= 1 || disabledGuestsCount" @click="minusGuestsCount">
+            <i class="bi bi-dash-lg"></i>
+          </button>
+        </div>
+
         <div class="col-3">
-          <input id="guestsCountInput" v-model.number="guestsCount.value" type="number" min="1" class="form-control" :class="{'is-invalid': isInvalidGuestsCount}" @="{input: checkGuestsCount, focusout: checkGuestsCount}" :disabled="disabledGuestsCount">
+          <input id="guestsCountInput"
+            v-model.number="guestsCount.value"
+            type="number"
+            min="1"
+            class="form-control"
+            :class="{'is-invalid': isInvalidGuestsCount}"
+            @="{input: checkGuestsCount, focusout: checkGuestsCount}"
+            :disabled="disabledGuestsCount"
+          >
           <div class="invalid-feedback">請輸入有效人數</div>
         </div>
-        <div class="col-2 text-center col-lg-1"><button type="button" title="增加" class="btn border-0" :disabled="disabledGuestsCount" @click="plusGuestsCount"><i class="bi bi-plus-lg"></i></button></div>
+
+        <div class="col-2 text-center col-lg-1">
+          <button type="button" title="增加" class="btn border-0" :disabled="disabledGuestsCount" @click="plusGuestsCount">
+            <i class="bi bi-plus-lg"></i>
+          </button>
+        </div>
       </div>
     </form>
+
     <!-- 分隔線 -->
     <hr>
+
     <!-- 購物車為空的時候，的提示訊息 -->
     <div v-if="!cartData.length">
       <h1 class="text-center text-body-tertiary mt-4">尚未加入餐點</h1>
@@ -41,14 +73,18 @@
         <RouterLink to="/" title="首頁" class="text-body-tertiary">點餐去</RouterLink>
       </p>
     </div>
+
     <EditWindow ref="editModal" :cartItemPropped="cartItemProps"></EditWindow>
     <DeleteModal ref="deleteModel"></DeleteModal>
+
     <div v-show="cartData.length">
       <!-- 購物車，以表格呈現。當中的插槽用來填入購物車金額小計。 -->
       <CartItemTable @editProduct="editProduct">
         {{ `NT$${cartSubtotal}` }}
       </CartItemTable>
-      <button type="button" class="btn btn-warning fixed-bottom btn-lg" :disabled="diningFinished.value" @click="submitCartData">送出訂單</button>
+      <button type="button" class="btn btn-warning fixed-bottom btn-lg" :disabled="diningFinished.value" @click="submitCartData">
+        送出訂單
+      </button>
     </div>
   </div>
 </template>
@@ -133,6 +169,7 @@ export default {
       this.checkTableNumber()
       this.checkGuestsCount()
       if (this.isInvalidTableNumber || this.isInvalidGuestsCount) { return }
+
       const currentTime = new Date()
       const confirmedData = {
         cart: this.cartData,
@@ -141,10 +178,13 @@ export default {
         guestsCount: this.guestsCount,
         dateTime: currentTime.getTime()
       }
+
       const stringifiedData = JSON.stringify(confirmedData)
       const parsedData = JSON.parse(stringifiedData)
+
       this.orderHistory.push(parsedData)
       // console.log('送出訂單！', parsedData)
+
       // 清空陣列
       this.cartData.length = 0
       this.directToPage('/order-history')

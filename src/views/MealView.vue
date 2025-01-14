@@ -1,6 +1,9 @@
 <template>
   <div class="container">
+    <!-- 整張商品列表都在這個row中 -->
     <div class="row row-cols-1 row-cols-md-2 g-4 p-3">
+
+      <!-- 將每張卡片裝在一個col內 -->
       <div v-for="meal in mealsOfType" :key="meal.idMeal" class="col">
         <div class="card bg-warning bg-gradient overflow-hidden"
           style="--bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0));"
@@ -9,10 +12,12 @@
           :title="meal.strMeal"
           @click="$emit('selectProduct', meal)"
         >
+          <!-- 卡片內的網格系統 -->
           <div class="row g-0">
             <div class="col-4">
               <img :src="meal.strMealThumb" class="img-fluid shadow-sm" style="--bs-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);" :alt="meal.strMeal">
             </div>
+
             <div class="col-8">
               <div class="card-body">
                 <h5 class="card-title">{{ meal.strMeal }}</h5>
@@ -22,6 +27,7 @@
           </div>
         </div>
       </div>
+
     </div>
   </div>
 </template>
