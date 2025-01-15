@@ -110,7 +110,7 @@ export default {
   watch: {
     cartData: {
       deep: true,
-      handler (newValue, oldValue) {
+      handler () {
         // console.log('頁面Watch偵測購物車，新值：', newValue)
         this.calcCartSubtotal()
       }
@@ -134,6 +134,8 @@ export default {
         this.isInvalidGuestsCount = true
       } else {
         this.isInvalidGuestsCount = false
+        // localStorage.guestsCount是基於watch觸發賦值，若使用者無修改過值，就不會有該資料。因此這裡補一下。
+        localStorage.setItem('guestsCount', JSON.stringify(this.guestsCount))
       }
     },
     plusGuestsCount () {
@@ -179,11 +181,10 @@ export default {
         dateTime: currentTime.getTime()
       }
 
-      const stringifiedData = JSON.stringify(confirmedData)
-      const parsedData = JSON.parse(stringifiedData)
+      const deepCopyData = JSON.parse(JSON.stringify(confirmedData))
 
-      this.orderHistory.push(parsedData)
-      // console.log('送出訂單！', parsedData)
+      this.orderHistory.push(deepCopyData)
+      // console.log('送出訂單！', deepCopyData)
 
       // 清空陣列
       this.cartData.length = 0

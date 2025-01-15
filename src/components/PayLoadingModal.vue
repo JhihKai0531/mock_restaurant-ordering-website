@@ -60,7 +60,7 @@ export default {
   },
   methods: {
     resetStatus () {
-      if (this.paymentStatus.value === 'succeed') return
+      if (this.paymentStatus.value === 'succeed' || this.paymentStatus.value === 'payOnSite') return
       this.paymentStatus.value = ''
     },
     allowToClose () {
@@ -79,7 +79,6 @@ export default {
   },
   beforeUnmount () {
     this.modal.hide()
-    this.resetStatus()
     this.$refs.modal.removeEventListener('hide.bs.modal', this.resetStatus)
     this.$refs.modal.removeEventListener('hidePrevented.bs.modal', this.allowToClose)
   }

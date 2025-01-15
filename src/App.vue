@@ -12,15 +12,15 @@ export default {
   },
   data () {
     return {
-      categoryList: [],
-      mealList: [],
+      categoryList: JSON.parse(localStorage.getItem('categoryList')) || [],
+      mealList: JSON.parse(localStorage.getItem('mealList')) || [],
       dateTime: '',
-      tableNumber: { value: '' },
-      guestsCount: { value: 1 },
-      cartData: [],
-      orderHistory: [],
-      paymentStatus: { value: '' },
-      diningFinished: { value: false }
+      tableNumber: JSON.parse(localStorage.getItem('tableNumber')) || { value: '' },
+      guestsCount: JSON.parse(localStorage.getItem('guestsCount')) || { value: 1 },
+      cartData: JSON.parse(localStorage.getItem('cartData')) || [],
+      orderHistory: JSON.parse(localStorage.getItem('orderHistory')) || [],
+      paymentStatus: JSON.parse(localStorage.getItem('paymentStatus')) || { value: '' },
+      diningFinished: JSON.parse(localStorage.getItem('diningFinished')) || { value: false }
     }
   },
   computed: {
@@ -37,10 +37,41 @@ export default {
   watch: {
     paymentStatus: {
       deep: true,
-      handler (newValue, oldValue) {
+      handler (newValue) {
+        localStorage.setItem('paymentStatus', JSON.stringify(newValue))
         if (newValue.value === 'payOnSite' || newValue.value === 'succeed') {
           this.diningFinished.value = true
         }
+      }
+    },
+    cartData: {
+      deep: true,
+      handler (newValue) {
+        localStorage.setItem('cartData', JSON.stringify(newValue))
+      }
+    },
+    orderHistory: {
+      deep: true,
+      handler (newValue) {
+        localStorage.setItem('orderHistory', JSON.stringify(newValue))
+      }
+    },
+    tableNumber: {
+      deep: true,
+      handler (newValue) {
+        localStorage.setItem('tableNumber', JSON.stringify(newValue))
+      }
+    },
+    guestsCount: {
+      deep: true,
+      handler (newValue) {
+        localStorage.setItem('guestsCount', JSON.stringify(newValue))
+      }
+    },
+    diningFinished: {
+      deep: true,
+      handler (newValue) {
+        localStorage.setItem('diningFinished', JSON.stringify(newValue))
       }
     }
   },
@@ -68,6 +99,7 @@ export default {
             this.categoryList.push(category.strCategory)
           })
           // console.log('餐點類別建立完成。種類：', this.categoryList)
+          localStorage.setItem('categoryList', JSON.stringify(this.categoryList))
 
           // 取得食物價格之模擬資料
           const mealPriceData = await this.parseCSV()
@@ -87,13 +119,11 @@ export default {
             })
           }
           // console.log('餐點清單建立完成。前十項：', this.mealList.slice(0, 10))
+          localStorage.setItem('mealList', JSON.stringify(this.mealList))
         } catch (err) {
           console.error(err)
         }
       })()
-    },
-    calcDateTime () {
-      this.dateTime = new Date()
     },
     async parseCSV () {
       const response = await fetch('/meal-price.csv')
@@ -102,9 +132,26 @@ export default {
       return rows
     }
   },
+  beforeCreate () {
+    // 如果最後離開的時間，距離再次進入網頁超過3個小時，則重置資料
+    const current = new Date().getTime()
+    const lastLeft = Number(localStorage.getItem('leaveTime')) || 0
+    const threeHours = 1000 * 60 * 60 * 3
+
+    if (current - lastLeft > threeHours) {
+      localStorage.clear()
+    }
+  },
   created () {
-    this.getData()
-    this.calcDateTime()
+    // 如果菜單裡面已經有資料了，就不再進行請求
+    if (!this.mealList.length) {
+      this.getData()
+    }
+
+    this.dateTime = new Date()
+  },
+  beforeUnmount () {
+    localStorage.setItem('leaveTime', new Date().getTime())
   }
 }
 </script>

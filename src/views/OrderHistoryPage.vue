@@ -42,9 +42,9 @@
       <h5 class="float-end lh-sm">總金額 {{ `NT$ ${totalAmount} 元` }}</h5>
       <!-- 以首次提交購物車的時間點判斷當下日期 -->
       <p class="mb-0">{{ new Date(orderHistory[0].dateTime).toLocaleDateString() }}</p>
-      <p class="mb-0">桌號：{{ orderHistory[0].tableNumber.value }}</p>
+      <p class="mb-0">桌號：{{ tableNumber.value }}</p>
       <p>
-        用餐人數：{{ orderHistory[0].guestsCount.value }}位
+        用餐人數：{{ guestsCount.value }}位
         <RouterLink to="/" class="text-success float-end text-decoration-none">
           回菜單〉
         </RouterLink>
@@ -62,7 +62,7 @@ import PayLoadingModal from '@/components/PayLoadingModal.vue'
 import OrderAccordion from '@/components/OrderAccordion.vue'
 
 export default {
-  inject: ['orderHistory', 'paymentStatus'],
+  inject: ['orderHistory', 'paymentStatus', 'guestsCount', 'tableNumber'],
   components: {
     PaySelectModal,
     PayLoadingModal,
