@@ -5,6 +5,7 @@
 
 <script>
 import MainNavBar from '@/components/MainNavBar.vue'
+import mealPrice from '@/assets/meal-price.json'
 
 export default {
   components: {
@@ -102,7 +103,7 @@ export default {
           localStorage.setItem('categoryList', JSON.stringify(this.categoryList))
 
           // 取得食物價格之模擬資料
-          const mealPriceData = await this.parseCSV()
+          const mealPriceData = mealPrice
           let index = 0
           // console.log('mealPriceData:', mealPriceData)
 
@@ -125,11 +126,8 @@ export default {
         }
       })()
     },
-    async parseCSV () {
-      const response = await fetch('/meal-price.csv')
-      const csvText = await response.text()
-      const rows = csvText.split('\n').map(row => Number(row))
-      return rows
+    recordLeaveTime () {
+      localStorage.setItem('leaveTime', new Date().getTime())
     }
   },
   beforeCreate () {
@@ -150,8 +148,8 @@ export default {
 
     this.dateTime = new Date()
   },
-  beforeUnmount () {
-    localStorage.setItem('leaveTime', new Date().getTime())
+  mounted () {
+    window.addEventListener('beforeunload', this.recordLeaveTime)
   }
 }
 </script>

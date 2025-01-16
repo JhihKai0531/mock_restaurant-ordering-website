@@ -139,7 +139,7 @@
 </template>
 
 <script>
-import setMenuJson from '@/assets/set_menu.json'
+import setMenuJson from '@/assets/set-menu.json'
 import { Modal } from 'bootstrap'
 export default {
   props: ['cartItemPropped'],
