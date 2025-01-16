@@ -2,20 +2,38 @@
   <div id="paySelectModal" ref="modal" class="modal fade" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
+
+        <!-- Modal的內容主體 -->
         <div class="modal-body text-center">
           <h1 class="modal-title fs-5">請點選付款方式並確認</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+
+          <!-- 以網格系統裝著不同選項的checkbox -->
           <div class="row row-cols-2 gy-3 p-3">
             <div v-for="payment in paymentMethods" :key="payment.value" class="col">
-              <input :id="payment.value" v-model="paymentSelected" type="radio" class="btn-check" :value="payment.value">
+              <input :id="payment.value"
+                v-model="paymentSelected"
+                type="radio"
+                class="btn-check"
+                :value="payment.value"
+              >
               <label class="btn btn-outline-success" :for="payment.value">
                 <p>{{ payment.name }}</p>
-                <img :src="payment.imgURL" :alt="payment.name" width="50" height="50" class="img-fluid w-75">
+                <img :src="payment.imgURL"
+                  :alt="payment.name"
+                  width="50"
+                  height="50"
+                  class="img-fluid w-75"
+                >
               </label>
             </div>
           </div>
-          <button type="button" class="btn btn-primary w-25" :disabled="!paymentSelected" @click="confirmOption">確定</button>
+
+          <button type="button" class="btn btn-primary w-25" :disabled="!paymentSelected" @click="confirmOption">
+            確定
+          </button>
         </div>
+
       </div>
     </div>
   </div>

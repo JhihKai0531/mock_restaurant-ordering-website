@@ -1,41 +1,58 @@
 <template>
   <div id="orderHistoryAccordion" class="accordion">
     <div v-for="(order, index) in orderHistory" :key="order.dateTime" class="accordion-item">
+
       <!-- 摺疊面板標題 -->
       <h2 class="accordion-header">
-        <button class="accordion-button" type="button" data-bs-toggle="collapse" :data-bs-target="`#orderHistoryContent${order.dateTime}`">
+        <button class="accordion-button"
+          type="button"
+          data-bs-toggle="collapse"
+          :data-bs-target="`#orderHistoryContent${order.dateTime}`"
+        >
           <span>{{ `第 ${index + 1} 次點餐` }}</span>
           <span class="custom-to-right text-body-secondary">{{ new Date(order.dateTime).toLocaleTimeString() }}</span>
         </button>
       </h2>
+
       <!-- 摺疊面板內容 -->
       <div :id="`orderHistoryContent${order.dateTime}`" class="accordion-collapse collapse show">
         <div class="accordion-body">
+
           <!-- 每一項餐點也是一個小折疊面板 -->
           <details v-for="item in order.cart" :key="item.dateTime">
+            <!-- 小摺疊面板的標題顯示內容 -->
             <summary class="mb-2">
               <span>{{ item.mealObject.strMeal }}</span>
-              <span>{{ `NT$${item.subtotal}` }}</span><br>
-              <span v-show="item.setMenuObject.setMenuPrice" class="text-body-secondary ps-3">{{ item.setMenuObject.setMenuName }}</span>
+              <span>{{ `NT$${item.subtotal}` }}</span>
+              <br>
+              <span v-show="item.setMenuObject.setMenuPrice" class="text-body-secondary ps-3">
+                {{ item.setMenuObject.setMenuName }}
+              </span>
             </summary>
+
+            <!-- 小摺疊面板收合的內容 -->
             <table class="table table-sm mt-2 table-bordered">
               <tbody>
+
                 <!-- 餐點數量及基本單價 -->
                 <tr>
                   <td>數量 / 基本單價</td>
                   <td>{{ `×${item.count}` }}</td>
                   <td>{{ `$${item.mealObject.price}` }}</td>
                 </tr>
+
                 <!-- 辣度 -->
                 <tr>
                   <td>{{ item.spicyObject.name }}</td>
                   <td colspan="2">$0</td>
                 </tr>
+
                 <!-- 加量 -->
                 <tr v-show="item.extraObject.value">
                   <td>{{ item.extraObject.name }}</td>
                   <td colspan="2">{{ `$${item.extraObject.price}` }}</td>
                 </tr>
+
                 <!-- 套餐 -->
                 <tr v-if="item.setMenuObject.setMenuPrice">
                   <td>
@@ -50,6 +67,7 @@
                   <td>單點</td>
                   <td colspan="2">$0</td>
                 </tr>
+
                 <!-- 備註 -->
                 <tr v-show="item.notes">
                   <td colspan="3">
@@ -60,16 +78,20 @@
                     </details>
                   </td>
                 </tr>
+
               </tbody>
             </table>
           </details>
+
           <!-- 訂單小計 -->
           <div class="custom-div-cart-subtotal">
             <p class="my-2">訂單小計：</p>
             <p class="my-2">{{ `NT$${order.cartSubtotal}` }}</p>
           </div>
+
         </div>
       </div>
+
     </div>
   </div>
 </template>

@@ -2,32 +2,44 @@
   <div id="payLoadingModal" ref="modal" class="modal fade" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered modal-sm">
       <div class="modal-content">
+
         <div class="modal-body text-center">
+          <!-- 付款處理中 -->
           <template v-if="paymentStatus.value === 'processing'">
             <h1 class="modal-title fs-5">
               付款處理中，請稍後
-              <!-- <i class="bi bi-info-circle text-info ms-2" style="font-size: 0.75em; vertical-align: middle;"></i> -->
             </h1>
             <p class="mb-0 text-body-tertiary">不要關閉視窗</p>
             <div class="loader"></div>
           </template>
+
+          <!-- 付款成功 -->
           <template v-else-if="paymentStatus.value === 'succeed'">
             <h1 class="modal-title fs-4 mb-2">
               付款成功！
             </h1>
             <p class="mb-0 text-body-tertiary">此為隨機模擬結果，感謝您。</p>
             <div class="text-center mt-4">
-              <button type="button" class="btn btn-outline-success w-50" data-bs-dismiss="modal">關閉</button>
+              <button type="button" class="btn btn-outline-success w-50" data-bs-dismiss="modal">
+                關閉
+              </button>
             </div>
           </template>
+
+          <!-- 付款失敗 -->
           <template v-else-if="paymentStatus.value === 'failed'">
             <h1 class="modal-title fs-4 mb-2">
               付款失敗，請再試一次。
             </h1>
             <p class="mb-0 text-body-tertiary">此為隨機模擬結果，不必擔心。</p>
+
+            <!-- 關閉按鈕 -->
             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+
             <div class="text-center mt-4">
-              <button type="button" class="btn btn-outline-danger w-50" data-bs-toggle="modal" data-bs-target="#paySelectModal">回付款選項</button>
+              <button type="button" class="btn btn-outline-danger w-50" data-bs-toggle="modal" data-bs-target="#paySelectModal">
+                回付款選項
+              </button>
             </div>
           </template>
         </div>
@@ -48,7 +60,7 @@ export default {
   },
   methods: {
     resetStatus () {
-      if (this.paymentStatus.value === 'succeed') return
+      if (this.paymentStatus.value === 'succeed' || this.paymentStatus.value === 'payOnSite') return
       this.paymentStatus.value = ''
     },
     allowToClose () {
@@ -67,7 +79,6 @@ export default {
   },
   beforeUnmount () {
     this.modal.hide()
-    this.resetStatus()
     this.$refs.modal.removeEventListener('hide.bs.modal', this.resetStatus)
     this.$refs.modal.removeEventListener('hidePrevented.bs.modal', this.allowToClose)
   }
