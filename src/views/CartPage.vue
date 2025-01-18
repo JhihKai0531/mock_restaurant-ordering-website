@@ -90,9 +90,9 @@
 </template>
 
 <script>
-import CartItemTable from '@/components/CartItemTable.vue'
-import EditWindow from '@/components/EditWindow.vue'
-import DeleteModal from '@/components/DeleteModal.vue'
+import CartItemTable from '@/components/cart-page/CartItemTable.vue'
+import EditWindow from '@/components/cart-page/EditWindow.vue'
+import DeleteModal from '@/components/cart-page/DeleteModal.vue'
 
 export default {
   inject: ['cartData', 'guestsCount', 'tableNumber', 'orderHistory', 'diningFinished'],

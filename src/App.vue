@@ -4,7 +4,7 @@
 </template>
 
 <script>
-import MainNavBar from '@/components/MainNavBar.vue'
+import MainNavBar from '@/components/application/MainNavBar.vue'
 import mealPrice from '@/assets/meal-price.json'
 
 export default {

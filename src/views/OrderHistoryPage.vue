@@ -57,9 +57,9 @@
 </template>
 
 <script>
-import PaySelectModal from '@/components/PaySelectModal.vue'
-import PayLoadingModal from '@/components/PayLoadingModal.vue'
-import OrderAccordion from '@/components/OrderAccordion.vue'
+import PaySelectModal from '@/components/order-history-page/PaySelectModal.vue'
+import PayLoadingModal from '@/components/order-history-page/PayLoadingModal.vue'
+import OrderAccordion from '@/components/order-history-page/OrderAccordion.vue'
 
 export default {
   inject: ['orderHistory', 'paymentStatus', 'guestsCount', 'tableNumber'],

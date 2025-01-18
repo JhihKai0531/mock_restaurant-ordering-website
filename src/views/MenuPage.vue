@@ -14,9 +14,9 @@
 </template>
 
 <script>
-import CategoryNav from '@/components/CategoryNav.vue'
-import ProductWindow from '@/components/ProductWindow.vue'
-import BottomPanel from '@/components/BottomPanel.vue'
+import CategoryNav from '@/components/menu-page/CategoryNav.vue'
+import ProductWindow from '@/components/menu-page/ProductWindow.vue'
+import BottomPanel from '@/components/menu-page/BottomPanel.vue'
 
 export default {
   components: {
