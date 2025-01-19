@@ -134,8 +134,6 @@ export default {
         this.isInvalidGuestsCount = true
       } else {
         this.isInvalidGuestsCount = false
-        // localStorage.guestsCount是基於watch觸發賦值，若使用者無修改過值，就不會有該資料。因此這裡補一下。
-        localStorage.setItem('guestsCount', JSON.stringify(this.guestsCount))
       }
     },
     plusGuestsCount () {

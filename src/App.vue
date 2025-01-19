@@ -13,15 +13,15 @@ export default {
   },
   data () {
     return {
-      categoryList: JSON.parse(localStorage.getItem('categoryList')) || [],
-      mealList: JSON.parse(localStorage.getItem('mealList')) || [],
+      categoryList: JSON.parse(sessionStorage.getItem('categoryList')) || [],
+      mealList: JSON.parse(sessionStorage.getItem('mealList')) || [],
       dateTime: '',
-      tableNumber: JSON.parse(localStorage.getItem('tableNumber')) || { value: '' },
-      guestsCount: JSON.parse(localStorage.getItem('guestsCount')) || { value: 1 },
-      cartData: JSON.parse(localStorage.getItem('cartData')) || [],
-      orderHistory: JSON.parse(localStorage.getItem('orderHistory')) || [],
-      paymentStatus: JSON.parse(localStorage.getItem('paymentStatus')) || { value: '' },
-      diningFinished: JSON.parse(localStorage.getItem('diningFinished')) || { value: false }
+      tableNumber: JSON.parse(sessionStorage.getItem('tableNumber')) || { value: '' },
+      guestsCount: JSON.parse(sessionStorage.getItem('guestsCount')) || { value: 1 },
+      cartData: JSON.parse(sessionStorage.getItem('cartData')) || [],
+      orderHistory: JSON.parse(sessionStorage.getItem('orderHistory')) || [],
+      paymentStatus: JSON.parse(sessionStorage.getItem('paymentStatus')) || { value: '' },
+      diningFinished: JSON.parse(sessionStorage.getItem('diningFinished')) || { value: false }
     }
   },
   computed: {
@@ -39,7 +39,7 @@ export default {
     paymentStatus: {
       deep: true,
       handler (newValue) {
-        localStorage.setItem('paymentStatus', JSON.stringify(newValue))
+        sessionStorage.setItem('paymentStatus', JSON.stringify(newValue))
         if (newValue.value === 'payOnSite' || newValue.value === 'succeed') {
           this.diningFinished.value = true
         }
@@ -48,31 +48,31 @@ export default {
     cartData: {
       deep: true,
       handler (newValue) {
-        localStorage.setItem('cartData', JSON.stringify(newValue))
+        sessionStorage.setItem('cartData', JSON.stringify(newValue))
       }
     },
     orderHistory: {
       deep: true,
       handler (newValue) {
-        localStorage.setItem('orderHistory', JSON.stringify(newValue))
+        sessionStorage.setItem('orderHistory', JSON.stringify(newValue))
       }
     },
     tableNumber: {
       deep: true,
       handler (newValue) {
-        localStorage.setItem('tableNumber', JSON.stringify(newValue))
+        sessionStorage.setItem('tableNumber', JSON.stringify(newValue))
       }
     },
     guestsCount: {
       deep: true,
       handler (newValue) {
-        localStorage.setItem('guestsCount', JSON.stringify(newValue))
+        sessionStorage.setItem('guestsCount', JSON.stringify(newValue))
       }
     },
     diningFinished: {
       deep: true,
       handler (newValue) {
-        localStorage.setItem('diningFinished', JSON.stringify(newValue))
+        sessionStorage.setItem('diningFinished', JSON.stringify(newValue))
       }
     }
   },
@@ -100,7 +100,7 @@ export default {
             this.categoryList.push(category.strCategory)
           })
           // console.log('餐點類別建立完成。種類：', this.categoryList)
-          localStorage.setItem('categoryList', JSON.stringify(this.categoryList))
+          sessionStorage.setItem('categoryList', JSON.stringify(this.categoryList))
 
           // 取得食物價格之模擬資料
           const mealPriceData = mealPrice
@@ -120,24 +120,11 @@ export default {
             })
           }
           // console.log('餐點清單建立完成。前十項：', this.mealList.slice(0, 10))
-          localStorage.setItem('mealList', JSON.stringify(this.mealList))
+          sessionStorage.setItem('mealList', JSON.stringify(this.mealList))
         } catch (err) {
           console.error(err)
         }
       })()
-    },
-    recordLeaveTime () {
-      localStorage.setItem('leaveTime', new Date().getTime())
-    }
-  },
-  beforeCreate () {
-    // 如果最後離開的時間，距離再次進入網頁超過3個小時，則重置資料
-    const current = new Date().getTime()
-    const lastLeft = Number(localStorage.getItem('leaveTime')) || 0
-    const threeHours = 1000 * 60 * 60 * 3
-
-    if (current - lastLeft > threeHours) {
-      localStorage.clear()
     }
   },
   created () {
@@ -147,9 +134,6 @@ export default {
     }
 
     this.dateTime = new Date()
-  },
-  mounted () {
-    window.addEventListener('beforeunload', this.recordLeaveTime)
   }
 }
 </script>
