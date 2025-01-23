@@ -1,9 +1,9 @@
 <template>
-  <ul class="nav nav-tabs flex-nowrap overflow-x-auto overflow-y-hidden" style="background-color: rgb(206 165 43);">
+  <ul class="nav nav-tabs flex-nowrap overflow-x-auto overflow-y-hidden">
     <li v-for="category in categoryList" :key="category" class="nav-item">
       <RouterLink
         :to="{path: `/${category}`}"
-        class="nav-link text-light"
+        class="nav-link"
         :class="{active: false}"
       >{{ category }}</RouterLink>
     </li>
@@ -17,11 +17,11 @@ export default {
 </script>
 
 <style scoped>
-.nav-link:hover {
-  background-color: #0002;
+.nav-link {
+  color: var(--color-898989);
 }
 
 .nav-link.active {
-  background-color: #666;
+  box-shadow: 0 -8px var(--color-F5B841) inset;
 }
 </style>

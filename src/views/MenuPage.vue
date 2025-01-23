@@ -1,12 +1,5 @@
 <template>
-  <div class="card w-75 mx-auto my-2">
-    <div class="card-body">
-      <p class="text-center mb-0">
-        <span>{{ diningHours[0] }}</span>
-        <span class="text-warning-emphasis"><br>{{ diningHours[1] }}</span>
-      </p>
-    </div>
-  </div>
+  <InfoBox :dining-hours="diningHours"></InfoBox>
   <CategoryNav></CategoryNav>
   <ProductWindow ref="productModal" :mealPropped="mealProps"></ProductWindow>
   <BottomPanel></BottomPanel>
@@ -17,12 +10,14 @@
 import CategoryNav from '@/components/menu-page/CategoryNav.vue'
 import ProductWindow from '@/components/menu-page/ProductWindow.vue'
 import BottomPanel from '@/components/menu-page/BottomPanel.vue'
+import InfoBox from '@/components/menu-page/InfoBox.vue'
 
 export default {
   components: {
     CategoryNav,
     ProductWindow,
-    BottomPanel
+    BottomPanel,
+    InfoBox
   },
   props: [
     'diningHours'

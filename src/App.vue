@@ -146,4 +146,38 @@ $bootstrap-icons-font-dir: "~bootstrap-icons/font/fonts";
 body:has(.fixed-bottom) {
   padding-bottom: 60px;
 }
+
+:root {
+  --color-822C41: #822C41;
+  --color-F5B841: #F5B841;
+  --color-FFEAC0: #FFEAC0;
+  --color-898989: #898989;
+  --color-6A041D: #6A041D;
+}
+
+.text-bg-822C41 {
+  color: #FFF;
+  background-color: var(--color-822C41);
+}
+
+.bg-FFEAC0 {
+  background-color: var(--color-FFEAC0) !important;
+}
+
+.btn-6A041D {
+  --bs-btn-color: #FFF;
+  --bs-btn-bg: #6A041D;
+  --bs-btn-border-color: #6A041D;
+  --bs-btn-hover-color: #FFF;
+  --bs-btn-hover-bg: #840b29;
+  --bs-btn-hover-border-color: #840b29;
+  --bs-btn-focus-shadow-rgb: 11, 172, 204;
+  --bs-btn-active-color: #FFF;
+  --bs-btn-active-bg: #840b29;
+  --bs-btn-active-border-color: #840b29;
+  --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  --bs-btn-disabled-color: #FFF;
+  --bs-btn-disabled-bg: #6A041D;
+  --bs-btn-disabled-border-color: #6A041D;
+}
 </style>
