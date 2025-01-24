@@ -25,7 +25,7 @@
               <span>{{ item.mealObject.strMeal }}</span>
               <span>{{ `NT$${item.subtotal}` }}</span>
               <br>
-              <span v-show="item.setMenuObject.setMenuPrice" class="text-body-secondary ps-3">
+              <span v-if="item.setMenuObject.setMenuPrice" class="text-body-secondary ps-3">
                 {{ item.setMenuObject.setMenuName }}
               </span>
             </summary>
@@ -48,13 +48,13 @@
                 </tr>
 
                 <!-- 加量 -->
-                <tr v-show="item.extraObject.value">
+                <tr v-if="item.extraObject.value">
                   <td>{{ item.extraObject.name }}</td>
                   <td colspan="2">{{ `$${item.extraObject.price}` }}</td>
                 </tr>
 
                 <!-- 套餐 -->
-                <tr v-if="item.setMenuObject.setMenuPrice">
+                <tr>
                   <td>
                     {{ item.setMenuObject.setMenuName }}<br>
                     <span class="text-body-secondary">
@@ -63,18 +63,13 @@
                   </td>
                   <td colspan="2">{{ `$${item.setMenuObject.setMenuPrice}` }}</td>
                 </tr>
-                <tr v-else>
-                  <td>單點</td>
-                  <td colspan="2">$0</td>
-                </tr>
 
                 <!-- 備註 -->
-                <tr v-show="item.notes">
+                <tr v-if="item.notes">
                   <td colspan="3">
                     <details>
                       <summary>備註</summary>
-                      <p v-if="item.notes" class="my-0 text-body-secondary">{{ item.notes }}</p>
-                      <p v-else class="my-0 text-body-secondary">無</p>
+                      <p class="my-0 text-body-secondary text-break">{{ item.notes }}</p>
                     </details>
                   </td>
                 </tr>

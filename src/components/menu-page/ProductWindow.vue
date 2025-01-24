@@ -122,7 +122,7 @@
           </div>
 
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="clearProductSettings">
+            <button type="button" class="btn btn-outline-6A041D" data-bs-dismiss="modal" @click="clearProductSettings">
               取消
             </button>
             <button type="button" class="btn btn-6A041D" :disabled="diningFinished.value" @click="addToCart">

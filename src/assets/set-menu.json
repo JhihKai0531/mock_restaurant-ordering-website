@@ -1,9 +1,9 @@
 [
     {
         "setMenuId": "No",
-        "setMenuName": "無",
+        "setMenuName": "單點",
         "setMenuPrice": 0,
-        "setMenuDescription": "單點就好"
+        "setMenuDescription": ""
     },
     {
         "setMenuId": "A",
