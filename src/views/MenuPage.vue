@@ -1,9 +1,17 @@
 <template>
-  <InfoBox :dining-hours="diningHours"></InfoBox>
-  <CategoryNav></CategoryNav>
+  <div class="container-xl">
+    <div class="row">
+      <div class="col-xl-3">
+        <InfoBox :dining-hours="diningHours"></InfoBox>
+        <CategoryNav></CategoryNav>
+      </div>
+      <div class="col-xl-9">
+        <RouterView @selectProduct="selectProduct"></RouterView>
+      </div>
+    </div>
+  </div>
   <ProductWindow ref="productModal" :mealPropped="mealProps"></ProductWindow>
   <BottomPanel></BottomPanel>
-  <RouterView @selectProduct="selectProduct"></RouterView>
 </template>
 
 <script>
