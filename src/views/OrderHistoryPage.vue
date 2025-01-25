@@ -35,9 +35,6 @@
       </div>
     </div>
 
-    <PaySelectModal ref="paySelectModal" @processPayment="processPayment"></PaySelectModal>
-    <PayLoadingModal ref="payLoadingModal"></PayLoadingModal>
-
     <div v-if="orderHistory.length">
       <h5 class="float-end lh-sm">總金額 {{ `NT$ ${totalAmount} 元` }}</h5>
       <!-- 以首次提交購物車的時間點判斷當下日期 -->
@@ -45,11 +42,14 @@
       <p class="mb-0">桌號：{{ tableNumber.value }}</p>
       <p>
         用餐人數：{{ guestsCount.value }}位
-        <RouterLink to="/" class="text-success float-end text-decoration-none">
+        <RouterLink to="/" class="custom-link float-end text-decoration-none">
           回菜單〉
         </RouterLink>
       </p>
     </div>
+
+    <PaySelectModal ref="paySelectModal" @processPayment="processPayment"></PaySelectModal>
+    <PayLoadingModal ref="payLoadingModal"></PayLoadingModal>
 
     <!-- 將每次點餐的紀錄放在手風琴的面板 -->
     <OrderAccordion v-show="orderHistory.length"></OrderAccordion>

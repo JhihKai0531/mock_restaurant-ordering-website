@@ -1,7 +1,7 @@
 <template>
   <div class="container px-4 py-3">
     <p v-if="cartData.length" class="mb-2">
-      <RouterLink to="/" class="text-success text-decoration-none">回菜單←</RouterLink>
+      <RouterLink to="/" class="text-decoration-none custom-link fw-semibold">回菜單←</RouterLink>
     </p>
 
     <form>
@@ -85,7 +85,7 @@
     </template>
 
     <template v-if="cartData.length">
-      <button type="button" class="btn btn-warning fixed-bottom btn-lg btn-6A041D" :disabled="diningFinished.value" @click="submitCartData">
+      <button type="button" class="btn btn-warning fixed-bottom btn-lg btn-822C41" :disabled="diningFinished.value" @click="submitCartData">
         送出訂單
       </button>
     </template>

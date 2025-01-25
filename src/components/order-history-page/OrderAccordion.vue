@@ -10,7 +10,7 @@
           :data-bs-target="`#orderHistoryContent${order.dateTime}`"
         >
           <span>{{ `第 ${index + 1} 次點餐` }}</span>
-          <span class="custom-to-right text-body-secondary">{{ new Date(order.dateTime).toLocaleTimeString() }}</span>
+          <span class="custom-to-right">{{ new Date(order.dateTime).toLocaleTimeString() }}</span>
         </button>
       </h2>
 
@@ -98,8 +98,14 @@ export default {
 </script>
 
 <style scoped>
+/* icon解決方案：https://stackoverflow.com/questions/66231936/change-accordion-button-collapsed-icon-color-in-bootstrap-5 */
 .accordion-button {
-  background-color: #ffe457;
+  background-color: var(--color-6A041D);
+  background-color: var(--color-822C41);
+  --bs-accordion-btn-color: #fff;
+  --bs-accordion-active-color: #fff;
+  --bs-accordion-btn-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='white'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+  --bs-accordion-btn-active-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='white'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
 
   .custom-to-right {
     margin-left: auto;

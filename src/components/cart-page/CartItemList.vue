@@ -32,7 +32,7 @@
             <div>
               <details>
                 <summary>備註</summary>
-                <div>{{ item.notes || '無' }}</div>
+                <div class="ps-3">{{ item.notes || '無' }}</div>
               </details>
             </div>
           </div>
