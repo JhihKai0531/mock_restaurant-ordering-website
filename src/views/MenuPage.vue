@@ -6,6 +6,7 @@
         <CategoryNav></CategoryNav>
       </div>
       <div class="col-xl-9">
+        <FilterBar></FilterBar>
         <RouterView @selectProduct="selectProduct"></RouterView>
       </div>
     </div>
@@ -19,13 +20,15 @@ import CategoryNav from '@/components/menu-page/CategoryNav.vue'
 import ProductWindow from '@/components/menu-page/ProductWindow.vue'
 import BottomPanel from '@/components/menu-page/BottomPanel.vue'
 import InfoBox from '@/components/menu-page/InfoBox.vue'
+import FilterBar from '@/components/menu-page/FilterBar.vue'
 
 export default {
   components: {
     CategoryNav,
     ProductWindow,
     BottomPanel,
-    InfoBox
+    InfoBox,
+    FilterBar
   },
   props: [
     'diningHours'

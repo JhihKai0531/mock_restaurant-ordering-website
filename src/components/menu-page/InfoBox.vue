@@ -1,6 +1,6 @@
 <template>
   <!-- 電腦版型要改靠左 -->
-  <div class="text-center text-xl-start p-3">
+  <div class="text-center p-3">
     <p>
       <span>{{ diningHours[0] }}</span>
       <span><br>{{ diningHours[1] }}</span>

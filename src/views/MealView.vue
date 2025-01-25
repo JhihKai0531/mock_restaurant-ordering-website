@@ -2,10 +2,10 @@
   <div class="container-fluid">
 
     <!-- 整張商品列表都在這個row中 -->
-    <div class="row row-cols-1 row-cols-md-2 py-3">
+    <div class="row row-cols-1 row-cols-md-2">
 
       <!-- 將每張卡片裝在一個col內 -->
-      <div v-for="meal in mealsOfType" :key="meal.idMeal">
+      <div v-for="(meal, index) in mealsOfType" :key="meal.idMeal" :class="{'d-none': listIsHidden[index]}">
         <div class="col mb-3"
           data-bs-toggle="modal"
           data-bs-target="#productModal"
@@ -28,6 +28,10 @@
       </div>
 
     </div>
+
+    <div v-if="listIsHidden.every(val => val) && listIsHidden.length">
+      <h2 class="text-center text-body-tertiary mt-3">沒有找到商品</h2>
+    </div>
   </div>
 </template>
 
@@ -35,16 +39,34 @@
 export default {
   props: ['category'],
   inject: ['mealList'],
+  data () {
+    return {
+      listIsHidden: []
+    }
+  },
   computed: {
     mealsOfType () {
       const filtered = this.mealList.filter(item => {
         return item.category === this.category
       })
+
+      // 如果意外地沒有匹配的類別，就重新導向
       if (!filtered.length) {
         this.$router.replace('/Beef')
       }
+
       return filtered
     }
+  },
+  methods: {
+    filterSearch (search) {
+      const strMeals = this.mealsOfType.map(item => item.strMeal)
+      const mapping = strMeals.map(str => !str.toUpperCase().includes(search.toUpperCase()))
+      this.listIsHidden.splice(0, this.listIsHidden.length, ...mapping)
+    }
+  },
+  created () {
+    this.emitter.on('filterSearch', this.filterSearch)
   }
 }
 </script>
