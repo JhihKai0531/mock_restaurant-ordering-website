@@ -4,10 +4,12 @@
       <div class="modal-content">
 
         <!-- Modal的內容主體 -->
-        <div class="modal-body text-center">
+        <div class="modal-header d-block text-center border-bottom-0">
           <h1 class="modal-title fs-5">請點選付款方式並確認</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
 
+        <div class="modal-body text-center">
           <!-- 以網格系統裝著不同選項的checkbox -->
           <div class="row row-cols-2 gy-3 p-3">
             <div v-for="payment in paymentMethods" :key="payment.value" class="col">
@@ -80,7 +82,7 @@ export default {
 <style scoped>
 .btn-close {
   position: absolute;
-  right: 0.5em;
-  top: 0.5em;
+  right: 1rem;
+  top: 1rem;
 }
 </style>

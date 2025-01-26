@@ -84,11 +84,9 @@
       </CartItemList>
     </template>
 
-    <template v-if="cartData.length">
-      <button type="button" class="btn btn-warning fixed-bottom btn-lg btn-822C41" :disabled="diningFinished.value" @click="submitCartData">
-        送出訂單
-      </button>
-    </template>
+    <button type="button" class="btn btn-warning fixed-bottom btn-lg btn-822C41" :disabled="diningFinished.value || !cartData.length" @click="submitCartData">
+      送出訂單
+    </button>
 
     <ToTopBtn></ToTopBtn>
   </div>
@@ -98,7 +96,7 @@
 import CartItemList from '@/components/cart-page/CartItemList.vue'
 import EditWindow from '@/components/cart-page/EditWindow.vue'
 import DeleteModal from '@/components/cart-page/DeleteModal.vue'
-import ToTopBtn from '@/components/menu-page/ToTopBtn.vue'
+import ToTopBtn from '@/components/application/ToTopBtn.vue'
 
 export default {
   inject: ['cartData', 'guestsCount', 'tableNumber', 'orderHistory', 'diningFinished'],

@@ -62,7 +62,7 @@
 import PaySelectModal from '@/components/order-history-page/PaySelectModal.vue'
 import PayLoadingModal from '@/components/order-history-page/PayLoadingModal.vue'
 import OrderAccordion from '@/components/order-history-page/OrderAccordion.vue'
-import ToTopBtn from '@/components/menu-page/ToTopBtn.vue'
+import ToTopBtn from '@/components/application/ToTopBtn.vue'
 
 export default {
   inject: ['orderHistory', 'paymentStatus', 'guestsCount', 'tableNumber'],
