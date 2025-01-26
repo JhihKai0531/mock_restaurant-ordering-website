@@ -53,6 +53,8 @@
 
     <!-- 將每次點餐的紀錄放在手風琴的面板 -->
     <OrderAccordion v-show="orderHistory.length"></OrderAccordion>
+
+    <ToTopBtn></ToTopBtn>
   </div>
 </template>
 
@@ -60,13 +62,15 @@
 import PaySelectModal from '@/components/order-history-page/PaySelectModal.vue'
 import PayLoadingModal from '@/components/order-history-page/PayLoadingModal.vue'
 import OrderAccordion from '@/components/order-history-page/OrderAccordion.vue'
+import ToTopBtn from '@/components/menu-page/ToTopBtn.vue'
 
 export default {
   inject: ['orderHistory', 'paymentStatus', 'guestsCount', 'tableNumber'],
   components: {
     PaySelectModal,
     PayLoadingModal,
-    OrderAccordion
+    OrderAccordion,
+    ToTopBtn
   },
   computed: {
     totalAmount () {

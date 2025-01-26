@@ -13,6 +13,7 @@
   </div>
   <ProductWindow ref="productModal" :mealPropped="mealProps"></ProductWindow>
   <BottomPanel></BottomPanel>
+  <ToTopBtn></ToTopBtn>
 </template>
 
 <script>
@@ -21,6 +22,7 @@ import ProductWindow from '@/components/menu-page/ProductWindow.vue'
 import BottomPanel from '@/components/menu-page/BottomPanel.vue'
 import InfoBox from '@/components/menu-page/InfoBox.vue'
 import FilterBar from '@/components/menu-page/FilterBar.vue'
+import ToTopBtn from '@/components/menu-page/ToTopBtn.vue'
 
 export default {
   components: {
@@ -28,7 +30,8 @@ export default {
     ProductWindow,
     BottomPanel,
     InfoBox,
-    FilterBar
+    FilterBar,
+    ToTopBtn
   },
   props: [
     'diningHours'

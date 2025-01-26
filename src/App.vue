@@ -169,6 +169,23 @@ body:has(.fixed-bottom) {
   color: #ab7915;
 }
 
+.btn-FFEAC0 {
+  --bs-btn-color: #6A041D;
+  --bs-btn-bg: #FFEAC0;
+  --bs-btn-border-color: #FFEAC0;
+  --bs-btn-hover-color: #6A041D;
+  --bs-btn-hover-bg: #edd9b2;
+  --bs-btn-hover-border-color: #edd9b2;
+  --bs-btn-focus-shadow-rgb: 11, 172, 204;
+  --bs-btn-active-color: #6A041D;
+  --bs-btn-active-bg: #edd9b2;
+  --bs-btn-active-border-color: #edd9b2;
+  --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  --bs-btn-disabled-color: #6A041D;
+  --bs-btn-disabled-bg: #FFEAC0;
+  --bs-btn-disabled-border-color: #FFEAC0;
+}
+
 .btn-6A041D {
   --bs-btn-color: #FFF;
   --bs-btn-bg: #6A041D;

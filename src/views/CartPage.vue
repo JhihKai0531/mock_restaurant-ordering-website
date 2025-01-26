@@ -89,6 +89,8 @@
         送出訂單
       </button>
     </template>
+
+    <ToTopBtn></ToTopBtn>
   </div>
 </template>
 
@@ -96,10 +98,11 @@
 import CartItemList from '@/components/cart-page/CartItemList.vue'
 import EditWindow from '@/components/cart-page/EditWindow.vue'
 import DeleteModal from '@/components/cart-page/DeleteModal.vue'
+import ToTopBtn from '@/components/menu-page/ToTopBtn.vue'
 
 export default {
   inject: ['cartData', 'guestsCount', 'tableNumber', 'orderHistory', 'diningFinished'],
-  components: { CartItemList, EditWindow, DeleteModal },
+  components: { CartItemList, EditWindow, DeleteModal, ToTopBtn },
   data () {
     return {
       isInvalidTableNumber: false,
