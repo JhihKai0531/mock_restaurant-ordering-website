@@ -1,7 +1,7 @@
 <template>
   <div class="container px-4 py-3">
-    <p v-show="cartData.length" class="mb-2">
-      <RouterLink to="/" class="text-success text-decoration-none">回菜單←</RouterLink>
+    <p v-if="cartData.length" class="mb-2">
+      <RouterLink to="/" class="text-decoration-none custom-link fw-semibold">回菜單←</RouterLink>
     </p>
 
     <form>
@@ -77,26 +77,30 @@
     <EditWindow ref="editModal" :cartItemPropped="cartItemProps"></EditWindow>
     <DeleteModal ref="deleteModel"></DeleteModal>
 
-    <div v-show="cartData.length">
-      <!-- 購物車，以表格呈現。當中的插槽用來填入購物車金額小計。 -->
-      <CartItemTable @editProduct="editProduct">
+    <!-- 購物車，以表格呈現。當中的插槽用來填入購物車金額小計。 -->
+    <template v-if="cartData.length">
+      <CartItemList @editProduct="editProduct">
         {{ `NT$${cartSubtotal}` }}
-      </CartItemTable>
-      <button type="button" class="btn btn-warning fixed-bottom btn-lg" :disabled="diningFinished.value" @click="submitCartData">
-        送出訂單
-      </button>
-    </div>
+      </CartItemList>
+    </template>
+
+    <button type="button" class="btn btn-warning fixed-bottom btn-lg btn-822C41" :disabled="diningFinished.value || !cartData.length" @click="submitCartData">
+      送出訂單
+    </button>
+
+    <ToTopBtn></ToTopBtn>
   </div>
 </template>
 
 <script>
-import CartItemTable from '@/components/cart-page/CartItemTable.vue'
+import CartItemList from '@/components/cart-page/CartItemList.vue'
 import EditWindow from '@/components/cart-page/EditWindow.vue'
 import DeleteModal from '@/components/cart-page/DeleteModal.vue'
+import ToTopBtn from '@/components/application/ToTopBtn.vue'
 
 export default {
   inject: ['cartData', 'guestsCount', 'tableNumber', 'orderHistory', 'diningFinished'],
-  components: { CartItemTable, EditWindow, DeleteModal },
+  components: { CartItemList, EditWindow, DeleteModal, ToTopBtn },
   data () {
     return {
       isInvalidTableNumber: false,

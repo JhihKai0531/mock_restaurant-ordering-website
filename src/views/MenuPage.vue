@@ -1,28 +1,37 @@
 <template>
-  <div class="card w-75 mx-auto my-2">
-    <div class="card-body">
-      <p class="text-center mb-0">
-        <span>{{ diningHours[0] }}</span>
-        <span class="text-warning-emphasis"><br>{{ diningHours[1] }}</span>
-      </p>
+  <div class="container-xl">
+    <div class="row">
+      <div class="col-xl-3">
+        <InfoBox :dining-hours="diningHours"></InfoBox>
+        <CategoryNav></CategoryNav>
+      </div>
+      <div class="col-xl-9">
+        <FilterBar></FilterBar>
+        <RouterView @selectProduct="selectProduct"></RouterView>
+      </div>
     </div>
   </div>
-  <CategoryNav></CategoryNav>
   <ProductWindow ref="productModal" :mealPropped="mealProps"></ProductWindow>
   <BottomPanel></BottomPanel>
-  <RouterView @selectProduct="selectProduct"></RouterView>
+  <ToTopBtn></ToTopBtn>
 </template>
 
 <script>
 import CategoryNav from '@/components/menu-page/CategoryNav.vue'
 import ProductWindow from '@/components/menu-page/ProductWindow.vue'
 import BottomPanel from '@/components/menu-page/BottomPanel.vue'
+import InfoBox from '@/components/menu-page/InfoBox.vue'
+import FilterBar from '@/components/menu-page/FilterBar.vue'
+import ToTopBtn from '@/components/application/ToTopBtn.vue'
 
 export default {
   components: {
     CategoryNav,
     ProductWindow,
-    BottomPanel
+    BottomPanel,
+    InfoBox,
+    FilterBar,
+    ToTopBtn
   },
   props: [
     'diningHours'

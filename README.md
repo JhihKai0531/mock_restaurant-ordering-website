@@ -1,49 +1,52 @@
 # 肉之家異國料理：模擬餐廳店內點餐網站
 
-這是一個**模擬餐廳店內點餐網站**專案，餐廳名稱為「肉之家異國料理」。
+**肉之家異國料理**是一個專為熱愛肉類美食的顧客設計的模擬店內點餐網站。  
+用戶可以輕鬆瀏覽豐富的菜單、客製化餐點、並快速完成訂單，享受現代化的用餐體驗。
 
-**網站連結**：[https://jhihkai0531.github.io/mock_restaurant-ordering-website/](https://jhihkai0531.github.io/mock_restaurant-ordering-website/)
+🔗 **網站連結**：[https://jhihkai0531.github.io/mock_restaurant-ordering-website/](https://jhihkai0531.github.io/mock_restaurant-ordering-website/)
 
-### 網站畫面擷取
-<img src="./doc_images/menu.png" alt="菜單頁面截圖" width="300">
-<img src="./doc_images/order.png" alt="訂單紀錄頁面截圖" width="300">
+## 網站畫面擷取
 
-### 功能介紹
-顧客進入網站後，可以瀏覽完整菜單。
+| **菜單頁面** | **購物車頁面** |
+|--------------|----------------|
+| <img src="./doc_images/menu.jpg" alt="菜單頁面截圖" width="300"> | <img src="./doc_images/cart.jpg" alt="購物車頁面截圖" width="300"> |
 
-點擊餐點卡片進行客製化的餐點設定（如套餐選擇、辣度、加量、數量等），並將餐點加入購物車。
+## 功能介紹
 
-在購物車檢視餐點品項皆無誤後，送出訂單。
+1. **菜單瀏覽與篩選**
+   - 瀏覽完整菜單，輸入文字篩選商品名稱。
+   - 自由切換菜單版面，滿足不同瀏覽需求。
 
-接著跳轉到點餐紀錄頁面，顧客可以查看已送出的訂單紀錄以及總共的金額。
+2. **客製化與購物車**
+   - 支援餐點客製化設定（套餐、辣度、數量等）。
+   - 將餐點加入購物車，檢視購物車內容，隨時調整。
 
-最後可以按下結帳按鈕選擇現場或是線上付款，若選擇線上付款，會出現模擬的付款處理畫面，隨機回傳結果。
+3. **訂單與付款**
+   - 查看訂單明細、總金額，並模擬付款畫面。
+   - 提供現場付款或線上付款選項。
 
-### 專案靈感
-專案的靈感來自於有次在義式餐廳用餐時，看到餐廳使用 QR Code 掃碼點餐，
+## 專案靈感
+專案的靈感來自於在外面餐廳用餐時，經常看到餐廳使用 QR Code 掃碼點餐，  
+發現每家的設計與功能參差不齊，自己比較了欣賞的與有改進空間的網站覺得很有趣，也想測試自己的實作能力，  
+便希望透過這個專案模擬打造一個直覺好用的點餐網站，並在實作中加深對 Vue.js 和前端工具的理解。
 
-想到最近剛接觸 Vue.js 與 Bootstrap 5，正在尋覓專案主題，希望能夠將學到的基礎知識應用到實際作品當中。
+## 工具選擇
+- **Vue.js**：元件化開發，提升程式結構的可讀性與維護性。
+- **Vue CLI**：用於開發、打包與部署。
+- **Vue Router**：實現單頁應用（SPA）的路由切換。
+- **Bootstrap**：快速搭建樣式與 UI 元件。
 
-而小餐廳的點餐網站正好具有基本的網站規格，又不至於過於龐大，同時也是近年許多餐廳業者逐漸採用的點餐方式，
+## 後續方向
+在專案製作之前，剛透過影片課程學了一陣子 Vue.js 的基本用法，課程也包含了 Vue CLI 建構工具、Bootstrap 框架的使用。因此先選擇以目前有接觸到的技術來實作。
 
-因此便想嘗試復刻看看基本的結構。
-
-或許日後真的需要製作這樣的案子時，可以從現在累積的經驗來延伸。
-
-### 使用技術
-- 本專案使用 Vue CLI 來建構，並結合 Vue Router 進行前端的路由切換。
-- 在 Vue 的撰寫方式上使用 Options API。
-- 主要使用 Bootstrap 5 來搭建樣式，搭配部分自訂的 CSS。
+但後續我希望在更了解不同工具之間的差異之後，主動選擇適合的開發工具。並且在元件的架構、樣式的架構都還有許多進步空間。我會持續提升專案組織架構的思考維度。
 
 ## 資源來源
 
 本專案所使用的圖片及網站資源如下：
 
 - **食物資料來源**：本專案使用的食物資料來自於免費食譜 API 網站 [TheMealDB](https://www.themealdb.com)。該網站主要提供各種食物的食譜，而本專案雖然不是食譜網站，但可以借用該 API 當中的一些圖片、食物名稱、食物種類等資料，來製作成模擬的餐點資訊。
-- **網站圖示**：[Flaticon - Meal Icon](https://www.flaticon.com/free-icon/meal_3274099?term=meals&page=1&position=11&origin=search&related_id=3274099)
 
-### 其他圖片來源
-- **櫃檯圖片**：[Flaticon - Counter Icon](https://www.flaticon.com/free-icon/counter_3492385?term=counter&related_id=3492385)
-- **信用圖片**：[Flaticon - Credit Icon](https://www.flaticon.com/free-icon/credit_1198299)
-- **信用卡圖片**：[Flaticon - Credit Card Icon](https://www.flaticon.com/free-icon/credit-card_4117864?term=digital+payment&related_id=4117864)
-- **錯誤頁面圖片**：[Flaticon - Error 404 Icon](https://www.flaticon.com/free-icon/error-404_3855833?term=error+404&page=1&position=4&origin=search&related_id=3855833)
+- **圖示與圖片**：
+  - [Flaticon - Icon 資源](https://www.flaticon.com)
+  - [Unsplash - 圖片資源](https://unsplash.com)

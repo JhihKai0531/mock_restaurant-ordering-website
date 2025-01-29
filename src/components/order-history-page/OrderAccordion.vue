@@ -10,7 +10,7 @@
           :data-bs-target="`#orderHistoryContent${order.dateTime}`"
         >
           <span>{{ `第 ${index + 1} 次點餐` }}</span>
-          <span class="custom-to-right text-body-secondary">{{ new Date(order.dateTime).toLocaleTimeString() }}</span>
+          <span class="custom-to-right">{{ new Date(order.dateTime).toLocaleTimeString() }}</span>
         </button>
       </h2>
 
@@ -25,7 +25,7 @@
               <span>{{ item.mealObject.strMeal }}</span>
               <span>{{ `NT$${item.subtotal}` }}</span>
               <br>
-              <span v-show="item.setMenuObject.setMenuPrice" class="text-body-secondary ps-3">
+              <span v-if="item.setMenuObject.setMenuPrice" class="text-body-secondary ps-3">
                 {{ item.setMenuObject.setMenuName }}
               </span>
             </summary>
@@ -48,13 +48,13 @@
                 </tr>
 
                 <!-- 加量 -->
-                <tr v-show="item.extraObject.value">
+                <tr v-if="item.extraObject.value">
                   <td>{{ item.extraObject.name }}</td>
                   <td colspan="2">{{ `$${item.extraObject.price}` }}</td>
                 </tr>
 
                 <!-- 套餐 -->
-                <tr v-if="item.setMenuObject.setMenuPrice">
+                <tr>
                   <td>
                     {{ item.setMenuObject.setMenuName }}<br>
                     <span class="text-body-secondary">
@@ -63,18 +63,13 @@
                   </td>
                   <td colspan="2">{{ `$${item.setMenuObject.setMenuPrice}` }}</td>
                 </tr>
-                <tr v-else>
-                  <td>單點</td>
-                  <td colspan="2">$0</td>
-                </tr>
 
                 <!-- 備註 -->
-                <tr v-show="item.notes">
+                <tr v-if="item.notes">
                   <td colspan="3">
                     <details>
                       <summary>備註</summary>
-                      <p v-if="item.notes" class="my-0 text-body-secondary">{{ item.notes }}</p>
-                      <p v-else class="my-0 text-body-secondary">無</p>
+                      <p class="my-0 text-body-secondary text-break">{{ item.notes }}</p>
                     </details>
                   </td>
                 </tr>
@@ -103,8 +98,14 @@ export default {
 </script>
 
 <style scoped>
+/* icon解決方案：https://stackoverflow.com/questions/66231936/change-accordion-button-collapsed-icon-color-in-bootstrap-5 */
 .accordion-button {
-  background-color: #ffe457;
+  background-color: var(--color-6A041D);
+  background-color: var(--color-822C41);
+  --bs-accordion-btn-color: #fff;
+  --bs-accordion-active-color: #fff;
+  --bs-accordion-btn-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='white'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+  --bs-accordion-btn-active-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='white'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
 
   .custom-to-right {
     margin-left: auto;
