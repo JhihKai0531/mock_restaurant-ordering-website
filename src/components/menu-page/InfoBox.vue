@@ -19,7 +19,3 @@ export default {
   props: ['diningHours']
 }
 </script>
-
-<style scoped>
-
-</style>

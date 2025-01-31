@@ -4,8 +4,8 @@
       <div class="modal-content">
 
         <!-- Modal的內容主體 -->
-        <div class="modal-header d-block text-center border-bottom-0">
-          <h1 class="modal-title fs-5">請點選付款方式並確認</h1>
+        <div class="modal-header border-bottom-0">
+          <h1 class="modal-title fs-5 position-relative start-50 translate-middle-x">請點選付款方式並確認</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
 
@@ -78,11 +78,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.btn-close {
-  position: absolute;
-  right: 1rem;
-  top: 1rem;
-}
-</style>

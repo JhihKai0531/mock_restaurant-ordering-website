@@ -288,16 +288,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-textarea {
-  resize: none;
-}
-
-.modal {
-  .form-check-input:checked {
-    background-color: var(--bs-honey-gold);
-    border-color: var(--bs-honey-gold);
-  }
-}
-</style>

@@ -1,6 +1,6 @@
 <template>
   <div id="payLoadingModal" ref="modal" class="modal fade" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered modal-sm">
+    <div class="modal-dialog modal-dialog-centered modal-sm-unresponsive">
       <div class="modal-content">
 
         <div class="modal-body text-center">
@@ -28,7 +28,7 @@
 
           <!-- 付款失敗 -->
           <template v-else-if="paymentStatus.value === 'failed'">
-            <h1 class="modal-title fs-4 mb-2">
+            <h1 class="modal-title fs-4 mb-2 mt-2">
               付款失敗，請再試一次。
             </h1>
             <p class="mb-0 text-body-tertiary">此為隨機模擬結果，不必擔心。</p>
@@ -86,16 +86,10 @@ export default {
 </script>
 
 <style scoped>
-.modal-sm {
-  max-width: 300px;
-  margin-right: auto;
-  margin-left: auto;
-}
-
 .btn-close {
   position: absolute;
-  right: 0.25em;
-  top: 0.25em;
+  right: 0.5em;
+  top: 0.5em;
 }
 
 /* 動畫來源：https://css-loaders.com/dots/ */
