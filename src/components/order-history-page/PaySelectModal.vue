@@ -31,7 +31,7 @@
             </div>
           </div>
 
-          <button type="button" class="btn btn-6A041D w-25" :disabled="!paymentSelected" @click="confirmOption">
+          <button type="button" class="btn btn-rosewood w-25" :disabled="!paymentSelected" @click="confirmOption">
             確定
           </button>
         </div>

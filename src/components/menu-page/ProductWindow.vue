@@ -122,10 +122,10 @@
           </div>
 
           <div class="modal-footer">
-            <button type="button" class="btn btn-outline-6A041D" data-bs-dismiss="modal" @click="clearProductSettings">
+            <button type="button" class="btn btn-outline-rosewood" data-bs-dismiss="modal" @click="clearProductSettings">
               取消
             </button>
-            <button type="button" class="btn btn-6A041D" :disabled="diningFinished.value" @click="addToCart">
+            <button type="button" class="btn btn-rosewood" :disabled="diningFinished.value" @click="addToCart">
               加入購物車
             </button>
           </div>
@@ -296,8 +296,8 @@ textarea {
 
 .modal {
   .form-check-input:checked {
-    background-color: var(--color-F5B841);
-    border-color: var(--color-F5B841);
+    background-color: var(--bs-honey-gold);
+    border-color: var(--bs-honey-gold);
   }
 }
 </style>

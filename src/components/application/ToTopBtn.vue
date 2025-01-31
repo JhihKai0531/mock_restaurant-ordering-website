@@ -1,5 +1,5 @@
 <template>
-  <button type="button" class="btn btn-FFEAC0 rounded-circle fs-4" :style="{display: btnDisplay}" @click="goToTop">
+  <button type="button" class="btn btn-butter-cream rounded-circle fs-4" :style="{display: btnDisplay}" @click="goToTop">
     <i class="bi bi-arrow-up"></i>
   </button>
 </template>

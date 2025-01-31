@@ -53,6 +53,6 @@ export default {
 
 .btn-check:checked + .btn {
   color: var(--bs-tertiary-bg);
-  background-color: var(--color-822C41);
+  background-color: var(--bs-wine-red);
 }
 </style>
