@@ -1,7 +1,7 @@
 <template>
   <div class="btn-group fixed-bottom">
     <RouterLink to="/order-history" class="btn btn-light">訂單紀錄</RouterLink>
-    <RouterLink to="/cart" class="btn btn-6A041D">購物車</RouterLink>
+    <RouterLink to="/cart" class="btn btn-rosewood">購物車</RouterLink>
   </div>
 </template>
 

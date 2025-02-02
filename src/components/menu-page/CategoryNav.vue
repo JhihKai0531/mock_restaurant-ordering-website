@@ -16,21 +16,21 @@ export default {
 
 <style scoped>
 .nav-link {
-  color: var(--color-898989);
+  color: var(--bs-gray);
 
   &:hover {
-    color: #404040;
+    color: var(--bs-gray-dark);
   }
 }
 
 .nav-link.active {
-  box-shadow: 0 -8px var(--color-F5B841) inset;
+  box-shadow: 0 -8px var(--bs-honey-gold) inset;
   color: #000;
 }
 
 @media screen and (min-width: 1200px) {
   .nav-link.active {
-    box-shadow: 8px 0 var(--color-F5B841) inset;
+    box-shadow: 8px 0 var(--bs-honey-gold) inset;
   }
 }
 </style>

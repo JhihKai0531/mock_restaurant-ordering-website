@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-sm bg-FFEAC0">
+  <nav class="navbar navbar-expand-sm bg-butter-cream">
     <div class="container-fluid justify-content-sm-start">
       <RouterLink class="navbar-brand" to="/" title="首頁">
         <span class="lead">肉之家異國料理</span>

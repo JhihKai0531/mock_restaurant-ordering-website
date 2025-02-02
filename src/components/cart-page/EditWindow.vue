@@ -124,10 +124,10 @@
             <button type="button" class="btn btn-outline-danger me-auto px-3" data-bs-target="#deleteModel" data-bs-toggle="modal" @click="askToDelete">
               刪除
             </button>
-            <button type="button" class="btn btn-outline-6A041D" data-bs-dismiss="modal" @click="clearProductSettings">
+            <button type="button" class="btn btn-outline-rosewood" data-bs-dismiss="modal" @click="clearProductSettings">
               取消
             </button>
-            <button type="button" class="btn btn-6A041D" @click="finishEditing">
+            <button type="button" class="btn btn-rosewood" @click="finishEditing">
               確認編輯
             </button>
           </div>
@@ -325,16 +325,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-textarea {
-  resize: none;
-}
-
-.modal {
-  .form-check-input:checked {
-    background-color: var(--color-F5B841);
-    border-color: var(--color-F5B841);
-  }
-}
-</style>

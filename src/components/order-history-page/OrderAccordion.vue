@@ -10,7 +10,7 @@
           :data-bs-target="`#orderHistoryContent${order.dateTime}`"
         >
           <span>{{ `第 ${index + 1} 次點餐` }}</span>
-          <span class="custom-to-right">{{ new Date(order.dateTime).toLocaleTimeString() }}</span>
+          <span class="ms-auto">{{ new Date(order.dateTime).toLocaleTimeString() }}</span>
         </button>
       </h2>
 
@@ -22,8 +22,8 @@
           <details v-for="item in order.cart" :key="item.dateTime">
             <!-- 小摺疊面板的標題顯示內容 -->
             <summary class="mb-2">
-              <span>{{ item.mealObject.strMeal }}</span>
-              <span>{{ `NT$${item.subtotal}` }}</span>
+              <span class="d-inline-block col-8 align-top">{{ item.mealObject.strMeal }}</span>
+              <span class="float-end align-top">{{ `NT$${item.subtotal}` }}</span>
               <br>
               <span v-if="item.setMenuObject.setMenuPrice" class="text-body-secondary ps-3">
                 {{ item.setMenuObject.setMenuName }}
@@ -100,32 +100,14 @@ export default {
 <style scoped>
 /* icon解決方案：https://stackoverflow.com/questions/66231936/change-accordion-button-collapsed-icon-color-in-bootstrap-5 */
 .accordion-button {
-  background-color: var(--color-6A041D);
-  background-color: var(--color-822C41);
+  background-color: var(--bs-wine-red);
   --bs-accordion-btn-color: #fff;
   --bs-accordion-active-color: #fff;
   --bs-accordion-btn-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='white'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
   --bs-accordion-btn-active-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='white'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
 
-  .custom-to-right {
-    margin-left: auto;
-  }
-
   &::after {
     margin-left: 1rem;
-  }
-}
-
-.accordion-body > details > summary > span {
-  display: inline-block;
-  vertical-align: top;
-
-  &:first-child {
-    max-width: 67%;
-  }
-
-  &:nth-child(2) {
-    float: right;
   }
 }
 
@@ -141,7 +123,7 @@ tr > td:not(:first-child), tr > th:not(:first-child) {
 .custom-div-cart-subtotal {
   display: flex;
   justify-content: space-between;
-  background-color: #e9ecef;
+  background-color: var(--bs-gray-200);
   padding: 0 0.75rem;
   border-radius: 0.25rem;
   margin: 0 -0.75rem;

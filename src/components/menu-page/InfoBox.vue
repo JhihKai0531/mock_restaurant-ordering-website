@@ -6,7 +6,7 @@
       <span><br>{{ diningHours[1] }}</span>
     </p>
     <p class="mb-0">
-      <span class="badge rounded-pill text-bg-822C41 fs-6 fw-normal">
+      <span class="badge rounded-pill text-bg-wine-red fs-6 fw-normal">
         內用 {{ tableNumber.value || '-' }} 桌 | {{ guestsCount.value }} 位成人
       </span>
     </p>
@@ -19,7 +19,3 @@ export default {
   props: ['diningHours']
 }
 </script>
-
-<style scoped>
-
-</style>

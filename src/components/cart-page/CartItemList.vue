@@ -11,7 +11,7 @@
           </div>
           <div class="col-4 text-end">
             <button type="button"
-              class="btn btn-outline-6A041D"
+              class="btn btn-outline-rosewood"
               data-bs-toggle="modal"
               data-bs-target="#editModal"
               :disabled="diningFinished.value"

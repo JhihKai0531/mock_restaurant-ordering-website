@@ -1,5 +1,5 @@
 <template>
-  <button type="button" class="btn btn-FFEAC0 rounded-circle fs-4" :style="{display: btnDisplay}" @click="goToTop">
+  <button id="toTopBtn" type="button" class="btn btn-butter-cream rounded-circle fs-4" :style="{display: btnDisplay}" @click="goToTop">
     <i class="bi bi-arrow-up"></i>
   </button>
 </template>
@@ -36,7 +36,7 @@ export default {
 <style scoped>
 button {
   position: fixed;
-  bottom: 60px;
+  bottom: var(--reserve-space-panel, 20px);
   right: 20px;
   z-index: 30;
 }

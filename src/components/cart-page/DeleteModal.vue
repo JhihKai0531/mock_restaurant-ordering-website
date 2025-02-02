@@ -1,6 +1,6 @@
 <template>
   <div id="deleteModel" ref="modal" class="modal fade" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered modal-sm">
+  <div class="modal-dialog modal-dialog-centered modal-sm-unresponsive">
     <div class="modal-content">
 
       <div class="modal-body text-center" style="padding: 1.5rem 1.5rem 1rem;">
@@ -56,11 +56,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.modal-sm {
-  max-width: 300px;
-  margin-right: auto;
-  margin-left: auto;
-}
-</style>

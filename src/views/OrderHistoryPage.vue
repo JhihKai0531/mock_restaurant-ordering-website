@@ -42,7 +42,7 @@
       <p class="mb-0">桌號：{{ tableNumber.value }}</p>
       <p>
         用餐人數：{{ guestsCount.value }}位
-        <RouterLink to="/" class="custom-link float-end text-decoration-none">
+        <RouterLink to="/" class="text-roast-brown float-end text-decoration-none">
           回菜單〉
         </RouterLink>
       </p>
