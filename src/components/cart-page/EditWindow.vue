@@ -291,7 +291,7 @@ function finishEditing () {
       cartData.value.splice(index, 1, all)
     }
   })
-  // console.log('修改完成：', editedObject, '\n目前購物車', cartData)
+  // console.log('修改完成：', all, '\n目前購物車', cartData)
 
   modalInstance.value.hide()
   clearSettings()
@@ -299,7 +299,6 @@ function finishEditing () {
 
 // 有關刪除的邏輯
 function askToDelete () {
-  // 不確定這裡會不會解包
   emitter.emit('deleteItem', mealInfo.value)
   isInvalidCount.value = false
 }

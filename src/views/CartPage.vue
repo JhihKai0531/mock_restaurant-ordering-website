@@ -216,7 +216,7 @@ const deleteModal = ref(null)
 onBeforeRouteLeave(() => {
   if (document.getElementById('editModal').classList.contains('show') || document.getElementById('deleteModel').classList.contains('show')) {
     editModal.value.modalInstance.hide()
-    deleteModal.value.modalInstance.hide() // 之後要改
+    deleteModal.value.modalInstance.hide()
     editModal.value.clearSettings()
     return false
   }

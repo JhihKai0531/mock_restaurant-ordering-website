@@ -92,7 +92,7 @@ function processPayment (selected) {
     paymentStatus.value = selected
   } else if (selected === 'payWithCreditCard' || selected === 'payDigital') {
     paymentStatus.value = 'processing'
-    payLoadingModal.value.modalInstance.show() // 之後要改
+    payLoadingModal.value.modalInstance.show()
 
     // 隨機模擬付款結果，70%機率成功，五秒後顯示結果
     setTimeout(() => {
