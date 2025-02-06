@@ -38,60 +38,64 @@
   </div>
 </template>
 
-<script>
-export default {
-  props: ['category'],
-  inject: ['mealList'],
-  data () {
-    return {
-      listIsHidden: [],
-      layout: 'listLayout',
-      squareLayout: {
-        rowCols: ['row-cols-md-3', 'row-cols-sm-2', 'gx-5'],
-        innerRow: ['flex-column', 'align-items-center', 'gx-0', 'gy-3', 'mt-0'],
-        imgCol: ['col-8'],
-        textCol: ['col-12']
-      },
-      listLayout: {
-        rowCols: ['row-cols-md-2'],
-        innerRow: ['gx-3'],
-        imgCol: ['col-4'],
-        textCol: ['col-8']
-      }
-    }
-  },
-  computed: {
-    mealsOfType () {
-      const filtered = this.mealList.filter(item => {
-        return item.category === this.category
-      })
+<script setup>
+import { computed, inject, ref, watchEffect } from 'vue'
+import { useRouter } from 'vue-router'
 
-      // 如果意外地沒有匹配的類別，就重新導向
-      if (!filtered.length) {
-        this.$router.replace('/Beef')
-      }
+const emitter = inject('emitter')
+const router = useRouter()
 
-      return filtered
-    },
-    layoutClasses () {
-      return this[this.layout]
-    }
+const props = defineProps(['category'])
+
+// 渲染出商品
+const mealList = inject('mealList')
+
+const mealsOfType = computed(() => {
+  return mealList.value.filter(item => item.category === props.category)
+})
+
+// 如果沒有匹配的類別（例如路徑為'/Bee'），就重新導向
+watchEffect(() => {
+  if (!mealsOfType.value.length) router.replace('/Beef')
+})
+
+// 切換版面
+const layout = ref('listLayout')
+
+const layoutSet = ref({
+  squareLayout: {
+    rowCols: ['row-cols-md-3', 'row-cols-sm-2', 'gx-5'],
+    innerRow: ['flex-column', 'align-items-center', 'gx-0', 'gy-3', 'mt-0'],
+    imgCol: ['col-8'],
+    textCol: ['col-12']
   },
-  methods: {
-    filterSearch (search) {
-      const strMeals = this.mealsOfType.map(item => item.strMeal)
-      const mapping = strMeals.map(str => !str.toUpperCase().includes(search.toUpperCase()))
-      this.listIsHidden.splice(0, this.listIsHidden.length, ...mapping)
-    },
-    switchLayout (layout) {
-      this.layout = layout
-    }
-  },
-  created () {
-    this.emitter.on('filterSearch', this.filterSearch)
-    this.emitter.on('switchLayout', this.switchLayout)
+  listLayout: {
+    rowCols: ['row-cols-md-2'],
+    innerRow: ['gx-3'],
+    imgCol: ['col-4'],
+    textCol: ['col-8']
   }
+})
+
+const layoutClasses = computed(() => layoutSet.value[layout.value])
+
+function switchLayout (str) {
+  layout.value = str
 }
+
+emitter.on('switchLayout', switchLayout)
+
+// 搜尋商品
+// 使用display: none隱藏列表，而不是v-show顯示列表，因為陣列裡面一開始沒有資料
+const listIsHidden = ref([])
+
+function filterSearch (search) {
+  const strMeals = mealsOfType.value.map(item => item.strMeal)
+  const mapping = strMeals.map(str => !str.toUpperCase().includes(search.toUpperCase()))
+  listIsHidden.value.splice(0, listIsHidden.value.length, ...mapping)
+}
+
+emitter.on('filterSearch', filterSearch)
 </script>
 
 <style scoped>

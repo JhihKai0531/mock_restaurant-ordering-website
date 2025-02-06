@@ -6,7 +6,7 @@
         <i class="bi bi-search"></i>
       </span>
 
-      <input v-model="search" type="search" class="form-control border-0 bg-body-tertiary" placeholder="輸入以搜尋商品..." @input="emitSearch">
+      <input v-model.trim="search" type="search" class="form-control border-0 bg-body-tertiary" placeholder="輸入以搜尋商品..." @input="emitSearch">
 
       <!-- 選擇商品清單版面模式 -->
       <div class="input-group-text border-0" title="切換版面">

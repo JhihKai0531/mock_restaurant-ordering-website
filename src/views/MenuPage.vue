@@ -16,7 +16,9 @@
   <ToTopBtn></ToTopBtn>
 </template>
 
-<script>
+<script setup>
+import { ref } from 'vue'
+import { onBeforeRouteLeave } from 'vue-router'
 import CategoryNav from '@/components/menu-page/CategoryNav.vue'
 import ProductWindow from '@/components/menu-page/ProductWindow.vue'
 import BottomPanel from '@/components/menu-page/BottomPanel.vue'
@@ -24,34 +26,21 @@ import InfoBox from '@/components/menu-page/InfoBox.vue'
 import FilterBar from '@/components/menu-page/FilterBar.vue'
 import ToTopBtn from '@/components/application/ToTopBtn.vue'
 
-export default {
-  components: {
-    CategoryNav,
-    ProductWindow,
-    BottomPanel,
-    InfoBox,
-    FilterBar,
-    ToTopBtn
-  },
-  props: [
-    'diningHours'
-  ],
-  data () {
-    return {
-      mealProps: {}
-    }
-  },
-  methods: {
-    selectProduct (meal) {
-      this.mealProps = meal
-    }
-  },
-  beforeRouteLeave (to, from) {
-    if (document.getElementById('productModal').classList.contains('show')) {
-      this.$refs.productModal.modal.hide()
-      this.$refs.productModal.clearProductSettings()
-      return false
-    }
-  }
+defineProps(['diningHours'])
+
+// 傳遞餐點資訊到Modal
+const mealProps = ref({})
+function selectProduct (meal) {
+  mealProps.value = meal
 }
+
+// 確保Modal被關閉
+const productModal = ref(null)
+onBeforeRouteLeave(() => {
+  if (document.getElementById('productModal').classList.contains('show')) {
+    productModal.value.modalInstance.hide()
+    productModal.value.clearSettings()
+    return false
+  }
+})
 </script>

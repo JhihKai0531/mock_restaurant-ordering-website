@@ -5,7 +5,7 @@
 
         <div class="modal-header">
           <h1 class="modal-title fs-5">編輯餐點</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" @click="clearProductSettings"></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" @click="clearSettings"></button>
         </div>
 
         <form>
@@ -21,7 +21,7 @@
               <legend class="col-form-label">套餐</legend>
               <div v-for="set in setMenus" :key="set.setMenuId" class="form-check">
                 <input :id="`${set.setMenuId}_E`"
-                  v-model="productUserEditing.setMenuRadio"
+                  v-model="userEditing.setMenuRadio"
                   class="form-check-input"
                   type="radio"
                   :value="set.setMenuId"
@@ -45,7 +45,7 @@
               <legend class="col-form-label">辣度</legend>
               <div v-for="item in spicyArray" :key="item.value" class="form-check form-check-inline">
                 <input :id="`${item.value}_E`"
-                  v-model="productUserEditing.spicy"
+                  v-model="userEditing.spicy"
                   class="form-check-input"
                   type="radio"
                   :value="item.value"
@@ -61,7 +61,7 @@
               <legend class="col-form-label">加量</legend>
               <div class="form-check">
                 <input id="extraCheckbox_E"
-                  v-model="productUserEditing.extra"
+                  v-model="userEditing.extra"
                   class="form-check-input"
                   type="checkbox"
                 >
@@ -78,7 +78,7 @@
             <fieldset>
               <label for="notesText_E" class="col-form-label">備註</label>
               <textarea id="notesText_E"
-                v-model.lazy="productUserEditing.notes"
+                v-model.lazy="userEditing.notes"
                 class="form-control"
                 rows="3"
               ></textarea>
@@ -90,14 +90,14 @@
               <!-- 一樣用網格系統來擺放「減按鈕」、「數字框」、「加按鈕」 -->
               <div class="row gx-0">
                 <div class="col-2 text-center">
-                  <button type="button" class="btn border-0" :disabled="productUserEditing.count <= 1" @click="minusCount">
+                  <button type="button" class="btn border-0" :disabled="userEditing.count <= 1" @click="minusCount">
                     <i class="bi bi-dash-lg"></i>
                   </button>
                 </div>
 
                 <div class="col-4">
                   <input id="count_E"
-                    v-model.number="productUserEditing.count"
+                    v-model.number="userEditing.count"
                     class="form-control"
                     :class="{'is-invalid': isInvalidCount}"
                     type="number" min="1"
@@ -124,7 +124,7 @@
             <button type="button" class="btn btn-outline-danger me-auto px-3" data-bs-target="#deleteModel" data-bs-toggle="modal" @click="askToDelete">
               刪除
             </button>
-            <button type="button" class="btn btn-outline-rosewood" data-bs-dismiss="modal" @click="clearProductSettings">
+            <button type="button" class="btn btn-outline-rosewood" data-bs-dismiss="modal" @click="clearSettings">
               取消
             </button>
             <button type="button" class="btn btn-rosewood" @click="finishEditing">
@@ -138,190 +138,186 @@
   </div>
 </template>
 
-<script>
-import setMenuJson from '@/assets/set-menu.json'
+<script setup>
+import { computed, inject, onBeforeUnmount, onBeforeUpdate, onMounted, onUnmounted, ref } from 'vue'
 import { Modal } from 'bootstrap'
-export default {
-  props: ['cartItemPropped'],
-  inject: ['cartData'],
-  data () {
-    return {
-      // Bootstrap互動視窗
-      modal: {},
-      // 如果因為錯誤導致資料沒有傳進來，至少先給個初始值
-      productUserEditing: {
-        setMenuRadio: 'No',
-        spicy: 'no',
-        extra: false,
-        notes: '',
-        count: 0
-      },
-      // 餐點資訊先給個空物件，再利用生命週期修改它
-      mealInfo: {},
-      // 以下同ProductWindow.vue
-      isInvalidCount: false,
-      setMenus: setMenuJson,
-      spicyArray: [
-        { value: 'no', name: '不辣' },
-        { value: 'mild', name: '微辣' },
-        { value: 'mildMedium', name: '小辣' },
-        { value: 'medium', name: '中辣' },
-        { value: 'hot', name: '大辣' }
-      ],
-      extraPrice: 25
-    }
-  },
-  computed: {
-    // 商品表單的價格小計
-    subtotal () {
-      const productPrice = this.mealInfo.price
+import setMenus from '@/assets/set-menu.json'
 
-      let setMenuPrice = 0
-      this.setMenus.forEach(set => {
-        if (set.setMenuId === this.productUserEditing.setMenuRadio) {
-          setMenuPrice = set.setMenuPrice
-        }
-      })
+const emitter = inject('emitter')
 
-      const extraPrice = this.productUserEditing.extra ? 25 : 0
-      const count = this.productUserEditing.count
+const props = defineProps(['cartItemPropped'])
 
-      return (productPrice + setMenuPrice + extraPrice) * count
-    }
-  },
-  methods: {
-    // 在beforeUpdate觸發這兩個事件，對本地的data賦值
-    setEditingOptions () {
-      this.productUserEditing = this.cartItemPropped.options
-    },
-    setMealInfo () {
-      this.mealInfo = this.cartItemPropped.mealItem
-    },
-    // 增加數字框的數字
-    plusCount () {
-      let number = this.productUserEditing.count
-      number++
-      this.productUserEditing.count = number
-      this.checkCount()
-    },
-    // 減少數字框的數字，並檢查和校正數值
-    minusCount () {
-      let number = this.productUserEditing.count
-      number--
-      if (number < 1) {
-        number = 1
-      }
-      this.productUserEditing.count = number
-      this.checkCount()
-    },
-    // 觸發時檢查數值，並修改資料狀態
-    checkCount () {
-      if (this.productUserEditing.count < 1 || this.productUserEditing.count % 1 !== 0) {
-        this.isInvalidCount = true
-      } else {
-        this.isInvalidCount = false
-      }
-    },
-    // 完成修改時的動作
-    finishEditing () {
-      this.checkCount()
-      if (this.isInvalidCount) { return }
+// 餐點選項（顯示用）
+const spicyArray = [
+  { value: 'no', name: '不辣' },
+  { value: 'mild', name: '微辣' },
+  { value: 'mildMedium', name: '小辣' },
+  { value: 'medium', name: '中辣' },
+  { value: 'hot', name: '大辣' }
+]
+const extraPrice = 25
 
-      const mealObject = { ...this.mealInfo }
+// Modal視窗
+const modal = ref(null)
+const modalInstance = ref(null)
+onMounted(() => {
+  modalInstance.value = new Modal(modal.value, {
+    backdrop: 'static',
+    keyboard: false
+  })
+})
+onBeforeUnmount(() => {
+  modalInstance.value.hide()
+})
+defineExpose({ modalInstance, clearSettings })
 
-      let setMenuObject = {}
-      this.setMenus.forEach(set => {
-        if (set.setMenuId === this.productUserEditing.setMenuRadio) {
-          setMenuObject = { ...set }
-        }
-      })
+// V-Model餐點選項設定
+// 如果因為錯誤導致資料沒有傳進來，至少先給個初始值
+const userEditing = ref({
+  setMenuRadio: 'No',
+  spicy: 'no',
+  extra: false,
+  notes: '',
+  count: 0
+})
 
-      let spicyObject = {}
-      this.spicyArray.forEach(option => {
-        if (option.value === this.productUserEditing.spicy) {
-          spicyObject = { ...option }
-        }
-      })
+// 將商品視窗的表單復原到預設值
+function clearSettings () {
+  userEditing.value = {
+    setMenuRadio: 'No',
+    spicy: 'no',
+    extra: false,
+    notes: '',
+    count: 0
+  }
+  isInvalidCount.value = false
+}
 
-      const extraObject = {
-        value: this.productUserEditing.extra,
-        price: this.productUserEditing.extra ? 25 : 0,
-        name: this.productUserEditing.extra ? '加量' : ''
-      }
+// 餐點資訊先給個空物件，再利用生命週期修改它
+const mealInfo = ref({})
+function setMealInfo () {
+  mealInfo.value = props.cartItemPropped.mealItem
+}
+function setEditingOptions () {
+  userEditing.value = props.cartItemPropped.options
+}
+onBeforeUpdate(() => {
+  setMealInfo()
+  setEditingOptions()
+})
 
-      const notes = this.productUserEditing.notes
-      const count = this.productUserEditing.count
+// 商品表單的價格小計
+const subtotal = computed(() => {
+  const productPrice = mealInfo.value.price
 
-      const subtotal = this.subtotal
-      const dateTime = this.cartItemPropped.dateTime
+  let setMenuPrice = 0
+  setMenuPrice = setMenus
+    .find(set => set.setMenuId === userEditing.value.setMenuRadio)
+    .setMenuPrice
 
-      const editedObject = {
-        mealObject,
-        setMenuObject,
-        spicyObject,
-        extraObject,
-        notes,
-        count,
-        subtotal,
-        dateTime
-      }
+  const extraPrice = userEditing.value.extra ? 25 : 0
+  const count = userEditing.value.count
 
-      // 透過陣列splice去替換資料
-      this.cartData.forEach((item, index) => {
-        if (item.dateTime === editedObject.dateTime) {
-          this.cartData.splice(index, 1, editedObject)
-        }
-      })
-      // console.log('修改完成：', editedObject, '\n目前購物車', this.cartData)
+  return (productPrice + setMenuPrice + extraPrice) * count
+})
 
-      this.modal.hide()
-      this.clearProductSettings()
-    },
-    askToDelete () {
-      this.emitter.emit('deleteItem', this.mealInfo)
-      this.isInvalidCount = false
-    },
-    deleteCartItem () {
-      const dateTime = this.cartItemPropped.dateTime
-      this.cartData.forEach((item, index) => {
-        if (item.dateTime === dateTime) {
-          this.cartData.splice(index, 1)
-        }
-      })
-      // console.log('刪除一項餐點，目前購物車', this.cartData)
-    },
-    // 將商品視窗的表單復原到預設值
-    clearProductSettings () {
-      this.productUserEditing = {
-        setMenuRadio: 'No',
-        spicy: 'no',
-        extra: false,
-        notes: '',
-        count: 0
-      }
-      this.isInvalidCount = false
-    }
-  },
-  created () {
-    this.emitter.on('cancelDeleting', () => {
-      this.checkCount()
-    })
-    this.emitter.on('confirmDeleting', this.deleteCartItem)
-  },
-  beforeUpdate () {
-    this.setMealInfo()
-    this.setEditingOptions()
-  },
-  mounted () {
-    this.modal = new Modal(this.$refs.modal, {
-      backdrop: 'static',
-      keyboard: false
-    })
-  },
-  beforeUnmount () {
-    this.modal.hide()
-    this.emitter.off('cancelDeleting')
-    this.emitter.off('confirmDeleting')
+// 數量是否無效
+const isInvalidCount = ref(false)
+
+// 增加數字框的數字
+function plusCount () {
+  let number = userEditing.value.count
+  number++
+  userEditing.value.count = number
+  checkCount()
+}
+// 減少數字框的數字，並檢查和校正數值
+function minusCount () {
+  let number = userEditing.value.count
+  number--
+  if (number < 1) {
+    number = 1
+  }
+  userEditing.value.count = number
+  checkCount()
+}
+// 觸發時檢查數值，並修改資料狀態
+function checkCount () {
+  if (userEditing.value.count < 1 || userEditing.value.count % 1 !== 0) {
+    isInvalidCount.value = true
+  } else {
+    isInvalidCount.value = false
   }
 }
+
+// 購物車資料
+const cartData = inject('cartData')
+
+// 完成修改時的動作
+function finishEditing () {
+  checkCount()
+  if (isInvalidCount.value) { return }
+
+  const mealObject = { ...mealInfo.value }
+
+  let setMenuObject = {}
+  setMenuObject = { ...setMenus.find(set => set.setMenuId === userEditing.value.setMenuRadio) }
+
+  let spicyObject = {}
+  spicyObject = { ...spicyArray.find(option => option.value === userEditing.value.spicy) }
+
+  const extraObject = {
+    value: userEditing.value.extra,
+    price: userEditing.value.extra ? 25 : 0,
+    name: userEditing.value.extra ? '加量' : ''
+  }
+
+  const dateTime = props.cartItemPropped.dateTime
+
+  const all = {
+    mealObject,
+    setMenuObject,
+    spicyObject,
+    extraObject,
+    notes: userEditing.value.notes,
+    count: userEditing.value.count,
+    subtotal: subtotal.value,
+    dateTime
+  }
+
+  // 透過陣列splice去替換資料
+  cartData.value.forEach((item, index) => {
+    if (item.dateTime === all.dateTime) {
+      cartData.value.splice(index, 1, all)
+    }
+  })
+  // console.log('修改完成：', all, '\n目前購物車', cartData)
+
+  modalInstance.value.hide()
+  clearSettings()
+}
+
+// 有關刪除的邏輯
+function askToDelete () {
+  emitter.emit('deleteItem', mealInfo.value)
+  isInvalidCount.value = false
+}
+
+function deleteCartItem () {
+  const dateTime = props.cartItemPropped.dateTime
+  cartData.value.forEach((item, index) => {
+    if (item.dateTime === dateTime) {
+      cartData.value.splice(index, 1)
+    }
+  })
+  // console.log('刪除一項餐點，目前購物車', cartData)
+}
+
+emitter.on('cancelDeleting', checkCount)
+emitter.on('confirmDeleting', deleteCartItem)
+
+onUnmounted(() => {
+  emitter.off('cancelDeleting')
+  emitter.off('confirmDeleting')
+})
 </script>

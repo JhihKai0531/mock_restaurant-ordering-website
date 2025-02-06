@@ -18,17 +18,17 @@
     <!-- 大標題以及結帳按鈕 -->
     <div v-if="orderHistory.length" class="row mb-3">
       <h1 class="col">點餐紀錄</h1>
-      <div v-if="!(paymentStatus.value === 'payOnSite' || paymentStatus.value === 'succeed')" class="col-auto">
+      <div v-if="!(paymentStatus === 'payOnSite' || paymentStatus === 'succeed')" class="col-auto">
         <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#paySelectModal">
           結帳去
         </button>
       </div>
-      <div v-if="paymentStatus.value === 'payOnSite'" class="col-auto">
+      <div v-if="paymentStatus === 'payOnSite'" class="col-auto">
         <button type="button" class="btn btn-outline-success" disabled>
           現場結帳
         </button>
       </div>
-      <div v-if="paymentStatus.value === 'succeed'" class="col-auto">
+      <div v-if="paymentStatus === 'succeed'" class="col-auto">
         <button type="button" class="btn btn-outline-success" disabled>
           已結帳
         </button>
@@ -38,10 +38,10 @@
     <div v-if="orderHistory.length">
       <h5 class="float-end lh-sm">總金額 {{ `NT$ ${totalAmount} 元` }}</h5>
       <!-- 以首次提交購物車的時間點判斷當下日期 -->
-      <p class="mb-0">{{ new Date(orderHistory[0].dateTime).toLocaleDateString() }}</p>
-      <p class="mb-0">桌號：{{ tableNumber.value }}</p>
+      <p class="mb-0">{{ currentDate }}</p>
+      <p class="mb-0">桌號：{{ tableNumber }}</p>
       <p>
-        用餐人數：{{ guestsCount.value }}位
+        用餐人數：{{ guestsCount }}位
         <RouterLink to="/" class="text-roast-brown float-end text-decoration-none">
           回菜單〉
         </RouterLink>
@@ -58,62 +58,68 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { computed, inject, ref } from 'vue'
+import { onBeforeRouteLeave } from 'vue-router'
 import PaySelectModal from '@/components/order-history-page/PaySelectModal.vue'
 import PayLoadingModal from '@/components/order-history-page/PayLoadingModal.vue'
 import OrderAccordion from '@/components/order-history-page/OrderAccordion.vue'
 import ToTopBtn from '@/components/application/ToTopBtn.vue'
 
-export default {
-  inject: ['orderHistory', 'paymentStatus', 'guestsCount', 'tableNumber'],
-  components: {
-    PaySelectModal,
-    PayLoadingModal,
-    OrderAccordion,
-    ToTopBtn
-  },
-  computed: {
-    totalAmount () {
-      let result = 0
-      this.orderHistory.forEach(order => {
-        result += order.cartSubtotal
-      })
-      return result
-    }
-  },
-  methods: {
-    processPayment (selected) {
-      if (selected === 'payOnSite') {
-        // 如果現場付款，就不做額外處理
-        this.paymentStatus.value = selected
-      } else if (selected === 'payWithCreditCard' || selected === 'payDigital') {
-        this.paymentStatus.value = 'processing'
-        this.$refs.payLoadingModal.modal.show()
+const guestsCount = inject('guestsCount')
+const tableNumber = inject('tableNumber')
 
-        // 隨機模擬付款結果，70%機率成功，五秒後顯示結果
-        setTimeout(() => {
-          const number = Math.random()
-          const result = number < 0.7 ? 'succeed' : 'failed'
-          this.paymentStatus.value = result
-        }, 5000)
-      } else {
-        // 如果真的有奇怪的值的時候，但應該不會發生
-        console.warn('沒有選擇有效付款選項。')
-      }
-    }
-  },
-  beforeRouteLeave (to, from) {
-    if (document.getElementById('paySelectModal').classList.contains('show') ||
-        document.getElementById('payLoadingModal').classList.contains('show')) {
-      this.$refs.paySelectModal.modal.hide()
-      if (this.paymentStatus.value !== 'processing') {
-        this.$refs.payLoadingModal.modal.hide()
-      }
+const orderHistory = inject('orderHistory')
+const paymentStatus = inject('paymentStatus')
 
-      return false
-    }
+const currentDate = computed(() => {
+  return new Date(orderHistory.value[0].dateTime).toLocaleDateString()
+})
+
+// 總金額
+const totalAmount = computed(() => {
+  let result = 0
+  orderHistory.value.forEach(order => {
+    result += order.cartSubtotal
+  })
+  return result
+})
+
+// 付款處理
+function processPayment (selected) {
+  if (selected === 'payOnSite') {
+    // 如果現場付款，就不做額外處理
+    paymentStatus.value = selected
+  } else if (selected === 'payWithCreditCard' || selected === 'payDigital') {
+    paymentStatus.value = 'processing'
+    payLoadingModal.value.modalInstance.show()
+
+    // 隨機模擬付款結果，70%機率成功，五秒後顯示結果
+    setTimeout(() => {
+      const number = Math.random()
+      const result = number < 0.7 ? 'succeed' : 'failed'
+      paymentStatus.value = result
+    }, 5000)
+  } else {
+    // 如果真的有奇怪的值的時候，但應該不會發生
+    console.warn('沒有選擇有效付款選項。')
   }
 }
+
+// 確保Modal能夠被關閉
+const paySelectModal = ref(null)
+const payLoadingModal = ref(null)
+onBeforeRouteLeave(() => {
+  if (document.getElementById('paySelectModal').classList.contains('show') ||
+    document.getElementById('payLoadingModal').classList.contains('show')) {
+    paySelectModal.value.modalInstance.hide()
+    if (paymentStatus.value !== 'processing') {
+      payLoadingModal.value.modalInstance.hide()
+    }
+
+    return false
+  }
+})
 </script>
 
 <style scoped>

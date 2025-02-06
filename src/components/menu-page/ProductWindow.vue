@@ -5,7 +5,7 @@
 
         <div class="modal-header">
           <h1 class="modal-title fs-5">餐點選項</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" @click="clearProductSettings"></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" @click="clearSettings"></button>
         </div>
 
         <form>
@@ -21,7 +21,7 @@
               <legend class="col-form-label">套餐</legend>
               <div v-for="set in setMenus" :key="set.setMenuId" class="form-check">
                 <input :id="set.setMenuId"
-                  v-model="productUserSettings.setMenuRadio"
+                  v-model="userSettings.setMenuRadio"
                   class="form-check-input"
                   type="radio"
                   :value="set.setMenuId"
@@ -46,7 +46,7 @@
               <legend class="col-form-label">辣度</legend>
               <div v-for="item in spicyArray" :key="item.value" class="form-check form-check-inline">
                 <input :id="item.value"
-                  v-model="productUserSettings.spicy"
+                  v-model="userSettings.spicy"
                   class="form-check-input"
                   type="radio"
                   :value="item.value"
@@ -62,7 +62,7 @@
               <legend class="col-form-label">加量</legend>
               <div class="form-check">
                 <input id="extraCheckbox"
-                  v-model="productUserSettings.extra"
+                  v-model="userSettings.extra"
                   class="form-check-input"
                   type="checkbox"
                 >
@@ -79,7 +79,7 @@
             <fieldset>
               <label for="notesText" class="col-form-label">備註</label>
               <textarea id="notesText"
-                v-model.lazy="productUserSettings.notes"
+                v-model.lazy="userSettings.notes"
                 class="form-control"
                 rows="3"
               ></textarea>
@@ -91,14 +91,14 @@
               <!-- 用網格系統來擺放「減按鈕」、「數字框」、「加按鈕」 -->
               <div class="row gx-0">
                 <div class="col-2 text-center">
-                  <button type="button" class="btn border-0" :disabled="productUserSettings.count <= 1" @click="minusCount">
+                  <button type="button" class="btn border-0" :disabled="userSettings.count <= 1" @click="minusCount">
                     <i class="bi bi-dash-lg"></i>
                   </button>
                 </div>
 
                 <div class="col-4">
                   <input id="count"
-                    v-model.number="productUserSettings.count"
+                    v-model.number="userSettings.count"
                     class="form-control"
                     :class="{'is-invalid': isInvalidCount}"
                     type="number"
@@ -122,10 +122,10 @@
           </div>
 
           <div class="modal-footer">
-            <button type="button" class="btn btn-outline-rosewood" data-bs-dismiss="modal" @click="clearProductSettings">
+            <button type="button" class="btn btn-outline-rosewood" data-bs-dismiss="modal" @click="clearSettings">
               取消
             </button>
-            <button type="button" class="btn btn-rosewood" :disabled="diningFinished.value" @click="addToCart">
+            <button type="button" class="btn btn-rosewood" :disabled="diningFinished" @click="addToCart">
               加入購物車
             </button>
           </div>
@@ -136,155 +136,142 @@
   </div>
 </template>
 
-<script>
-import setMenuJson from '@/assets/set-menu.json'
+<script setup>
+import { computed, inject, onBeforeUnmount, onMounted, ref } from 'vue'
 import { Modal } from 'bootstrap'
-export default {
-  props: ['mealPropped'],
-  inject: ['cartData', 'diningFinished'],
-  data () {
-    return {
-      // Bootstrap互動視窗
-      modal: {},
-      // 供使用者設定的物件，每個項目都綁定v-model
-      productUserSettings: {
-        setMenuRadio: 'No',
-        spicy: 'no',
-        extra: false,
-        notes: '',
-        count: 0
-      },
-      // 驗證數量是否合法，不通過則為true
-      isInvalidCount: false,
-      // 套餐資訊為讀取用，不供修改
-      setMenus: setMenuJson,
-      // 辣度資訊為讀取用，不供修改
-      spicyArray: [
-        { value: 'no', name: '不辣' },
-        { value: 'mild', name: '微辣' },
-        { value: 'mildMedium', name: '小辣' },
-        { value: 'medium', name: '中辣' },
-        { value: 'hot', name: '大辣' }
-      ],
-      // 加量的價錢為讀取用，不供修改
-      extraPrice: 25
-    }
-  },
-  computed: {
-    // 商品表單的價格小計
-    subtotal () {
-      const productPrice = this.mealPropped.price
+import setMenus from '@/assets/set-menu.json'
 
-      let setMenuPrice = 0
-      this.setMenus.forEach(set => {
-        if (set.setMenuId === this.productUserSettings.setMenuRadio) {
-          setMenuPrice = set.setMenuPrice
-        }
-      })
+const props = defineProps(['mealPropped'])
 
-      const extraPrice = this.productUserSettings.extra ? 25 : 0
-      const count = this.productUserSettings.count
+// 用餐完成狀態，決定購物車按鈕是否可用
+const diningFinished = inject('diningFinished')
 
-      return (productPrice + setMenuPrice + extraPrice) * count
-    }
-  },
-  methods: {
-    // 增加數字框的數字
-    plusCount () {
-      let number = this.productUserSettings.count
-      number++
-      this.productUserSettings.count = number
-      this.checkCount()
-    },
-    // 減少數字框的數字，並檢查和校正數值
-    minusCount () {
-      let number = this.productUserSettings.count
-      number--
-      if (number < 1) {
-        number = 1
-      }
-      this.productUserSettings.count = number
-      this.checkCount()
-    },
-    // 觸發時檢查數值，並修改資料狀態
-    checkCount () {
-      if (this.productUserSettings.count < 1 || this.productUserSettings.count % 1 !== 0) {
-        this.isInvalidCount = true
-      } else {
-        this.isInvalidCount = false
-      }
-    },
-    // 加入購物車，可以拆解成：檢查數量值、整理資料、推送資料、關閉商品表單、復原表單資料狀態
-    addToCart () {
-      this.checkCount()
-      if (this.isInvalidCount) { return }
+// 餐點選項（顯示用）
+const spicyArray = [
+  { value: 'no', name: '不辣' },
+  { value: 'mild', name: '微辣' },
+  { value: 'mildMedium', name: '小辣' },
+  { value: 'medium', name: '中辣' },
+  { value: 'hot', name: '大辣' }
+]
+const extraPrice = 25
 
-      const mealObject = { ...this.mealPropped }
+// Modal視窗
+const modal = ref(null)
+const modalInstance = ref(null)
+onMounted(() => {
+  modalInstance.value = new Modal(modal.value, {
+    backdrop: 'static',
+    keyboard: false
+  })
+})
+onBeforeUnmount(() => {
+  modalInstance.value.hide()
+})
+defineExpose({ modalInstance, clearSettings }) // 將資料與方法暴露給父元件
 
-      let setMenuObject = {}
-      this.setMenus.forEach(set => {
-        if (set.setMenuId === this.productUserSettings.setMenuRadio) {
-          setMenuObject = { ...set }
-        }
-      })
+// V-Model餐點選項設定
+const userSettings = ref({
+  setMenuRadio: 'No',
+  spicy: 'no',
+  extra: false,
+  notes: '',
+  count: 0
+})
 
-      let spicyObject = {}
-      this.spicyArray.forEach(option => {
-        if (option.value === this.productUserSettings.spicy) {
-          spicyObject = { ...option }
-        }
-      })
-
-      const extraObject = {
-        value: this.productUserSettings.extra,
-        price: this.productUserSettings.extra ? 25 : 0,
-        name: this.productUserSettings.extra ? '加量' : ''
-      }
-
-      const notes = this.productUserSettings.notes
-      const count = this.productUserSettings.count
-
-      const subtotal = this.subtotal
-      const dateTime = new Date().getTime()
-
-      const entireObject = {
-        mealObject,
-        setMenuObject,
-        spicyObject,
-        extraObject,
-        notes,
-        count,
-        subtotal,
-        dateTime
-      }
-
-      this.cartData.push(entireObject)
-      // console.log('加入購物車：', entireObject)
-
-      this.modal.hide()
-      this.clearProductSettings()
-    },
-    // 將商品視窗的表單復原到預設值
-    clearProductSettings () {
-      this.productUserSettings = {
-        setMenuRadio: 'No',
-        spicy: 'no',
-        extra: false,
-        notes: '',
-        count: 0
-      }
-      this.isInvalidCount = false
-    }
-  },
-  mounted () {
-    this.modal = new Modal(this.$refs.modal, {
-      backdrop: 'static',
-      keyboard: false
-    })
-    // console.log(this.diningFinished.value)
-  },
-  beforeUnmount () {
-    this.modal.hide()
+// 將商品視窗的表單復原到預設值
+function clearSettings () {
+  userSettings.value = {
+    setMenuRadio: 'No',
+    spicy: 'no',
+    extra: false,
+    notes: '',
+    count: 0
   }
+  isInvalidCount.value = false
+}
+
+// 商品表單的價格小計
+const subtotal = computed(() => {
+  const productPrice = props.mealPropped.price
+
+  let setMenuPrice = 0
+  setMenuPrice = setMenus
+    .find(set => set.setMenuId === userSettings.value.setMenuRadio)
+    .setMenuPrice
+
+  const extraPrice = userSettings.value.extra ? 25 : 0
+  const count = userSettings.value.count
+
+  return (productPrice + setMenuPrice + extraPrice) * count
+})
+
+// 數量是否無效
+const isInvalidCount = ref(false)
+
+// 增加數字框的數字
+function plusCount () {
+  let number = userSettings.value.count
+  number++
+  userSettings.value.count = number
+  checkCount()
+}
+// 減少數字框的數字，並檢查和校正數值
+function minusCount () {
+  let number = userSettings.value.count
+  number--
+  if (number < 1) {
+    number = 1
+  }
+  userSettings.value.count = number
+  checkCount()
+}
+// 觸發時檢查數值，並修改資料狀態
+function checkCount () {
+  if (userSettings.value.count < 1 || userSettings.value.count % 1 !== 0) {
+    isInvalidCount.value = true
+  } else {
+    isInvalidCount.value = false
+  }
+}
+
+// 購物車資料
+const cartData = inject('cartData')
+
+// 加入購物車，可以拆解成：檢查數量值、整理資料、推送資料、關閉商品表單、復原表單資料狀態
+function addToCart () {
+  checkCount()
+  if (isInvalidCount.value) { return }
+
+  const mealObject = { ...props.mealPropped }
+
+  let setMenuObject = {}
+  setMenuObject = { ...setMenus.find(set => set.setMenuId === userSettings.value.setMenuRadio) }
+
+  let spicyObject = {}
+  spicyObject = { ...spicyArray.find(option => option.value === userSettings.value.spicy) }
+
+  const extraObject = {
+    value: userSettings.value.extra,
+    price: userSettings.value.extra ? 25 : 0,
+    name: userSettings.value.extra ? '加量' : ''
+  }
+
+  const all = {
+    mealObject,
+    setMenuObject,
+    spicyObject,
+    extraObject,
+    notes: userSettings.value.notes,
+    count: userSettings.value.count,
+    subtotal: subtotal.value,
+    dateTime: Date.now()
+  }
+
+  cartData.value.push(all)
+  // console.log('加入購物車：', all)
+
+  modalInstance.value.hide()
+  clearSettings()
 }
 </script>
