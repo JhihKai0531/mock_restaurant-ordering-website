@@ -13,7 +13,7 @@
 
         <div class="col col-lg-5">
           <select id="tableNumberSelect"
-            v-model="tableNumber.value"
+            v-model="tableNumber"
             class="form-select"
             :class="{'is-invalid': isInvalidTableNumber}"
             @="{change: checkTableNumber}"
@@ -37,14 +37,14 @@
         </div>
 
         <div class="col-2 text-center col-lg-1">
-          <button type="button" title="減少" class="btn border-0" :disabled="guestsCount.value <= 1 || disabledGuestsCount" @click="minusGuestsCount">
+          <button type="button" title="減少" class="btn border-0" :disabled="guestsCount <= 1 || disabledGuestsCount" @click="minusGuestsCount">
             <i class="bi bi-dash-lg"></i>
           </button>
         </div>
 
         <div class="col-3">
           <input id="guestsCountInput"
-            v-model.number="guestsCount.value"
+            v-model.number="guestsCount"
             type="number"
             min="1"
             class="form-control"
@@ -75,7 +75,7 @@
     </div>
 
     <EditWindow ref="editModal" :cartItemPropped="cartItemProps"></EditWindow>
-    <DeleteModal ref="deleteModel"></DeleteModal>
+    <DeleteModal ref="deleteModal"></DeleteModal>
 
     <!-- 購物車，以表格呈現。當中的插槽用來填入購物車金額小計。 -->
     <template v-if="cartData.length">
@@ -84,7 +84,7 @@
       </CartItemList>
     </template>
 
-    <button type="button" class="btn btn-warning fixed-bottom btn-lg btn-wine-red" :disabled="diningFinished.value || !cartData.length" @click="submitCartData">
+    <button type="button" class="btn btn-warning fixed-bottom btn-lg btn-wine-red" :disabled="diningFinished || !cartData.length" @click="submitCartData">
       送出訂單
     </button>
 
@@ -92,124 +92,135 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { inject, ref, watch } from 'vue'
+import { onBeforeRouteLeave, useRouter } from 'vue-router'
 import CartItemList from '@/components/cart-page/CartItemList.vue'
 import EditWindow from '@/components/cart-page/EditWindow.vue'
 import DeleteModal from '@/components/cart-page/DeleteModal.vue'
 import ToTopBtn from '@/components/application/ToTopBtn.vue'
 
-export default {
-  inject: ['cartData', 'guestsCount', 'tableNumber', 'orderHistory', 'diningFinished'],
-  components: { CartItemList, EditWindow, DeleteModal, ToTopBtn },
-  data () {
-    return {
-      isInvalidTableNumber: false,
-      isInvalidGuestsCount: false,
-      cartItemProps: {},
-      cartSubtotal: 0,
-      disabledTableNumber: false,
-      disabledGuestsCount: false
-    }
-  },
-  watch: {
-    cartData: {
-      deep: true,
-      handler () {
-        // console.log('頁面Watch偵測購物車，新值：', newValue)
-        this.calcCartSubtotal()
-      }
-    }
-  },
-  provide () {
-    return {
-      cartSubtotal: this.cartSubtotal
-    }
-  },
-  methods: {
-    checkTableNumber () {
-      if (!this.tableNumber.value) {
-        this.isInvalidTableNumber = true
-      } else {
-        this.isInvalidTableNumber = false
-      }
-    },
-    checkGuestsCount () {
-      if (this.guestsCount.value < 1 || this.guestsCount.value % 1 !== 0) {
-        this.isInvalidGuestsCount = true
-      } else {
-        this.isInvalidGuestsCount = false
-      }
-    },
-    plusGuestsCount () {
-      let number = this.guestsCount.value
-      number++
-      this.guestsCount.value = number
-      this.checkGuestsCount()
-    },
-    minusGuestsCount () {
-      let number = this.guestsCount.value
-      number--
-      if (number < 1) {
-        number = 1
-      }
-      this.guestsCount.value = number
-      this.checkGuestsCount()
-    },
-    calcCartSubtotal () {
-      let result = 0
-      this.cartData.forEach(item => {
-        result += item.subtotal
-      })
-      this.cartSubtotal = result
-      // console.log('計算總和：', this.cartSubtotal)
-    },
-    editProduct (cartItem) {
-      this.cartItemProps = cartItem
-    },
-    directToPage (path) {
-      this.$router.push(path)
-    },
-    submitCartData () {
-      this.checkTableNumber()
-      this.checkGuestsCount()
-      if (this.isInvalidTableNumber || this.isInvalidGuestsCount) { return }
+const router = useRouter()
 
-      const currentTime = new Date()
-      const confirmedData = {
-        cart: this.cartData,
-        cartSubtotal: this.cartSubtotal,
-        tableNumber: this.tableNumber,
-        guestsCount: this.guestsCount,
-        dateTime: currentTime.getTime()
-      }
+const diningFinished = inject('diningFinished')
 
-      const deepCopyData = JSON.parse(JSON.stringify(confirmedData))
+const cartData = inject('cartData')
+const orderHistory = inject('orderHistory')
 
-      this.orderHistory.push(deepCopyData)
-      // console.log('送出訂單！', deepCopyData)
+// 呼叫時檢查訂單紀錄是否有資料，如果有就鎖定桌號與用餐人數欄位
+const disabledTableNumber = ref(false)
+const disabledGuestsCount = ref(false)
 
-      // 清空陣列
-      this.cartData.length = 0
-      this.directToPage('/order-history')
-    },
-    toggleFormDisabled () {
-      this.disabledTableNumber = !!this.orderHistory.length
-      this.disabledGuestsCount = !!this.orderHistory.length
-    }
+watch(
+  () => !!orderHistory.value.length,
+  (hasOrder) => {
+    disabledTableNumber.value = hasOrder
+    disabledGuestsCount.value = hasOrder
   },
-  created () {
-    this.toggleFormDisabled()
-    this.calcCartSubtotal()
-  },
-  beforeRouteLeave (to, from) {
-    if (document.getElementById('editModal').classList.contains('show') || document.getElementById('deleteModel').classList.contains('show')) {
-      this.$refs.editModal.modal.hide()
-      this.$refs.deleteModel.modal.hide()
-      this.$refs.editModal.clearProductSettings()
-      return false
-    }
+  { immediate: true }
+)
+
+// 設定用餐人數
+const guestsCount = inject('guestsCount')
+const tableNumber = inject('tableNumber')
+
+function plusGuestsCount () {
+  let number = guestsCount.value
+  number++
+  guestsCount.value = number
+  checkGuestsCount()
+}
+
+function minusGuestsCount () {
+  let number = guestsCount.value
+  number--
+  if (number < 1) {
+    number = 1
+  }
+  guestsCount.value = number
+  checkGuestsCount()
+}
+
+// 購物車內的金額總和
+const cartSubtotal = ref(0)
+
+watch(
+  cartData,
+  calcCartSubtotal,
+  { immediate: true, deep: true }
+)
+
+function calcCartSubtotal () {
+  let result = 0
+  cartData.value.forEach(item => {
+    result += item.subtotal
+  })
+  cartSubtotal.value = result
+  // console.log('計算總和：', cartSubtotal.value)
+}
+
+// 檢驗桌號與用餐人數
+const isInvalidTableNumber = ref(false)
+const isInvalidGuestsCount = ref(false)
+
+function checkTableNumber () {
+  if (!tableNumber.value) {
+    isInvalidTableNumber.value = true
+  } else {
+    isInvalidTableNumber.value = false
   }
 }
+
+function checkGuestsCount () {
+  if (guestsCount.value < 1 || guestsCount.value % 1 !== 0) {
+    isInvalidGuestsCount.value = true
+  } else {
+    isInvalidGuestsCount.value = false
+  }
+}
+
+// 將子元件傳遞上來的商品資料丟進編輯視窗
+const cartItemProps = ref({})
+
+function editProduct (cartItem) {
+  cartItemProps.value = cartItem
+}
+
+// 提交訂單
+function submitCartData () {
+  checkTableNumber()
+  checkGuestsCount()
+  if (isInvalidTableNumber.value || isInvalidGuestsCount.value) { return }
+
+  const confirmedData = {
+    cart: cartData.value,
+    cartSubtotal: cartSubtotal.value,
+    tableNumber: tableNumber.value,
+    guestsCount: guestsCount.value,
+    dateTime: Date.now()
+  }
+
+  const deepCopyData = JSON.parse(JSON.stringify(confirmedData))
+
+  orderHistory.value.push(deepCopyData)
+  // console.log('送出訂單！', deepCopyData)
+
+  // 清空陣列
+  cartData.value.length = 0
+  router.push('/order-history')
+}
+
+// 確保Modal能夠被關閉
+const editModal = ref(null)
+const deleteModal = ref(null)
+onBeforeRouteLeave(() => {
+  if (document.getElementById('editModal').classList.contains('show') || document.getElementById('deleteModel').classList.contains('show')) {
+    editModal.value.modalInstance.hide()
+    deleteModal.value.modalInstance.hide() // 之後要改
+    editModal.value.clearSettings()
+    return false
+  }
+})
 </script>
 
 <style scoped>

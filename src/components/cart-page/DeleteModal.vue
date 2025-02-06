@@ -22,37 +22,38 @@
 </div>
 </template>
 
-<script>
+<script setup>
+import { inject, onBeforeUnmount, onMounted, ref } from 'vue'
 import { Modal } from 'bootstrap'
 
-export default {
-  inject: ['cartData'],
-  data () {
-    return {
-      // Bootstrap互動視窗
-      modal: {},
-      mealInfo: {}
-    }
-  },
-  methods: {
-    backToEditing () {
-      this.emitter.emit('cancelDeleting')
-    },
-    confirmDeleting () {
-      this.emitter.emit('confirmDeleting')
-    }
-  },
-  created () {
-    this.emitter.on('deleteItem', item => {
-      this.mealInfo = item
-    })
-  },
-  mounted () {
-    this.modal = new Modal(this.$refs.modal)
-  },
-  beforeUnmount () {
-    this.modal.hide()
-    this.emitter.off('deleteItem')
-  }
+const emitter = inject('emitter')
+
+// 接收餐點資訊，以呈現在畫面上
+const mealInfo = ref({})
+emitter.on('deleteItem', item => {
+  mealInfo.value = item
+})
+onBeforeUnmount(() => {
+  emitter.off('deleteItem')
+})
+
+// Modal視窗
+const modal = ref(null)
+const modalInstance = ref(null)
+onMounted(() => {
+  modalInstance.value = new Modal(modal.value)
+})
+onBeforeUnmount(() => {
+  modalInstance.value.hide()
+})
+defineExpose({ modalInstance })
+
+// 返回編輯或確定刪除，交給另一個元件處理
+function backToEditing () {
+  emitter.emit('cancelDeleting')
+}
+
+function confirmDeleting () {
+  emitter.emit('confirmDeleting')
 }
 </script>

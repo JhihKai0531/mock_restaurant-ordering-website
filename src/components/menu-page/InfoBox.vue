@@ -7,7 +7,7 @@
     </p>
     <p class="mb-0">
       <span class="badge rounded-pill text-bg-wine-red fs-6 fw-normal">
-        內用 {{ tableNumber.value || '-' }} 桌 | {{ guestsCount.value }} 位成人
+        內用 {{ tableNumber || '-' }} 桌 | {{ guestsCount }} 位成人
       </span>
     </p>
   </div>

@@ -5,7 +5,7 @@
 
         <div class="modal-body text-center">
           <!-- 付款處理中 -->
-          <template v-if="paymentStatus.value === 'processing'">
+          <template v-if="paymentStatus === 'processing'">
             <h1 class="modal-title fs-5">
               付款處理中，請稍後
             </h1>
@@ -14,7 +14,7 @@
           </template>
 
           <!-- 付款成功 -->
-          <template v-else-if="paymentStatus.value === 'succeed'">
+          <template v-else-if="paymentStatus === 'succeed'">
             <h1 class="modal-title fs-4 mb-2">
               付款成功！
             </h1>
@@ -27,7 +27,7 @@
           </template>
 
           <!-- 付款失敗 -->
-          <template v-else-if="paymentStatus.value === 'failed'">
+          <template v-else-if="paymentStatus === 'failed'">
             <h1 class="modal-title fs-4 mb-2 mt-2">
               付款失敗，請再試一次。
             </h1>
@@ -48,39 +48,37 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { inject, onBeforeUnmount, onMounted, ref } from 'vue'
 import { Modal } from 'bootstrap'
 
-export default {
-  inject: ['paymentStatus'],
-  data () {
-    return {
-      modal: {}
-    }
-  },
-  methods: {
-    resetStatus () {
-      if (this.paymentStatus.value === 'succeed' || this.paymentStatus.value === 'payOnSite') return
-      this.paymentStatus.value = ''
-    },
-    allowToClose () {
-      if (this.paymentStatus.value !== 'processing') {
-        this.modal.hide()
-      }
-    }
-  },
-  mounted () {
-    this.modal = new Modal(this.$refs.modal, {
-      backdrop: 'static',
-      keyboard: false
-    })
-    this.$refs.modal.addEventListener('hide.bs.modal', this.resetStatus)
-    this.$refs.modal.addEventListener('hidePrevented.bs.modal', this.allowToClose)
-  },
-  beforeUnmount () {
-    this.modal.hide()
-    this.$refs.modal.removeEventListener('hide.bs.modal', this.resetStatus)
-    this.$refs.modal.removeEventListener('hidePrevented.bs.modal', this.allowToClose)
+const paymentStatus = inject('paymentStatus')
+
+// Modal視窗
+const modal = ref(null)
+const modalInstance = ref(null)
+onMounted(() => {
+  modalInstance.value = new Modal(modal.value, {
+    backdrop: 'static',
+    keyboard: false
+  })
+  modal.value.addEventListener('hide.bs.modal', resetStatus)
+  modal.value.addEventListener('hidePrevented.bs.modal', allowToClose)
+})
+onBeforeUnmount(() => {
+  modalInstance.value.hide()
+})
+defineExpose({ modalInstance })
+
+function resetStatus () {
+  if (paymentStatus.value !== 'succeed' && paymentStatus.value !== 'payOnSite') {
+    paymentStatus.value = ''
+  }
+}
+
+function allowToClose () {
+  if (paymentStatus.value !== 'processing') {
+    modalInstance.value.hide()
   }
 }
 </script>

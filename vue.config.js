@@ -5,5 +5,4 @@ module.exports = defineConfig({
   publicPath: process.env.NODE_ENV === 'production'
     ? '/mock_restaurant-ordering-website/'
     : '/'
-  // publicPath: '/'
 })

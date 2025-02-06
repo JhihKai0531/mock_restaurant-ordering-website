@@ -41,40 +41,41 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { onBeforeUnmount, onMounted, ref } from 'vue'
 import { Modal } from 'bootstrap'
 import counter from '@/assets/counter.png' // 來源：https://www.flaticon.com/free-icon/counter_3492385?term=counter&related_id=3492385
 import credit from '@/assets/credit.png' // 來源：https://www.flaticon.com/free-icon/credit_1198299
 import creditCard from '@/assets/credit-card.png' // 來源：https://www.flaticon.com/free-icon/credit-card_4117864?term=digital+payment&related_id=4117864
 
-export default {
-  data () {
-    return {
-      modal: {},
-      paymentSelected: '',
-      paymentMethods: [
-        { name: '現場付款', value: 'payOnSite', imgURL: counter },
-        { name: '線上刷卡', value: 'payWithCreditCard', imgURL: credit },
-        { name: '行動支付', value: 'payDigital', imgURL: creditCard }
-      ]
-    }
-  },
-  methods: {
-    dismiss () {
-      this.paymentSelected = ''
-    },
-    confirmOption () {
-      this.$emit('processPayment', this.paymentSelected)
-      this.modal.hide()
-    }
-  },
-  mounted () {
-    this.modal = new Modal(this.$refs.modal)
-    this.$refs.modal.addEventListener('hide.bs.modal', this.dismiss)
-  },
-  beforeUnmount () {
-    this.modal.hide()
-    this.$refs.modal.removeEventListener('hide.bs.modal', this.dismiss)
-  }
+const emit = defineEmits(['processPayment'])
+
+const paymentMethods = [
+  { name: '現場付款', value: 'payOnSite', imgURL: counter },
+  { name: '線上刷卡', value: 'payWithCreditCard', imgURL: credit },
+  { name: '行動支付', value: 'payDigital', imgURL: creditCard }
+]
+
+// V-Model選項
+const paymentSelected = ref('')
+
+// Modal視窗
+const modal = ref(null)
+const modalInstance = ref(null)
+onMounted(() => {
+  modalInstance.value = new Modal(modal.value)
+  modal.value.addEventListener('hide.bs.modal', () => {
+    paymentSelected.value = ''
+  })
+})
+onBeforeUnmount(() => {
+  modalInstance.value.hide()
+})
+defineExpose({ modalInstance })
+
+// 確定付款選項
+function confirmOption () {
+  emit('processPayment', paymentSelected.value)
+  modalInstance.value.hide()
 }
 </script>

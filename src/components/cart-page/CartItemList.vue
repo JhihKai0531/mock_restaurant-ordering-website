@@ -14,7 +14,7 @@
               class="btn btn-outline-rosewood"
               data-bs-toggle="modal"
               data-bs-target="#editModal"
-              :disabled="diningFinished.value"
+              :disabled="diningFinished"
               @click="emitCartItem(item)"
             >
               編輯
