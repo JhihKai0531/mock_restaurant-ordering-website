@@ -7,6 +7,5 @@ import 'bootstrap'
 const emitter = mitt()
 const app = createApp(App).use(router)
 
-app.config.globalProperties.emitter = emitter
 app.provide('emitter', emitter)
 app.mount('#app')

@@ -24,7 +24,7 @@ async function getData () {
   try {
     // 取得食物種類
     const responseCategory = await (await fetch('https://www.themealdb.com/api/json/v1/1/list.php?c=list')).json()
-    categoryList.value.splice(0, categoryList.value.length, ...responseCategory.meals.map(obj => obj.strCategory))
+    categoryList.value = responseCategory.meals.map(obj => obj.strCategory)
     // console.log('餐點類別建立完成。種類：', categoryList.value)
     sessionStorage.setItem('categoryList', JSON.stringify(categoryList.value))
 
@@ -36,10 +36,10 @@ async function getData () {
     // 依據每個種類，分別請求對應的食物清單
     for (const category of categoryList.value) {
       const responseMeal = await (await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`)).json()
-      responseMeal.meals.forEach(mealObject => {
-        mealObject.category = category
-        mealObject.price = mealPriceData[index]
-        mealList.value.push(mealObject)
+      responseMeal.meals.forEach(mealItem => {
+        mealItem.category = category
+        mealItem.price = mealPriceData[index]
+        mealList.value.push(mealItem)
         index++
       })
     }
