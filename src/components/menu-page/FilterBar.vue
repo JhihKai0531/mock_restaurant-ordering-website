@@ -25,23 +25,20 @@
   </div>
 </template>
 
-<script>
-export default {
-  inject: ['mealList'],
-  data () {
-    return {
-      search: '',
-      layout: 'listLayout'
-    }
-  },
-  methods: {
-    emitSearch () {
-      this.emitter.emit('filterSearch', this.search)
-    },
-    emitLayout () {
-      this.emitter.emit('switchLayout', this.layout)
-    }
-  }
+<script setup>
+import { inject, ref } from 'vue'
+
+const emitter = inject('emitter')
+
+const search = ref('')
+const layout = ref('listLayout')
+
+function emitSearch () {
+  emitter.emit('filterSearch', search.value)
+}
+
+function emitLayout () {
+  emitter.emit('switchLayout', layout.value)
 }
 </script>
 

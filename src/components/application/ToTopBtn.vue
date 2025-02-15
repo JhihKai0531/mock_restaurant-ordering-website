@@ -4,33 +4,29 @@
   </button>
 </template>
 
-<script>
-export default {
-  data () {
-    return {
-      btnDisplay: 'none'
-    }
-  },
-  methods: {
-    toggleDisplay () {
-      if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-        this.btnDisplay = ''
-      } else {
-        this.btnDisplay = 'none'
-      }
-    },
-    goToTop () {
-      document.body.scrollTop = 0
-      document.documentElement.scrollTop = 0
-    }
-  },
-  created () {
-    window.addEventListener('scroll', this.toggleDisplay)
-  },
-  unmounted () {
-    window.removeEventListener('scroll', this.toggleDisplay)
+<script setup>
+import { onUnmounted, ref } from 'vue'
+
+const btnDisplay = ref('none')
+
+function toggleDisplay () {
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    btnDisplay.value = ''
+  } else {
+    btnDisplay.value = 'none'
   }
 }
+
+function goToTop () {
+  document.body.scrollTop = 0
+  document.documentElement.scrollTop = 0
+}
+
+window.addEventListener('scroll', toggleDisplay)
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', toggleDisplay)
+})
 </script>
 
 <style scoped>

@@ -8,10 +8,10 @@
   </ul>
 </template>
 
-<script>
-export default {
-  inject: ['categoryList']
-}
+<script setup>
+import { inject } from 'vue'
+
+const categoryList = inject('categoryList')
 </script>
 
 <style scoped>

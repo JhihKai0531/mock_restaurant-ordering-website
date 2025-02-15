@@ -13,9 +13,11 @@
   </div>
 </template>
 
-<script>
-export default {
-  inject: ['tableNumber', 'guestsCount'],
-  props: ['diningHours']
-}
+<script setup>
+import { inject } from 'vue'
+
+defineProps(['diningHours'])
+
+const tableNumber = inject('tableNumber')
+const guestsCount = inject('guestsCount')
 </script>

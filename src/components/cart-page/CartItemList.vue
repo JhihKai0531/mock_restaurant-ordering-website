@@ -55,23 +55,25 @@
   </div>
 </template>
 
-<script>
-export default {
-  inject: ['cartData', 'diningFinished'],
-  methods: {
-    emitCartItem (item) {
-      const mealItem = item.mealObject
-      const dateTime = item.dateTime
-      const options = {
-        setMenuRadio: item.setMenuObject.setMenuId,
-        spicy: item.spicyObject.value,
-        extra: item.extraObject.value,
-        notes: item.notes,
-        count: item.count
-      }
-      this.$emit('editProduct', { mealItem, options, dateTime })
-    }
+<script setup>
+import { inject } from 'vue'
+
+const emit = defineEmits(['editProduct'])
+
+const cartData = inject('cartData')
+const diningFinished = inject('diningFinished')
+
+function emitCartItem (item) {
+  const mealItem = item.mealObject
+  const dateTime = item.dateTime
+  const options = {
+    setMenuRadio: item.setMenuObject.setMenuId,
+    spicy: item.spicyObject.value,
+    extra: item.extraObject.value,
+    notes: item.notes,
+    count: item.count
   }
+  emit('editProduct', { mealItem, options, dateTime })
 }
 </script>
 

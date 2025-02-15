@@ -91,10 +91,10 @@
   </div>
 </template>
 
-<script>
-export default {
-  inject: ['orderHistory']
-}
+<script setup>
+import { inject } from 'vue'
+
+const orderHistory = inject('orderHistory')
 </script>
 
 <style scoped>
