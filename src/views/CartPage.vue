@@ -16,7 +16,7 @@
             v-model="tableNumber"
             class="form-select"
             :class="{'is-invalid': isInvalidTableNumber}"
-            @="{change: checkTableNumber}"
+            @change="checkTableNumber"
             :disabled="disabledTableNumber"
           >
             <option value="" disabled>請選擇桌號</option>
@@ -49,7 +49,7 @@
             min="1"
             class="form-control"
             :class="{'is-invalid': isInvalidGuestsCount}"
-            @="{input: checkGuestsCount, focusout: checkGuestsCount}"
+            v-on="{input: checkGuestsCount, focusout: checkGuestsCount}"
             :disabled="disabledGuestsCount"
           >
           <div class="invalid-feedback">請輸入有效人數</div>

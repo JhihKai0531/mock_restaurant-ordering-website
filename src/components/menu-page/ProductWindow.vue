@@ -103,7 +103,7 @@
                     :class="{'is-invalid': isInvalidCount}"
                     type="number"
                     min="1"
-                    @="{input: checkCount, focusout: checkCount}"
+                    v-on="{input: checkCount, focusout: checkCount}"
                   >
                   <div class="invalid-feedback">請輸入正整數</div>
                 </div>
