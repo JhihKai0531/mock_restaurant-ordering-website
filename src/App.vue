@@ -20,7 +20,7 @@ provide('categoryList', categoryList)
 provide('mealList', mealList)
 
 // 這裡串接的是TheMealDB.com的食譜API，雖然本專案本身需要的是餐廳的食物餐點資料，但可以借用此API的一些欄位使用。
-async function getData () {
+async function getData() {
   try {
     // 取得食物種類
     const responseCategory = await (await fetch('https://www.themealdb.com/api/json/v1/1/list.php?c=list')).json()
@@ -124,8 +124,8 @@ const diningHours = computed(() => {
 
 <style lang="scss">
 @import "./scss/all.scss";
-$bootstrap-icons-font-dir: "~bootstrap-icons/font/fonts";
-@import "~bootstrap-icons/font/bootstrap-icons.scss";
+$bootstrap-icons-font-dir: "~/bootstrap-icons/font/fonts";
+@import "~/bootstrap-icons/font/bootstrap-icons.scss";
 
 body {
   padding-bottom: calc(var(--reserve-space-panel, 0px) + var(--reserve-space-totop, 0px));
