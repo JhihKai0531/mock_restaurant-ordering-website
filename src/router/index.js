@@ -14,35 +14,35 @@ const routes = [
         props: (route) => {
           // console.log('路由狀態：', route)
           return {
-            category: route.params.category
+            category: route.params.category,
           }
-        }
-      }
-    ]
+        },
+      },
+    ],
   },
   {
     path: '/cart',
-    component: () => import('../views/CartPage.vue')
+    component: () => import('../views/CartPage.vue'),
   },
   {
     path: '/order-history',
-    component: () => import('../views/OrderHistoryPage.vue')
+    component: () => import('../views/OrderHistoryPage.vue'),
   },
   {
     path: '/about-us',
-    component: () => import('../views/AboutUsPage.vue')
+    component: () => import('../views/AboutUsPage.vue'),
   },
   {
     path: '/:pathMatch(.*)*',
     name: 'notFound',
-    component: () => import('../views/NotFoundPage.vue')
-  }
+    component: () => import('../views/NotFoundPage.vue'),
+  },
 ]
 
 const router = createRouter({
   history: createWebHashHistory(),
   routes,
-  linkActiveClass: 'active'
+  linkActiveClass: 'active',
 })
 // console.log(router)
 

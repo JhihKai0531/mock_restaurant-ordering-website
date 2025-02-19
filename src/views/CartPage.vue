@@ -1,7 +1,9 @@
 <template>
   <div class="container px-4 py-3">
     <p v-if="cartData.length" class="mb-2">
-      <RouterLink to="/" class="text-decoration-none text-roast-brown fw-semibold">回菜單←</RouterLink>
+      <RouterLink to="/" class="text-decoration-none text-roast-brown fw-semibold"
+        >回菜單←</RouterLink
+      >
     </p>
 
     <form>
@@ -12,10 +14,11 @@
         </div>
 
         <div class="col col-lg-5">
-          <select id="tableNumberSelect"
+          <select
+            id="tableNumberSelect"
             v-model="tableNumber"
             class="form-select"
-            :class="{'is-invalid': isInvalidTableNumber}"
+            :class="{ 'is-invalid': isInvalidTableNumber }"
             @change="checkTableNumber"
             :disabled="disabledTableNumber"
           >
@@ -37,26 +40,39 @@
         </div>
 
         <div class="col-2 text-center col-lg-1">
-          <button type="button" title="減少" class="btn border-0" :disabled="guestsCount <= 1 || disabledGuestsCount" @click="minusGuestsCount">
+          <button
+            type="button"
+            title="減少"
+            class="btn border-0"
+            :disabled="guestsCount <= 1 || disabledGuestsCount"
+            @click="minusGuestsCount"
+          >
             <i class="bi bi-dash-lg"></i>
           </button>
         </div>
 
         <div class="col-3">
-          <input id="guestsCountInput"
+          <input
+            id="guestsCountInput"
             v-model.number="guestsCount"
             type="number"
             min="1"
             class="form-control"
-            :class="{'is-invalid': isInvalidGuestsCount}"
-            v-on="{input: checkGuestsCount, focusout: checkGuestsCount}"
+            :class="{ 'is-invalid': isInvalidGuestsCount }"
+            v-on="{ input: checkGuestsCount, focusout: checkGuestsCount }"
             :disabled="disabledGuestsCount"
-          >
+          />
           <div class="invalid-feedback">請輸入有效人數</div>
         </div>
 
         <div class="col-2 text-center col-lg-1">
-          <button type="button" title="增加" class="btn border-0" :disabled="disabledGuestsCount" @click="plusGuestsCount">
+          <button
+            type="button"
+            title="增加"
+            class="btn border-0"
+            :disabled="disabledGuestsCount"
+            @click="plusGuestsCount"
+          >
             <i class="bi bi-plus-lg"></i>
           </button>
         </div>
@@ -64,7 +80,7 @@
     </form>
 
     <!-- 分隔線 -->
-    <hr>
+    <hr />
 
     <!-- 購物車為空的時候，的提示訊息 -->
     <div v-if="!cartData.length">
@@ -84,7 +100,12 @@
       </CartItemList>
     </template>
 
-    <button type="button" class="btn btn-warning fixed-bottom btn-lg btn-wine-red" :disabled="diningFinished || !cartData.length" @click="submitCartData">
+    <button
+      type="button"
+      class="btn btn-warning fixed-bottom btn-lg btn-wine-red"
+      :disabled="diningFinished || !cartData.length"
+      @click="submitCartData"
+    >
       送出訂單
     </button>
 
@@ -117,21 +138,21 @@ watch(
     disabledTableNumber.value = hasOrder
     disabledGuestsCount.value = hasOrder
   },
-  { immediate: true }
+  { immediate: true },
 )
 
 // 設定用餐人數
 const guestsCount = inject('guestsCount')
 const tableNumber = inject('tableNumber')
 
-function plusGuestsCount () {
+function plusGuestsCount() {
   let number = guestsCount.value
   number++
   guestsCount.value = number
   checkGuestsCount()
 }
 
-function minusGuestsCount () {
+function minusGuestsCount() {
   let number = guestsCount.value
   number--
   if (number < 1) {
@@ -144,15 +165,11 @@ function minusGuestsCount () {
 // 購物車內的金額總和
 const cartSubtotal = ref(0)
 
-watch(
-  cartData,
-  calcCartSubtotal,
-  { immediate: true, deep: true }
-)
+watch(cartData, calcCartSubtotal, { immediate: true, deep: true })
 
-function calcCartSubtotal () {
+function calcCartSubtotal() {
   let result = 0
-  cartData.value.forEach(item => {
+  cartData.value.forEach((item) => {
     result += item.subtotal
   })
   cartSubtotal.value = result
@@ -163,7 +180,7 @@ function calcCartSubtotal () {
 const isInvalidTableNumber = ref(false)
 const isInvalidGuestsCount = ref(false)
 
-function checkTableNumber () {
+function checkTableNumber() {
   if (!tableNumber.value) {
     isInvalidTableNumber.value = true
   } else {
@@ -171,7 +188,7 @@ function checkTableNumber () {
   }
 }
 
-function checkGuestsCount () {
+function checkGuestsCount() {
   if (guestsCount.value < 1 || guestsCount.value % 1 !== 0) {
     isInvalidGuestsCount.value = true
   } else {
@@ -182,22 +199,24 @@ function checkGuestsCount () {
 // 將子元件傳遞上來的商品資料丟進編輯視窗
 const cartItemProps = ref({})
 
-function editProduct (cartItem) {
+function editProduct(cartItem) {
   cartItemProps.value = cartItem
 }
 
 // 提交訂單
-function submitCartData () {
+function submitCartData() {
   checkTableNumber()
   checkGuestsCount()
-  if (isInvalidTableNumber.value || isInvalidGuestsCount.value) { return }
+  if (isInvalidTableNumber.value || isInvalidGuestsCount.value) {
+    return
+  }
 
   const confirmedData = {
     cart: cartData.value,
     cartSubtotal: cartSubtotal.value,
     tableNumber: tableNumber.value,
     guestsCount: guestsCount.value,
-    dateTime: Date.now()
+    dateTime: Date.now(),
   }
 
   const deepCopyData = JSON.parse(JSON.stringify(confirmedData))
@@ -214,7 +233,10 @@ function submitCartData () {
 const editModal = ref(null)
 const deleteModal = ref(null)
 onBeforeRouteLeave(() => {
-  if (document.getElementById('editModal').classList.contains('show') || document.getElementById('deleteModel').classList.contains('show')) {
+  if (
+    document.getElementById('editModal').classList.contains('show') ||
+    document.getElementById('deleteModel').classList.contains('show')
+  ) {
     editModal.value.modalInstance.hide()
     deleteModal.value.modalInstance.hide()
     editModal.value.clearSettings()

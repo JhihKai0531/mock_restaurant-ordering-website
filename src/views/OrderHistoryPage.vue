@@ -1,13 +1,10 @@
 <template>
   <div class="container px-4 py-3">
-
     <!-- 還沒加入訂單的時候，的提示訊息 -->
     <div v-if="!orderHistory.length">
       <h1 class="text-center text-body-tertiary mt-4">尚未加入訂單</h1>
       <p class="text-center">
-        <RouterLink to="/" title="首頁" class="text-body-tertiary">
-          回菜單
-        </RouterLink>
+        <RouterLink to="/" title="首頁" class="text-body-tertiary"> 回菜單 </RouterLink>
         /
         <RouterLink to="/cart" title="購物車頁面" class="text-body-tertiary">
           前往購物車
@@ -19,19 +16,20 @@
     <div v-if="orderHistory.length" class="row mb-3">
       <h1 class="col">點餐紀錄</h1>
       <div v-if="!(paymentStatus === 'payOnSite' || paymentStatus === 'succeed')" class="col-auto">
-        <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#paySelectModal">
+        <button
+          type="button"
+          class="btn btn-outline-primary"
+          data-bs-toggle="modal"
+          data-bs-target="#paySelectModal"
+        >
           結帳去
         </button>
       </div>
       <div v-if="paymentStatus === 'payOnSite'" class="col-auto">
-        <button type="button" class="btn btn-outline-success" disabled>
-          現場結帳
-        </button>
+        <button type="button" class="btn btn-outline-success" disabled>現場結帳</button>
       </div>
       <div v-if="paymentStatus === 'succeed'" class="col-auto">
-        <button type="button" class="btn btn-outline-success" disabled>
-          已結帳
-        </button>
+        <button type="button" class="btn btn-outline-success" disabled>已結帳</button>
       </div>
     </div>
 
@@ -79,14 +77,14 @@ const currentDate = computed(() => {
 // 總金額
 const totalAmount = computed(() => {
   let result = 0
-  orderHistory.value.forEach(order => {
+  orderHistory.value.forEach((order) => {
     result += order.cartSubtotal
   })
   return result
 })
 
 // 付款處理
-function processPayment (selected) {
+function processPayment(selected) {
   if (selected === 'payOnSite') {
     // 如果現場付款，就不做額外處理
     paymentStatus.value = selected
@@ -110,8 +108,10 @@ function processPayment (selected) {
 const paySelectModal = ref(null)
 const payLoadingModal = ref(null)
 onBeforeRouteLeave(() => {
-  if (document.getElementById('paySelectModal').classList.contains('show') ||
-    document.getElementById('payLoadingModal').classList.contains('show')) {
+  if (
+    document.getElementById('paySelectModal').classList.contains('show') ||
+    document.getElementById('payLoadingModal').classList.contains('show')
+  ) {
     paySelectModal.value.modalInstance.hide()
     if (paymentStatus.value !== 'processing') {
       payLoadingModal.value.modalInstance.hide()

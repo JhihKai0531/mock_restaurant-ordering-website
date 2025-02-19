@@ -1,10 +1,10 @@
 <template>
   <div id="orderHistoryAccordion" class="accordion">
     <div v-for="(order, index) in orderHistory" :key="order.dateTime" class="accordion-item">
-
       <!-- 摺疊面板標題 -->
       <h2 class="accordion-header">
-        <button class="accordion-button"
+        <button
+          class="accordion-button"
           type="button"
           data-bs-toggle="collapse"
           :data-bs-target="`#orderHistoryContent${order.dateTime}`"
@@ -17,14 +17,13 @@
       <!-- 摺疊面板內容 -->
       <div :id="`orderHistoryContent${order.dateTime}`" class="accordion-collapse collapse show">
         <div class="accordion-body">
-
           <!-- 每一項餐點也是一個小折疊面板 -->
           <details v-for="item in order.cart" :key="item.dateTime">
             <!-- 小摺疊面板的標題顯示內容 -->
             <summary class="mb-2">
               <span class="d-inline-block col-8 align-top">{{ item.mealObject.strMeal }}</span>
               <span class="float-end align-top">{{ `NT$${item.subtotal}` }}</span>
-              <br>
+              <br />
               <span v-if="item.setMenuObject.setMenuPrice" class="text-body-secondary ps-3">
                 {{ item.setMenuObject.setMenuName }}
               </span>
@@ -33,7 +32,6 @@
             <!-- 小摺疊面板收合的內容 -->
             <table class="table table-sm mt-2 table-bordered">
               <tbody>
-
                 <!-- 餐點數量及基本單價 -->
                 <tr>
                   <td>數量 / 基本單價</td>
@@ -56,7 +54,7 @@
                 <!-- 套餐 -->
                 <tr>
                   <td>
-                    {{ item.setMenuObject.setMenuName }}<br>
+                    {{ item.setMenuObject.setMenuName }}<br />
                     <span class="text-body-secondary">
                       {{ item.setMenuObject.setMenuDescription }}
                     </span>
@@ -73,7 +71,6 @@
                     </details>
                   </td>
                 </tr>
-
               </tbody>
             </table>
           </details>
@@ -83,10 +80,8 @@
             <p class="my-2">訂單小計：</p>
             <p class="my-2">{{ `NT$${order.cartSubtotal}` }}</p>
           </div>
-
         </div>
       </div>
-
     </div>
   </div>
 </template>
@@ -116,7 +111,8 @@ const orderHistory = inject('orderHistory')
   width: calc(100% - 0.75rem);
 }
 
-tr > td:not(:first-child), tr > th:not(:first-child) {
+tr > td:not(:first-child),
+tr > th:not(:first-child) {
   text-align: right;
 }
 

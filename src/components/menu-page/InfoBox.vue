@@ -3,7 +3,7 @@
   <div class="text-center p-3">
     <p>
       <span>{{ diningHours[0] }}</span>
-      <span><br>{{ diningHours[1] }}</span>
+      <span><br />{{ diningHours[1] }}</span>
     </p>
     <p class="mb-0">
       <span class="badge rounded-pill text-bg-wine-red fs-6 fw-normal">

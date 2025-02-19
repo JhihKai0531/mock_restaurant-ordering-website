@@ -11,6 +11,6 @@
 }
 
 .btn {
-  --bs-btn-padding-y: 0.625rem
+  --bs-btn-padding-y: 0.625rem;
 }
 </style>

@@ -1,7 +1,11 @@
 <template>
   <ul class="nav flex-xl-column flex-nowrap overflow-x-auto overflow-y-hidden">
     <li v-for="category in categoryList" :key="category" class="nav-item">
-      <RouterLink :to="{ path: `/${category}` }" class="nav-link fw-normal px-xl-5" :class="{ active: false }">
+      <RouterLink
+        :to="{ path: `/${category}` }"
+        class="nav-link fw-normal px-xl-5"
+        :class="{ active: false }"
+      >
         {{ category }}
       </RouterLink>
     </li>

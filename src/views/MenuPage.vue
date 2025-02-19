@@ -30,7 +30,7 @@ defineProps(['diningHours'])
 
 // 傳遞餐點資訊到Modal
 const mealProps = ref({})
-function selectProduct (meal) {
+function selectProduct(meal) {
   mealProps.value = meal
 }
 
