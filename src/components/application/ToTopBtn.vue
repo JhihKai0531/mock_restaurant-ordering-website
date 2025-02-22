@@ -1,5 +1,11 @@
 <template>
-  <button id="toTopBtn" type="button" class="btn btn-butter-cream rounded-circle fs-4" :style="{display: btnDisplay}" @click="goToTop">
+  <button
+    id="toTopBtn"
+    type="button"
+    class="btn btn-butter-cream rounded-circle fs-4"
+    :style="{ display: btnDisplay }"
+    @click="goToTop"
+  >
     <i class="bi bi-arrow-up"></i>
   </button>
 </template>
@@ -9,7 +15,7 @@ import { onUnmounted, ref } from 'vue'
 
 const btnDisplay = ref('none')
 
-function toggleDisplay () {
+function toggleDisplay() {
   if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
     btnDisplay.value = ''
   } else {
@@ -17,7 +23,7 @@ function toggleDisplay () {
   }
 }
 
-function goToTop () {
+function goToTop() {
   document.body.scrollTop = 0
   document.documentElement.scrollTop = 0
 }

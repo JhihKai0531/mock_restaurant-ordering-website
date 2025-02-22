@@ -1,26 +1,26 @@
 [
-    {
-        "setMenuId": "No",
-        "setMenuName": "單點",
-        "setMenuPrice": 0,
-        "setMenuDescription": ""
-    },
-    {
-        "setMenuId": "A",
-        "setMenuName": "A 套餐",
-        "setMenuPrice": 55,
-        "setMenuDescription": "一杯飲料"
-    },
-    {
-        "setMenuId": "B",
-        "setMenuName": "B 套餐",
-        "setMenuPrice": 70,
-        "setMenuDescription": "飲料與麵包"
-    },
-    {
-        "setMenuId": "C",
-        "setMenuName": "C 套餐",
-        "setMenuPrice": 110,
-        "setMenuDescription": "飲料、麵包與今日例湯"
-    }
+  {
+    "setMenuId": "No",
+    "setMenuName": "單點",
+    "setMenuPrice": 0,
+    "setMenuDescription": ""
+  },
+  {
+    "setMenuId": "A",
+    "setMenuName": "A 套餐",
+    "setMenuPrice": 55,
+    "setMenuDescription": "一杯飲料"
+  },
+  {
+    "setMenuId": "B",
+    "setMenuName": "B 套餐",
+    "setMenuPrice": 70,
+    "setMenuDescription": "飲料與麵包"
+  },
+  {
+    "setMenuId": "C",
+    "setMenuName": "C 套餐",
+    "setMenuPrice": 110,
+    "setMenuDescription": "飲料、麵包與今日例湯"
+  }
 ]

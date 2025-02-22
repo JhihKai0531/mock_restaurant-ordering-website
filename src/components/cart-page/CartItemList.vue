@@ -2,15 +2,15 @@
   <div class="card">
     <ul class="list-group list-group-flush">
       <li v-for="item in cartData" :key="item.dateTime" class="list-group-item">
-
         <div class="row mb-2">
           <div class="col-8 fw-bolder">
             {{ item.mealObject.strMeal }}
-            <br>
+            <br />
             {{ `×${item.count}` }}
           </div>
           <div class="col-4 text-end">
-            <button type="button"
+            <button
+              type="button"
               class="btn btn-outline-rosewood"
               data-bs-toggle="modal"
               data-bs-target="#editModal"
@@ -40,7 +40,6 @@
             <b>{{ `$${item.subtotal}` }}</b>
           </div>
         </div>
-
       </li>
     </ul>
 
@@ -63,7 +62,7 @@ const emit = defineEmits(['editProduct'])
 const cartData = inject('cartData')
 const diningFinished = inject('diningFinished')
 
-function emitCartItem (item) {
+function emitCartItem(item) {
   const mealItem = item.mealObject
   const dateTime = item.dateTime
   const options = {
@@ -71,7 +70,7 @@ function emitCartItem (item) {
     spicy: item.spicyObject.value,
     extra: item.extraObject.value,
     notes: item.notes,
-    count: item.count
+    count: item.count,
   }
   emit('editProduct', { mealItem, options, dateTime })
 }

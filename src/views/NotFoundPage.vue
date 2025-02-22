@@ -3,7 +3,7 @@
     <div class="d-inline-block text-start">
       <!-- 404 icon來源：https://www.flaticon.com/free-icon/error-404_3855833?term=error+404&page=1&position=4&origin=search&related_id=3855833 -->
       <h1>
-        <img src="@/assets/error-404.png" alt="The Page is not Found" width="30" height="30">
+        <img src="@/assets/error-404.png" alt="The Page is not Found" width="30" height="30" />
         找不到頁面
       </h1>
       <p class="text-body-secondary">請再確認網址，或是聯絡本團隊。</p>

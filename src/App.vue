@@ -20,11 +20,13 @@ provide('categoryList', categoryList)
 provide('mealList', mealList)
 
 // 這裡串接的是TheMealDB.com的食譜API，雖然本專案本身需要的是餐廳的食物餐點資料，但可以借用此API的一些欄位使用。
-async function getData () {
+async function getData() {
   try {
     // 取得食物種類
-    const responseCategory = await (await fetch('https://www.themealdb.com/api/json/v1/1/list.php?c=list')).json()
-    categoryList.value = responseCategory.meals.map(obj => obj.strCategory)
+    const responseCategory = await (
+      await fetch('https://www.themealdb.com/api/json/v1/1/list.php?c=list')
+    ).json()
+    categoryList.value = responseCategory.meals.map((obj) => obj.strCategory)
     // console.log('餐點類別建立完成。種類：', categoryList.value)
     sessionStorage.setItem('categoryList', JSON.stringify(categoryList.value))
 
@@ -35,8 +37,10 @@ async function getData () {
 
     // 依據每個種類，分別請求對應的食物清單
     for (const category of categoryList.value) {
-      const responseMeal = await (await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`)).json()
-      responseMeal.meals.forEach(mealItem => {
+      const responseMeal = await (
+        await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`)
+      ).json()
+      responseMeal.meals.forEach((mealItem) => {
         mealItem.category = category
         mealItem.price = mealPriceData[index]
         mealList.value.push(mealItem)
@@ -65,7 +69,7 @@ watch(
   (newVal) => {
     sessionStorage.setItem('guestsCount', JSON.stringify(newVal))
   },
-  { immediate: true }
+  { immediate: true },
 )
 
 // 購物車
@@ -76,7 +80,7 @@ watch(
   (newVal) => {
     sessionStorage.setItem('cartData', JSON.stringify(newVal))
   },
-  { deep: true }
+  { deep: true },
 )
 
 // 訂單紀錄
@@ -87,7 +91,7 @@ watch(
   (newVal) => {
     sessionStorage.setItem('orderHistory', JSON.stringify(newVal))
   },
-  { deep: true }
+  { deep: true },
 )
 
 // 付款狀態
@@ -123,9 +127,9 @@ const diningHours = computed(() => {
 </script>
 
 <style lang="scss">
-@import "./scss/all.scss";
-$bootstrap-icons-font-dir: "~bootstrap-icons/font/fonts";
-@import "~bootstrap-icons/font/bootstrap-icons.scss";
+@import './scss/all.scss';
+$bootstrap-icons-font-dir: '~/bootstrap-icons/font/fonts';
+@import '~/bootstrap-icons/font/bootstrap-icons.scss';
 
 body {
   padding-bottom: calc(var(--reserve-space-panel, 0px) + var(--reserve-space-totop, 0px));

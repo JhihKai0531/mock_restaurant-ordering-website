@@ -2,10 +2,14 @@
   <div id="productModal" ref="modal" class="modal fade" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
-
         <div class="modal-header">
           <h1 class="modal-title fs-5">餐點選項</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" @click="clearSettings"></button>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            @click="clearSettings"
+          ></button>
         </div>
 
         <form>
@@ -20,12 +24,13 @@
             <fieldset>
               <legend class="col-form-label">套餐</legend>
               <div v-for="set in setMenus" :key="set.setMenuId" class="form-check">
-                <input :id="set.setMenuId"
+                <input
+                  :id="set.setMenuId"
                   v-model="userSettings.setMenuRadio"
                   class="form-check-input"
                   type="radio"
                   :value="set.setMenuId"
-                >
+                />
 
                 <label class="form-check-label d-block" :for="set.setMenuId">
                   <!-- label裡面有兩個row -->
@@ -44,13 +49,18 @@
             <!-- 辣度 -->
             <fieldset>
               <legend class="col-form-label">辣度</legend>
-              <div v-for="item in spicyArray" :key="item.value" class="form-check form-check-inline">
-                <input :id="item.value"
+              <div
+                v-for="item in spicyArray"
+                :key="item.value"
+                class="form-check form-check-inline"
+              >
+                <input
+                  :id="item.value"
                   v-model="userSettings.spicy"
                   class="form-check-input"
                   type="radio"
                   :value="item.value"
-                >
+                />
                 <label class="form-check-label" :for="item.value">
                   {{ item.name }}
                 </label>
@@ -61,11 +71,12 @@
             <fieldset>
               <legend class="col-form-label">加量</legend>
               <div class="form-check">
-                <input id="extraCheckbox"
+                <input
+                  id="extraCheckbox"
                   v-model="userSettings.extra"
                   class="form-check-input"
                   type="checkbox"
-                >
+                />
                 <label class="form-check-label d-block" for="extraCheckbox">
                   <div class="row">
                     <div class="col-8">是</div>
@@ -78,7 +89,8 @@
             <!-- 備註 -->
             <fieldset>
               <label for="notesText" class="col-form-label">備註</label>
-              <textarea id="notesText"
+              <textarea
+                id="notesText"
                 v-model.lazy="userSettings.notes"
                 class="form-control"
                 rows="3"
@@ -91,20 +103,26 @@
               <!-- 用網格系統來擺放「減按鈕」、「數字框」、「加按鈕」 -->
               <div class="row gx-0">
                 <div class="col-2 text-center">
-                  <button type="button" class="btn border-0" :disabled="userSettings.count <= 1" @click="minusCount">
+                  <button
+                    type="button"
+                    class="btn border-0"
+                    :disabled="userSettings.count <= 1"
+                    @click="minusCount"
+                  >
                     <i class="bi bi-dash-lg"></i>
                   </button>
                 </div>
 
                 <div class="col-4">
-                  <input id="count"
+                  <input
+                    id="count"
                     v-model.number="userSettings.count"
                     class="form-control"
-                    :class="{'is-invalid': isInvalidCount}"
+                    :class="{ 'is-invalid': isInvalidCount }"
                     type="number"
                     min="1"
-                    @="{input: checkCount, focusout: checkCount}"
-                  >
+                    v-on="{ input: checkCount, focusout: checkCount }"
+                  />
                   <div class="invalid-feedback">請輸入正整數</div>
                 </div>
 
@@ -122,15 +140,24 @@
           </div>
 
           <div class="modal-footer">
-            <button type="button" class="btn btn-outline-rosewood" data-bs-dismiss="modal" @click="clearSettings">
+            <button
+              type="button"
+              class="btn btn-outline-rosewood"
+              data-bs-dismiss="modal"
+              @click="clearSettings"
+            >
               取消
             </button>
-            <button type="button" class="btn btn-rosewood" :disabled="diningFinished" @click="addToCart">
+            <button
+              type="button"
+              class="btn btn-rosewood"
+              :disabled="diningFinished"
+              @click="addToCart"
+            >
               加入購物車
             </button>
           </div>
         </form>
-
       </div>
     </div>
   </div>
@@ -152,7 +179,7 @@ const spicyArray = [
   { value: 'mild', name: '微辣' },
   { value: 'mildMedium', name: '小辣' },
   { value: 'medium', name: '中辣' },
-  { value: 'hot', name: '大辣' }
+  { value: 'hot', name: '大辣' },
 ]
 const extraPrice = 25
 
@@ -162,7 +189,7 @@ const modalInstance = ref(null)
 onMounted(() => {
   modalInstance.value = new Modal(modal.value, {
     backdrop: 'static',
-    keyboard: false
+    keyboard: false,
   })
 })
 onBeforeUnmount(() => {
@@ -176,17 +203,17 @@ const userSettings = ref({
   spicy: 'no',
   extra: false,
   notes: '',
-  count: 0
+  count: 0,
 })
 
 // 將商品視窗的表單復原到預設值
-function clearSettings () {
+function clearSettings() {
   userSettings.value = {
     setMenuRadio: 'No',
     spicy: 'no',
     extra: false,
     notes: '',
-    count: 0
+    count: 0,
   }
   isInvalidCount.value = false
 }
@@ -196,9 +223,9 @@ const subtotal = computed(() => {
   const productPrice = props.mealPropped.price
 
   let setMenuPrice = 0
-  setMenuPrice = setMenus
-    .find(set => set.setMenuId === userSettings.value.setMenuRadio)
-    .setMenuPrice
+  setMenuPrice = setMenus.find(
+    (set) => set.setMenuId === userSettings.value.setMenuRadio,
+  ).setMenuPrice
 
   const extraPrice = userSettings.value.extra ? 25 : 0
   const count = userSettings.value.count
@@ -210,14 +237,14 @@ const subtotal = computed(() => {
 const isInvalidCount = ref(false)
 
 // 增加數字框的數字
-function plusCount () {
+function plusCount() {
   let number = userSettings.value.count
   number++
   userSettings.value.count = number
   checkCount()
 }
 // 減少數字框的數字，並檢查和校正數值
-function minusCount () {
+function minusCount() {
   let number = userSettings.value.count
   number--
   if (number < 1) {
@@ -227,7 +254,7 @@ function minusCount () {
   checkCount()
 }
 // 觸發時檢查數值，並修改資料狀態
-function checkCount () {
+function checkCount() {
   if (userSettings.value.count < 1 || userSettings.value.count % 1 !== 0) {
     isInvalidCount.value = true
   } else {
@@ -239,22 +266,24 @@ function checkCount () {
 const cartData = inject('cartData')
 
 // 加入購物車，可以拆解成：檢查數量值、整理資料、推送資料、關閉商品表單、復原表單資料狀態
-function addToCart () {
+function addToCart() {
   checkCount()
-  if (isInvalidCount.value) { return }
+  if (isInvalidCount.value) {
+    return
+  }
 
   const mealObject = { ...props.mealPropped }
 
   let setMenuObject = {}
-  setMenuObject = { ...setMenus.find(set => set.setMenuId === userSettings.value.setMenuRadio) }
+  setMenuObject = { ...setMenus.find((set) => set.setMenuId === userSettings.value.setMenuRadio) }
 
   let spicyObject = {}
-  spicyObject = { ...spicyArray.find(option => option.value === userSettings.value.spicy) }
+  spicyObject = { ...spicyArray.find((option) => option.value === userSettings.value.spicy) }
 
   const extraObject = {
     value: userSettings.value.extra,
     price: userSettings.value.extra ? 25 : 0,
-    name: userSettings.value.extra ? '加量' : ''
+    name: userSettings.value.extra ? '加量' : '',
   }
 
   const all = {
@@ -265,7 +294,7 @@ function addToCart () {
     notes: userSettings.value.notes,
     count: userSettings.value.count,
     subtotal: subtotal.value,
-    dateTime: Date.now()
+    dateTime: Date.now(),
   }
 
   cartData.value.push(all)
