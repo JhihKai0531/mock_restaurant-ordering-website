@@ -143,7 +143,7 @@
             <button
               type="button"
               class="btn btn-outline-danger me-auto px-3"
-              data-bs-target="#deleteModel"
+              data-bs-target="#deleteModal"
               data-bs-toggle="modal"
               @click="askToDelete"
             >
