@@ -71,7 +71,8 @@ const orderHistory = inject('orderHistory')
 const paymentStatus = inject('paymentStatus')
 
 const currentDate = computed(() => {
-  return new Date(orderHistory.value[0].dateTime).toLocaleDateString()
+  const first = orderHistory.value[0]
+  return first ? new Date(first.dateTime).toLocaleDateString() : ''
 })
 
 // 總金額
