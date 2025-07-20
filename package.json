@@ -8,7 +8,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint . --fix",
-    "format": "prettier --write src/"
+    "format": "prettier --write src/",
+    "test": "vitest"
   },
   "dependencies": {
     "@popperjs/core": "^2.11.8",
@@ -27,6 +28,10 @@
     "prettier": "3.5.1",
     "sass": "^1.85.0",
     "vite": "^6.1.0",
-    "vite-plugin-vue-devtools": "^7.7.2"
+    "vite-plugin-vue-devtools": "^7.7.2",
+    "vitest": "^1.5.0",
+    "@vue/test-utils": "^2.4.2",
+    "@testing-library/vue": "^9.4.2",
+    "jsdom": "^24.0.0"
   }
 }
