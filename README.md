@@ -5,6 +5,27 @@
 
 🔗 **網站連結**：[https://jhihkai0531.github.io/mock_restaurant-ordering-website/](https://jhihkai0531.github.io/mock_restaurant-ordering-website/)
 
+## Installation
+
+1. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+2. For local development:
+
+   ```bash
+   npm run dev
+   ```
+
+3. Preview a production build:
+
+   ```bash
+   npm run build
+   npm run preview
+   ```
+
 ## 網站畫面擷取
 
 | **菜單頁面** | **購物車頁面** |
