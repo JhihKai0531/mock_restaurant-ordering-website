@@ -40,7 +40,7 @@
 </template>
 
 <script setup>
-import { computed, inject, ref, watchEffect } from 'vue'
+import { computed, inject, ref, watchEffect, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 
 const emitter = inject('emitter')
@@ -97,6 +97,11 @@ function filterSearch(search) {
 }
 
 emitter.on('filterSearch', filterSearch)
+
+onUnmounted(() => {
+  emitter.off('switchLayout', switchLayout)
+  emitter.off('filterSearch', filterSearch)
+})
 </script>
 
 <style scoped>
