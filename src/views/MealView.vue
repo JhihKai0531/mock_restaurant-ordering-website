@@ -50,14 +50,18 @@ const props = defineProps(['category'])
 
 // 渲染出商品
 const mealList = inject('mealList')
+const categoryList = inject('categoryList')
 
 const mealsOfType = computed(() => {
   return mealList.value.filter((item) => item.category === props.category)
 })
 
-// 如果沒有匹配的類別（例如路徑為'/Bee'），就重新導向
+// 如果分類尚未載入則等待；分類已載入但目前 category 無效（含無 param）則導向第一個分類
 watchEffect(() => {
-  if (!mealsOfType.value.length) router.replace('/Beef')
+  if (!categoryList.value.length) return
+  if (!props.category || !categoryList.value.includes(props.category)) {
+    router.replace(`/menu/${categoryList.value[0]}`)
+  }
 })
 
 // 切換版面
