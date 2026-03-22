@@ -12,6 +12,9 @@ cd dist
 # 如果要部署到自定義域名
 # echo 'www.example.com' > CNAME
 
+# 清除舊的 git 紀錄，確保每次都是全新 commit
+rm -rf .git
+
 git init
 git add -A
 git commit -m 'deploy'
