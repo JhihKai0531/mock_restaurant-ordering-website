@@ -2,7 +2,7 @@
   <div class="container-xl">
     <div class="row">
       <div class="col-xl-3">
-        <InfoBox :dining-hours="diningHours"></InfoBox>
+        <InfoBox></InfoBox>
         <CategoryNav></CategoryNav>
       </div>
       <div class="col-xl-9">
@@ -25,8 +25,6 @@ import BottomPanel from '@/components/menu-page/BottomPanel.vue'
 import InfoBox from '@/components/menu-page/InfoBox.vue'
 import FilterBar from '@/components/menu-page/FilterBar.vue'
 import ToTopBtn from '@/components/application/ToTopBtn.vue'
-
-defineProps(['diningHours'])
 
 // 傳遞餐點資訊到Modal
 const mealProps = ref({})
